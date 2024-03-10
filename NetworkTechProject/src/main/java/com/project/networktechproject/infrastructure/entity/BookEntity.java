@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "books", schema = "library")
 public class BookEntity {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -29,4 +30,5 @@ public class BookEntity {
     @Basic
     @Column(name = "available_copies")
     private int availableCopies;
+
 }
