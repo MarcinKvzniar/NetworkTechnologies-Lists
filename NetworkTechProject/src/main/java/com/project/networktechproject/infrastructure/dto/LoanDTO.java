@@ -1,31 +1,17 @@
-package com.project.networktechproject.infrastructure.entity;
+package com.project.networktechproject.infrastructure.dto;
 
-import jakarta.persistence.*;
+import com.project.networktechproject.infrastructure.entity.BookEntity;
+import com.project.networktechproject.infrastructure.entity.UserEntity;
+
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "loans", schema = "library")
-public class LoanEntity {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private int id;
-    @ManyToOne
-    @JoinColumn(name = "book_id")
+public class LoanDTO {
     private BookEntity bookId;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private UserEntity userId;
-    @Basic
-    @Column(name = "loan_date")
     private LocalDate loanDate;
-    @Basic
-    @Column(name = "due_date")
     private LocalDate dueDate;
-    @Basic
-    @Column(name = "return_date")
     private LocalDate returnDate;
+
 
     public BookEntity getBookId() {
         return bookId;
@@ -41,13 +27,6 @@ public class LoanEntity {
 
     public void setUserId(UserEntity userId) {
         this.userId = userId;
-    }
-
-    public int getId() {return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public LocalDate getLoanDate() {

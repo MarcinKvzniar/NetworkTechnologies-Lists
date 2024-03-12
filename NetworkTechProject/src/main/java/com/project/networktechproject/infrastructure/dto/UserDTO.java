@@ -1,38 +1,11 @@
-package com.project.networktechproject.infrastructure.entity;
+package com.project.networktechproject.infrastructure.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name="users", schema = "library")
-public class UserEntity {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private int id;
-    @Basic
-    @Column(name = "username")
+public class UserDTO {
     private String username;
-    @Basic
-    @Column(name = "password")
     private String password;
-    @Basic
-    @Column(name = "role")
     private String role;
-    @Basic
-    @Column(name = "email")
     private String email;
-    @Basic
-    @Column(name = "name")
     private String name;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

@@ -1,36 +1,18 @@
-package com.project.networktechproject.infrastructure.entity;
+package com.project.networktechproject.infrastructure.dto;
 
-import jakarta.persistence.*;
+import com.project.networktechproject.infrastructure.entity.BookEntity;
+import com.project.networktechproject.infrastructure.entity.UserEntity;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "reviews", schema = "library")
-public class ReviewEntity {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private int id;
-    @ManyToOne
-    @JoinColumn(name = "book_id")
+public class ReviewDTO {
     private BookEntity bookId;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private UserEntity userId;
-    @Basic
-    @Column(name = "rating")
     private int rating;
-    @Basic
-    @Column(name = "comment")
     private String comment;
-    @Basic
-    @Column(name = "review_date")
     private LocalDate reviewDate;
 
-    public BookEntity getBookId() {
-        return bookId;
-    }
+    public BookEntity getBookId() { return bookId; }
 
     public void setBookId(BookEntity bookId) {
         this.bookId = bookId;
@@ -42,14 +24,6 @@ public class ReviewEntity {
 
     public void setUserId(UserEntity userId) {
         this.userId = userId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getRating() {

@@ -1,26 +1,11 @@
-package com.project.networktechproject.infrastructure.entity;
+package com.project.networktechproject.infrastructure.dto;
 
-import jakarta.persistence.*;
+import com.project.networktechproject.infrastructure.entity.BookEntity;
 
-@Entity
-@Table(name = "book_details", schema = "library")
-public class BookDetailEntity {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    private int id;
-    @OneToOne
-    @JoinColumn(name = "book_id")
+public class BookDetailDTO {
     private BookEntity bookId;
-    @Basic
-    @Column(name = "genre")
     private String genre;
-    @Basic
-    @Column(name = "summary")
     private String summary;
-    @Basic
-    @Column(name = "cover_image_url")
     private String coverImageUrl;
 
     public BookEntity getBookId() {
@@ -29,14 +14,6 @@ public class BookDetailEntity {
 
     public void setBookId(BookEntity bookId) {
         this.bookId = bookId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getGenre() {
