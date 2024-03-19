@@ -1,15 +1,21 @@
-package com.project.networktechproject.infrastructure.dto;
+package com.project.networktechproject.controller.dto.register;
 
-public class UserDTO {
+import com.project.networktechproject.commonTypes.UserRole;
+
+public class RegisterDto {
     private String username;
     private String password;
-    private String role;
+    private UserRole role;
     private String email;
-    private String name;
 
-    public String getUsername() {
-        return username;
+    public RegisterDto(String username, String password, UserRole role, String email) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.email = email;
     }
+
+    public String getUsername() { return username; }
 
     public void setUsername(String username) {
         this.username = username;
@@ -23,11 +29,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
@@ -37,13 +43,5 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

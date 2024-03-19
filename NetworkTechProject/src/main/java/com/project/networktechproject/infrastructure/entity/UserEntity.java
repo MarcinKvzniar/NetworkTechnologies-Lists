@@ -6,56 +6,27 @@ import jakarta.persistence.*;
 @Table(name="users", schema = "library")
 public class UserEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private int id;
-    @Basic
-    @Column(name = "username")
-    private String username;
-    @Basic
-    @Column(name = "password")
-    private String password;
-    @Basic
-    @Column(name = "role")
-    private String role;
-    @Basic
-    @Column(name = "email")
-    private String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @Basic
     @Column(name = "name")
     private String name;
+    @Basic
+    @Column(name = "email")
+    private String email;
 
-    public int getId() {
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private AuthEntity auth;
+
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getEmail() {
@@ -72,5 +43,13 @@ public class UserEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public AuthEntity getAuth() {
+        return auth;
+    }
+
+    public void setAuth(AuthEntity auth) {
+        this.auth = auth;
     }
 }

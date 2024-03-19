@@ -1,6 +1,6 @@
-package com.project.networktechproject.infrastructure.dto;
+package com.project.networktechproject.controller.dto.book;
 
-public class BookDTO {
+public class CreateBookDto {
     private String isbn;
     private String title;
     private String author;
@@ -8,7 +8,21 @@ public class BookDTO {
     private int yearPublished;
     private int availableCopies;
 
-    public String getIsbn() { return isbn; }
+    public CreateBookDto() {
+    }
+
+    public CreateBookDto(String isbn, String title, String author, String publisher, int yearPublished, int availableCopies) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.yearPublished = yearPublished;
+        this.availableCopies = availableCopies;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;

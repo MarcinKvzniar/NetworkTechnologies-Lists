@@ -1,6 +1,6 @@
 package com.project.networktechproject.service;
 
-import com.project.networktechproject.infrastructure.dto.ReviewDTO;
+import com.project.networktechproject.controller.dto.review.GetReviewDto;
 import com.project.networktechproject.infrastructure.entity.ReviewEntity;
 import com.project.networktechproject.infrastructure.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +19,32 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    public void saveReview(ReviewDTO reviewDTO) {
+    public void saveReview(GetReviewDto getReviewDto) {
         ReviewEntity reviewEntity = new ReviewEntity();
 
-        reviewEntity.setBookId(reviewDTO.getBookId());
-        reviewEntity.setUserId(reviewDTO.getUserId());
-        reviewEntity.setRating(reviewDTO.getRating());
-        reviewEntity.setComment(reviewDTO.getComment());
-        reviewEntity.setReviewDate(reviewDTO.getReviewDate());
+        reviewEntity.setBookId(getReviewDto.getBookId());
+        reviewEntity.setUserId(getReviewDto.getUserId());
+        reviewEntity.setRating(getReviewDto.getRating());
+        reviewEntity.setComment(getReviewDto.getComment());
+        reviewEntity.setReviewDate(getReviewDto.getReviewDate());
         reviewRepository.save(reviewEntity);
     }
 
-    public List<ReviewDTO> getAllReviews() {
+    public List<GetReviewDto> getAllReviews() {
         List<ReviewEntity> reviewEntities = reviewRepository.findAll();
         return reviewEntities.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    private ReviewDTO convertToDTO(ReviewEntity reviewEntity) {
-        ReviewDTO reviewDTO = new ReviewDTO();
+    private GetReviewDto convertToDTO(ReviewEntity reviewEntity) {
+        GetReviewDto getReviewDto = new GetReviewDto();
 
-        reviewDTO.setBookId(reviewEntity.getBookId());
-        reviewDTO.setUserId(reviewEntity.getUserId());
-        reviewDTO.setRating(reviewEntity.getRating());
-        reviewDTO.setComment(reviewEntity.getComment());
-        reviewDTO.setReviewDate(reviewEntity.getReviewDate());
-        return reviewDTO;
+        getReviewDto.setBookId(reviewEntity.getBookId());
+        getReviewDto.setUserId(reviewEntity.getUserId());
+        getReviewDto.setRating(reviewEntity.getRating());
+        getReviewDto.setComment(reviewEntity.getComment());
+        getReviewDto.setReviewDate(reviewEntity.getReviewDate());
+        return getReviewDto;
     }
 }

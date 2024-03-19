@@ -1,11 +1,11 @@
-package com.project.networktechproject.infrastructure.dto;
+package com.project.networktechproject.controller.dto.review;
 
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.entity.UserEntity;
 
 import java.time.LocalDate;
 
-public class ReviewDTO {
+public class GetReviewDto {
     private BookEntity bookId;
     private UserEntity userId;
     private int rating;

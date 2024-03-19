@@ -1,6 +1,8 @@
 package com.project.networktechproject.service;
 
-import com.project.networktechproject.infrastructure.dto.BookDTO;
+import com.project.networktechproject.controller.dto.book.CreateBookDto;
+import com.project.networktechproject.controller.dto.book.CreateBookResponseDto;
+import com.project.networktechproject.controller.dto.book.GetBookDto;
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +21,59 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public void saveBook(BookDTO bookDTO) {
-        BookEntity bookEntity = new BookEntity();
-        bookEntity.setIsbn(bookDTO.getIsbn());
-        bookEntity.setTitle(bookDTO.getTitle());
-        bookEntity.setAuthor(bookDTO.getAuthor());
-        bookEntity.setPublisher(bookDTO.getPublisher());
-        bookEntity.setYearPublished(bookDTO.getYearPublished());
-        bookEntity.setAvailableCopies(bookDTO.getAvailableCopies());
-        bookRepository.save(bookEntity);
+    public List<GetBookDto> getAll() {
+        var books = bookRepository.findAll();
+
+        return books.stream().map((book) -> new GetBookDto(
+                book.getId(),
+                book.getIsbn(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getPublisher(),
+                book.getYearPublished(),
+                book.getAvailableCopies() > 0)
+        ).collect(Collectors.toList());
     }
 
-    public List<BookDTO> getAllBooks() {
-        List<BookEntity> bookEntities = bookRepository.findAll();
-        return bookEntities.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public GetBookDto getOne(long id) {
+        var book =  bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+
+        return new GetBookDto(
+                book.getId(),
+                book.getIsbn(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getPublisher(),
+                book.getYearPublished(),
+                book.getAvailableCopies() > 0
+        );
     }
 
-    private BookDTO convertToDTO(BookEntity bookEntity) {
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setIsbn(bookEntity.getIsbn());
-        bookDTO.setTitle(bookEntity.getTitle());
-        bookDTO.setAuthor(bookEntity.getAuthor());
-        bookDTO.setPublisher(bookEntity.getPublisher());
-        bookDTO.setYearPublished(bookEntity.getYearPublished());
-        bookDTO.setAvailableCopies(bookEntity.getAvailableCopies());
-        return bookDTO;
+    public CreateBookResponseDto create(CreateBookDto book) {
+        var bookEntity = new BookEntity();
+        bookEntity.setIsbn(book.getIsbn());
+        bookEntity.setTitle(book.getTitle());
+        bookEntity.setAuthor(book.getAuthor());
+        bookEntity.setPublisher(book.getPublisher());
+        bookEntity.setYearPublished(book.getYearPublished());
+        bookEntity.setAvailableCopies(book.getAvailableCopies());
+
+        var newBook =  bookRepository.save(bookEntity);
+
+        return new CreateBookResponseDto(
+                newBook.getId(),
+                newBook.getIsbn(),
+                newBook.getTitle(),
+                newBook.getAuthor(),
+                newBook.getPublisher(),
+                newBook.getYearPublished(),
+                newBook.getAvailableCopies()
+        );
+    }
+    public void delete(long id) {
+        if (!bookRepository.existsById(id)) {
+            throw new RuntimeException();
+        }
+        bookRepository.deleteById(id);
     }
 }

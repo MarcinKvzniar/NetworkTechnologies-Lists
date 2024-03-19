@@ -1,8 +1,8 @@
-package com.project.networktechproject.infrastructure.dto;
+package com.project.networktechproject.controller.dto.bookDetail;
 
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 
-public class BookDetailDTO {
+public class BookDetailDto {
     private BookEntity bookId;
     private String genre;
     private String summary;

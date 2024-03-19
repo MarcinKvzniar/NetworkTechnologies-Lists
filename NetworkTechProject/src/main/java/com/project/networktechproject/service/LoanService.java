@@ -1,6 +1,6 @@
 package com.project.networktechproject.service;
 
-import com.project.networktechproject.infrastructure.dto.LoanDTO;
+import com.project.networktechproject.controller.dto.loan.LoanDto;
 import com.project.networktechproject.infrastructure.entity.LoanEntity;
 import com.project.networktechproject.infrastructure.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class LoanService {
         this.loanRepository = loanRepository;
     }
 
-    public void saveLoan(LoanDTO loanDTO) {
+    public void saveLoan(LoanDto loanDTO) {
         LoanEntity loanEntity = new LoanEntity();
 
         loanEntity.setBookId(loanDTO.getBookId());
@@ -30,15 +30,15 @@ public class LoanService {
         loanRepository.save(loanEntity);
     }
 
-    public List<LoanDTO> getAllLoans() {
+    public List<LoanDto> getAllLoans() {
         List<LoanEntity> loanEntities = loanRepository.findAll();
         return loanEntities.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    private LoanDTO convertToDTO(LoanEntity loanEntity) {
-        LoanDTO loanDTO = new LoanDTO();
+    private LoanDto convertToDTO(LoanEntity loanEntity) {
+        LoanDto loanDTO = new LoanDto();
 
         loanDTO.setBookId(loanEntity.getBookId());
         loanDTO.setLoanDate(loanEntity.getLoanDate());

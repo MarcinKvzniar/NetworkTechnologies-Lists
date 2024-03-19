@@ -1,11 +1,11 @@
-package com.project.networktechproject.infrastructure.dto;
+package com.project.networktechproject.controller.dto.loan;
 
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.entity.UserEntity;
 
 import java.time.LocalDate;
 
-public class LoanDTO {
+public class LoanDto {
     private BookEntity bookId;
     private UserEntity userId;
     private LocalDate loanDate;
