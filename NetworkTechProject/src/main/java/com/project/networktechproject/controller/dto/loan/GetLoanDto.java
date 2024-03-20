@@ -1,17 +1,39 @@
 package com.project.networktechproject.controller.dto.loan;
 
+import com.project.networktechproject.controller.dto.book.GetBookDto;
+import com.project.networktechproject.controller.dto.user.GetUserDto;
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.entity.UserEntity;
 
 import java.time.LocalDate;
 
 public class GetLoanDto {
+    private long id;
     private BookEntity bookId;
     private UserEntity userId;
     private LocalDate loanDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
 
+    public GetLoanDto(long id, BookEntity bookId, UserEntity userId, LocalDate loanDate, LocalDate dueDate, LocalDate returnDate) {
+        this.id = id;
+        this.bookId = bookId;
+        this.userId = userId;
+        this.loanDate = loanDate;
+        this.dueDate = dueDate;
+        this.returnDate = returnDate;
+    }
+
+    public GetLoanDto() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public BookEntity getBookId() {
         return bookId;

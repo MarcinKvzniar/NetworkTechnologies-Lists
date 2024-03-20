@@ -1,7 +1,7 @@
 package com.project.networktechproject.service;
 
+import com.project.networktechproject.controller.dto.book.GetBookDto;
 import com.project.networktechproject.controller.dto.loan.GetLoanDto;
-import com.project.networktechproject.infrastructure.entity.LoanEntity;
 import com.project.networktechproject.infrastructure.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,32 +19,20 @@ public class LoanService {
         this.loanRepository = loanRepository;
     }
 
-    public void saveLoan(GetLoanDto getLoanDTO) {
-        LoanEntity loanEntity = new LoanEntity();
+    public List<GetLoanDto> getAll() {
+        var loans = loanRepository.findAll();
 
-        loanEntity.setBookId(getLoanDTO.getBookId());
-        loanEntity.setUserId(getLoanDTO.getUserId());
-        loanEntity.setLoanDate(getLoanDTO.getLoanDate());
-        loanEntity.setDueDate(getLoanDTO.getDueDate());
-        loanEntity.setReturnDate(getLoanDTO.getReturnDate());
-        loanRepository.save(loanEntity);
-    }
-
-    public List<GetLoanDto> getAllLoans() {
-        List<LoanEntity> loanEntities = loanRepository.findAll();
-        return loanEntities.stream()
-                .map(this::convertToDTO)
+        return loans
+                .stream()
+                .map(loan -> new GetLoanDto(
+                    loan.getId(),
+                    loan.getBookId(),
+                    loan.getUserId(),
+                    loan.getLoanDate(),
+                    loan.getDueDate(),
+                    loan.getReturnDate()
+                ))
                 .collect(Collectors.toList());
-    }
-
-    private GetLoanDto convertToDTO(LoanEntity loanEntity) {
-        GetLoanDto getLoanDTO = new GetLoanDto();
-
-        getLoanDTO.setBookId(loanEntity.getBookId());
-        getLoanDTO.setLoanDate(loanEntity.getLoanDate());
-        getLoanDTO.setDueDate(loanEntity.getDueDate());
-        getLoanDTO.setReturnDate(loanEntity.getReturnDate());
-        return getLoanDTO;
     }
 
 }

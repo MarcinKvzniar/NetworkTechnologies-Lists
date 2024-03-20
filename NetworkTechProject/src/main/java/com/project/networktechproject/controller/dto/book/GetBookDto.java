@@ -1,5 +1,7 @@
 package com.project.networktechproject.controller.dto.book;
 
+import com.project.networktechproject.infrastructure.entity.BookEntity;
+
 public class GetBookDto {
     private long id;
     private String isbn;

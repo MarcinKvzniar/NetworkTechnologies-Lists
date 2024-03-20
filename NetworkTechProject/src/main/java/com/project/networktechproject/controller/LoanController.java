@@ -18,15 +18,15 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    @PostMapping(path = "/add")
-    public String addNewLoan(@RequestBody GetLoanDto getLoanDTO) {
-        loanService.saveLoan(getLoanDTO);
-        return "Saved";
-    }
+//    @PostMapping(path = "/add")
+//    public String addNewLoan(@RequestBody GetLoanDto getLoanDTO) {
+//        loanService.saveLoan(getLoanDTO);
+//        return "Saved";
+//    }
 
     @GetMapping
-    public List<GetLoanDto> getAllLoans() {
-        return loanService.getAllLoans();
+    public List<GetLoanDto> getAll() {
+        return loanService.getAll();
     }
 }
 

@@ -18,15 +18,14 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping(path = "/add")
-    public String addNewReview(@RequestBody GetReviewDto getReviewDto) {
-        reviewService.saveReview(getReviewDto);
-        return "Saved";
-    }
-
     @GetMapping
     public List<GetReviewDto> getAllReviews() {
-        return reviewService.getAllReviews();
+        return reviewService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public GetReviewDto getOne(@PathVariable long id) {
+        return reviewService.getOne(id);
     }
 
 }

@@ -6,11 +6,29 @@ import com.project.networktechproject.infrastructure.entity.UserEntity;
 import java.time.LocalDate;
 
 public class GetReviewDto {
+    private long id;
     private BookEntity bookId;
     private UserEntity userId;
     private int rating;
     private String comment;
     private LocalDate reviewDate;
+
+    public GetReviewDto(long id, BookEntity bookId, UserEntity userId, int rating, String comment, LocalDate reviewDate) {
+        this.id = id;
+        this.bookId = bookId;
+        this.userId = userId;
+        this.rating = rating;
+        this.comment = comment;
+        this.reviewDate = reviewDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public BookEntity getBookId() { return bookId; }
 

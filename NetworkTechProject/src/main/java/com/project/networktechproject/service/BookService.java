@@ -24,19 +24,23 @@ public class BookService {
     public List<GetBookDto> getAll() {
         var books = bookRepository.findAll();
 
-        return books.stream().map((book) -> new GetBookDto(
-                book.getId(),
-                book.getIsbn(),
-                book.getTitle(),
-                book.getAuthor(),
-                book.getPublisher(),
-                book.getYearPublished(),
-                book.getAvailableCopies() > 0)
-        ).collect(Collectors.toList());
+        return books
+                .stream()
+                .map(book -> new GetBookDto(
+                    book.getId(),
+                    book.getIsbn(),
+                    book.getTitle(),
+                    book.getAuthor(),
+                    book.getPublisher(),
+                    book.getYearPublished(),
+                    book.getAvailableCopies() > 0
+                ))
+                .collect(Collectors.toList());
     }
 
     public GetBookDto getOne(long id) {
-        var book =  bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+        var book =  bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
 
         return new GetBookDto(
                 book.getId(),

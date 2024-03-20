@@ -9,7 +9,7 @@ public class BookDetailEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
     @OneToOne
     @JoinColumn(name = "book_id")
     private BookEntity bookId;
@@ -31,11 +31,11 @@ public class BookDetailEntity {
         this.bookId = bookId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

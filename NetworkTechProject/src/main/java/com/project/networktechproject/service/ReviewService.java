@@ -19,32 +19,32 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    public void saveReview(GetReviewDto getReviewDto) {
-        ReviewEntity reviewEntity = new ReviewEntity();
+    public List<GetReviewDto> getAll() {
+        var reviews = reviewRepository.findAll();
 
-        reviewEntity.setBookId(getReviewDto.getBookId());
-        reviewEntity.setUserId(getReviewDto.getUserId());
-        reviewEntity.setRating(getReviewDto.getRating());
-        reviewEntity.setComment(getReviewDto.getComment());
-        reviewEntity.setReviewDate(getReviewDto.getReviewDate());
-        reviewRepository.save(reviewEntity);
+        return reviews
+                .stream()
+                .map(review -> new GetReviewDto(
+                        review.getId(),
+                        review.getBookId(),
+                        review.getUserId(),
+                        review.getRating(),
+                        review.getComment(),
+                        review.getReviewDate()
+                )).collect(Collectors.toList());
     }
 
-    public List<GetReviewDto> getAllReviews() {
-        List<ReviewEntity> reviewEntities = reviewRepository.findAll();
-        return reviewEntities.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
+    public GetReviewDto getOne(long id) {
+        var review = reviewRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Review not found"));
 
-    private GetReviewDto convertToDTO(ReviewEntity reviewEntity) {
-        GetReviewDto getReviewDto = new GetReviewDto();
-
-        getReviewDto.setBookId(reviewEntity.getBookId());
-        getReviewDto.setUserId(reviewEntity.getUserId());
-        getReviewDto.setRating(reviewEntity.getRating());
-        getReviewDto.setComment(reviewEntity.getComment());
-        getReviewDto.setReviewDate(reviewEntity.getReviewDate());
-        return getReviewDto;
+        return new GetReviewDto(
+                review.getId(),
+                review.getBookId(),
+                review.getUserId(),
+                review.getRating(),
+                review.getComment(),
+                review.getReviewDate()
+        );
     }
 }
