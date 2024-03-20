@@ -1,6 +1,6 @@
 package com.project.networktechproject.controller;
 
-import com.project.networktechproject.controller.dto.bookDetail.BookDetailDto;
+import com.project.networktechproject.controller.dto.bookDetail.GetBookDetailDto;
 import com.project.networktechproject.service.BookDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +19,13 @@ public class BookDetailController {
     }
 
     @PostMapping(path = "/add")
-    public String addNewBookDetail(@RequestBody BookDetailDto bookDetailDTO) {
-        bookDetailService.saveBookDetail(bookDetailDTO);
+    public String addNewBookDetail(@RequestBody GetBookDetailDto getBookDetailDTO) {
+        bookDetailService.saveBookDetail(getBookDetailDTO);
         return "Saved";
     }
 
     @GetMapping
-    public List<BookDetailDto> getAllBookDetails() {
+    public List<GetBookDetailDto> getAllBookDetails() {
         return bookDetailService.getAllBookDetails();
     }
 }

@@ -5,7 +5,7 @@ import com.project.networktechproject.infrastructure.entity.UserEntity;
 
 import java.time.LocalDate;
 
-public class LoanDto {
+public class GetLoanDto {
     private BookEntity bookId;
     private UserEntity userId;
     private LocalDate loanDate;

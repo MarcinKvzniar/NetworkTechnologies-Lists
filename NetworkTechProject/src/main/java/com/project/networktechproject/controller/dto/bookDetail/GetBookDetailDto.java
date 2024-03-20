@@ -2,7 +2,7 @@ package com.project.networktechproject.controller.dto.bookDetail;
 
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 
-public class BookDetailDto {
+public class GetBookDetailDto {
     private BookEntity bookId;
     private String genre;
     private String summary;
