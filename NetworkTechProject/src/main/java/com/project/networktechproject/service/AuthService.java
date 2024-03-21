@@ -52,7 +52,7 @@ public class AuthService {
         authEntity.setUser(userEntity);
         authRepository.save(authEntity);
 
-        return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getId());
+        return new RegisterResponseDto(userEntity.getId(), authEntity.getUsername(), authEntity.getRole());
     }
 
     public LoginResponseDto login(LoginDto dto) {
