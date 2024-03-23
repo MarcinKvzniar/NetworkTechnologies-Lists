@@ -15,18 +15,23 @@ public class BookEntity {
     @Basic
     @Column(name = "isbn", unique = true)
     private String isbn;
+
     @Basic
     @Column(name = "title")
     private String title;
+
     @Basic
     @Column(name = "author")
     private String author;
+
     @Basic
     @Column(name = "publisher")
     private String publisher;
+
     @Basic
     @Column(name = "year_published")
     private int yearPublished;
+
     @Basic
     @Column(name = "available_copies")
     private int availableCopies;

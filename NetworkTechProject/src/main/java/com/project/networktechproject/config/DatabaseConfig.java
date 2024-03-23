@@ -1,4 +1,4 @@
-package com.project.networktechproject;
+package com.project.networktechproject.config;
 
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Configuration;

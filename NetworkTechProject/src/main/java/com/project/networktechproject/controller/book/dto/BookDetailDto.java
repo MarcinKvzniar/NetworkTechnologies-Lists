@@ -1,20 +1,9 @@
-package com.project.networktechproject.controller.bookDetail.dto;
+package com.project.networktechproject.controller.book.dto;
 
-import com.project.networktechproject.infrastructure.entity.BookEntity;
-
-public class GetBookDetailDto {
-    private BookEntity bookId;
+public class BookDetailDto {
     private String genre;
     private String summary;
     private String coverImageUrl;
-
-    public BookEntity getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(BookEntity bookId) {
-        this.bookId = bookId;
-    }
 
     public String getGenre() {
         return genre;

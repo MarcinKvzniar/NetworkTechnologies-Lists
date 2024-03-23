@@ -1,6 +1,7 @@
 package com.project.networktechproject.controller.book;
 
 
+import com.project.networktechproject.controller.book.dto.BookDetailDto;
 import com.project.networktechproject.controller.book.dto.CreateBookDto;
 import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookDto;
@@ -35,6 +36,12 @@ public class BookController {
     @PreAuthorize("permitAll()")
     public GetBookDto getOne(@PathVariable long id) {
         return bookService.getOne(id);
+    }
+
+    @GetMapping("/details/{bookId}")
+    @PreAuthorize("permitAll()")
+    public BookDetailDto getBookDetails(@PathVariable String bookId) {
+        return bookService.getBookDetail(bookId);
     }
 
     @PostMapping("/create")
