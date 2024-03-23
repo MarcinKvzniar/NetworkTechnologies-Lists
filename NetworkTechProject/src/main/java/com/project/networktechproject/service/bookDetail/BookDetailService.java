@@ -1,4 +1,4 @@
-package com.project.networktechproject.service;
+package com.project.networktechproject.service.bookDetail;
 
 import com.project.networktechproject.controller.bookDetail.dto.GetBookDetailDto;
 import com.project.networktechproject.infrastructure.entity.BookDetailEntity;

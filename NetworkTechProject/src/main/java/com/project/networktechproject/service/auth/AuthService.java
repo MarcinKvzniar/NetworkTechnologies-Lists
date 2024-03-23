@@ -8,6 +8,7 @@ import com.project.networktechproject.infrastructure.entity.AuthEntity;
 import com.project.networktechproject.infrastructure.entity.UserEntity;
 import com.project.networktechproject.infrastructure.repository.AuthRepository;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
+import com.project.networktechproject.service.auth.error.PasswordNotMatching;
 import com.project.networktechproject.service.auth.error.UserAlreadyExists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,7 +62,7 @@ public class AuthService {
                 .orElseThrow(RuntimeException::new);
 
         if (!passwordEncoder.matches(dto.getPassword(), authEntity.getPassword())) {
-            throw new RuntimeException();
+            throw PasswordNotMatching.create();
         }
 
         String token = jwtService.generateToken(authEntity);

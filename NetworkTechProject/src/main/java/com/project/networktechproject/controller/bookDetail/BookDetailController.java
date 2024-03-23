@@ -1,7 +1,7 @@
 package com.project.networktechproject.controller.bookDetail;
 
 import com.project.networktechproject.controller.bookDetail.dto.GetBookDetailDto;
-import com.project.networktechproject.service.BookDetailService;
+import com.project.networktechproject.service.bookDetail.BookDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

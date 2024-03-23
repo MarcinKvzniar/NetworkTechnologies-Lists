@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
-@PreAuthorize("hasRole('ADMIN')")
 public class BookController {
 
     private final BookService bookService;
@@ -39,12 +38,14 @@ public class BookController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CreateBookResponseDto> create(@RequestBody CreateBookDto book) {
         var newBook = bookService.create(book);
         return new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         bookService.delete(id);
         return ResponseEntity.noContent().build();

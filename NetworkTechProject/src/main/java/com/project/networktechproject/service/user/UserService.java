@@ -1,7 +1,8 @@
-package com.project.networktechproject.service;
+package com.project.networktechproject.service.user;
 
 import com.project.networktechproject.controller.user.dto.GetUserDto;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
+import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,10 @@ public class UserService {
                 .stream()
                 .map(user -> new GetUserDto(
                         user.getId(),
-                        user.getEmail(),
-                        user.getName()
+                        user.getName(),
+                        user.getLastName(),
+                        user.getDateOfBirth(),
+                        user.getEmail()
                 ))
                 .collect(Collectors.toList());
     }
@@ -34,18 +37,20 @@ public class UserService {
     public GetUserDto getOne(long id) {
         var user = userRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> UserNotFound.create(id));
 
         return new GetUserDto(
                 user.getId(),
-                user.getEmail(),
-                user.getName()
+                user.getName(),
+                user.getLastName(),
+                user.getDateOfBirth(),
+                user.getEmail()
         );
     }
 
     public void delete(long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException();
+            throw UserNotFound.create(id);
         }
         userRepository.deleteById(id);
     }

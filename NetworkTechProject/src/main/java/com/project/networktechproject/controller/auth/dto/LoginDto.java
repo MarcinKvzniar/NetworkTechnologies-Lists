@@ -1,7 +1,12 @@
 package com.project.networktechproject.controller.auth.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginDto {
+    @NotBlank(message = "Username is mandatory")
     private String username;
+
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
     public LoginDto(String username, String password) {

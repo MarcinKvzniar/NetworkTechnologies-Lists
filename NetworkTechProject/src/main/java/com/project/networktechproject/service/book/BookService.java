@@ -5,10 +5,13 @@ import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookDto;
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
+import com.project.networktechproject.service.book.error.BookAlreadyExists;
+import com.project.networktechproject.service.book.error.BookNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,8 +42,9 @@ public class BookService {
     }
 
     public GetBookDto getOne(long id) {
-        var book =  bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+        var book = bookRepository
+                .findById(id)
+                .orElseThrow(() -> BookNotFound.create(id));
 
         return new GetBookDto(
                 book.getId(),
@@ -54,6 +58,12 @@ public class BookService {
     }
 
     public CreateBookResponseDto create(CreateBookDto book) {
+        Optional<BookEntity> existingBook = bookRepository.findByIsbn(book.getIsbn());
+
+        if (existingBook.isPresent()) {
+            throw BookAlreadyExists.create(book.getIsbn());
+        }
+
         var bookEntity = new BookEntity();
         bookEntity.setIsbn(book.getIsbn());
         bookEntity.setTitle(book.getTitle());
@@ -74,9 +84,10 @@ public class BookService {
                 newBook.getAvailableCopies()
         );
     }
+
     public void delete(long id) {
         if (!bookRepository.existsById(id)) {
-            throw new RuntimeException();
+            throw BookNotFound.create(id);
         }
         bookRepository.deleteById(id);
     }
