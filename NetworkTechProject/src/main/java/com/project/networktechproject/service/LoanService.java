@@ -1,7 +1,6 @@
 package com.project.networktechproject.service;
 
-import com.project.networktechproject.controller.dto.book.GetBookDto;
-import com.project.networktechproject.controller.dto.loan.GetLoanDto;
+import com.project.networktechproject.controller.loan.dto.GetLoanDto;
 import com.project.networktechproject.infrastructure.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.project.networktechproject.security;
 
-import com.project.networktechproject.service.JwtService;
+import com.project.networktechproject.service.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

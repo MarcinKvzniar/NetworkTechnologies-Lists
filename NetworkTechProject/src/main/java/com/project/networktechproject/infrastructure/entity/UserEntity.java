@@ -3,18 +3,24 @@ package com.project.networktechproject.infrastructure.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="users", schema = "library")
+@Table(name = "users", schema = "library")
 public class UserEntity {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Basic
+
     @Column(name = "name")
-    private String name;
     @Basic
-    @Column(name = "email")
+    private String name;
+
+    @Column(name = "last_name")
+    @Basic
+    private String lastName;
+
+    @Column(name = "email", nullable = false)
+    @Basic
     private String email;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -51,5 +57,13 @@ public class UserEntity {
 
     public void setAuth(AuthEntity auth) {
         this.auth = auth;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

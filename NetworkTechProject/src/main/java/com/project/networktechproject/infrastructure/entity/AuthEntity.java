@@ -4,7 +4,7 @@ import com.project.networktechproject.commonTypes.UserRole;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="auth", schema = "library")
+@Table(name = "auth", schema = "library")
 public class AuthEntity {
 
     @Id

@@ -1,6 +1,6 @@
 package com.project.networktechproject.service;
 
-import com.project.networktechproject.controller.dto.user.GetUserDto;
+import com.project.networktechproject.controller.user.dto.GetUserDto;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

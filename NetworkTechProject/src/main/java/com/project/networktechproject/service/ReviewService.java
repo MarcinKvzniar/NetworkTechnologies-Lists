@@ -1,7 +1,6 @@
 package com.project.networktechproject.service;
 
-import com.project.networktechproject.controller.dto.review.GetReviewDto;
-import com.project.networktechproject.infrastructure.entity.ReviewEntity;
+import com.project.networktechproject.controller.review.dto.GetReviewDto;
 import com.project.networktechproject.infrastructure.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

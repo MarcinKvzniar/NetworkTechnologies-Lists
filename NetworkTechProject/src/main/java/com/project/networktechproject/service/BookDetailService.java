@@ -1,6 +1,6 @@
 package com.project.networktechproject.service;
 
-import com.project.networktechproject.controller.dto.bookDetail.GetBookDetailDto;
+import com.project.networktechproject.controller.bookDetail.dto.GetBookDetailDto;
 import com.project.networktechproject.infrastructure.entity.BookDetailEntity;
 import com.project.networktechproject.infrastructure.repository.BookDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
