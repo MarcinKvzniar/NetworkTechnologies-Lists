@@ -2,48 +2,37 @@ package com.project.networktechproject.infrastructure.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 @Entity
 @Table(name = "reviews", schema = "library")
 public class ReviewEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private BookEntity bookId;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userId;
+
+    @Column(name = "rating", nullable = false)
     @Basic
-    @Column(name = "rating")
     private int rating;
-    @Basic
+
     @Column(name = "comment")
+    @Basic
     private String comment;
+
     @Basic
     @Column(name = "review_date")
-    private LocalDate reviewDate;
+    private Date reviewDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
+    private BookEntity book;
 
-    public BookEntity getBookId() {
-        return bookId;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
-    public void setBookId(BookEntity bookId) {
-        this.bookId = bookId;
-    }
-
-    public UserEntity getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UserEntity userId) {
-        this.userId = userId;
-    }
 
     public long getId() {
         return id;
@@ -69,11 +58,27 @@ public class ReviewEntity {
         this.comment = comment;
     }
 
-    public LocalDate getReviewDate() {
+    public Date getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(LocalDate reviewDate) {
+    public void setReviewDate(Date reviewDate) {
         this.reviewDate = reviewDate;
+    }
+
+    public BookEntity getBook() {
+        return book;
+    }
+
+    public void setBook(BookEntity book) {
+        this.book = book;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

@@ -1,6 +1,7 @@
 package com.project.networktechproject.service.user;
 
 import com.project.networktechproject.controller.user.dto.GetUserDto;
+import com.project.networktechproject.infrastructure.entity.UserEntity;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
 import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,33 +20,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<GetUserDto> getAll() {
-        var users = userRepository.findAll();
-
-        return users
-                .stream()
-                .map(user -> new GetUserDto(
-                        user.getId(),
-                        user.getName(),
-                        user.getLastName(),
-                        user.getDateOfBirth(),
-                        user.getEmail()
-                ))
-                .collect(Collectors.toList());
-    }
-
     public GetUserDto getOne(long id) {
-        var user = userRepository
+        UserEntity user = userRepository
                 .findById(id)
                 .orElseThrow(() -> UserNotFound.create(id));
 
-        return new GetUserDto(
-                user.getId(),
-                user.getName(),
-                user.getLastName(),
-                user.getDateOfBirth(),
-                user.getEmail()
-        );
+        return mapUser(user);
+    }
+
+    public List<GetUserDto> getAll() {
+        List<UserEntity> users = userRepository.findAll();
+
+        return users
+                .stream()
+                .map(this::mapUser)
+                .collect(Collectors.toList());
     }
 
     public void delete(long id) {
@@ -53,6 +42,16 @@ public class UserService {
             throw UserNotFound.create(id);
         }
         userRepository.deleteById(id);
+    }
+
+    private GetUserDto mapUser(UserEntity user) {
+        return new GetUserDto(
+                user.getId(),
+                user.getName(),
+                user.getLastName(),
+                user.getDateOfBirth(),
+                user.getEmail()
+        );
     }
 
 }

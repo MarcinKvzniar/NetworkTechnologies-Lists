@@ -1,7 +1,7 @@
 package com.project.networktechproject.controller.book;
 
 
-import com.project.networktechproject.controller.book.dto.BookDetailDto;
+import com.project.networktechproject.controller.book.dto.GoogleBookDetailDto;
 import com.project.networktechproject.controller.book.dto.CreateBookDto;
 import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookDto;
@@ -26,21 +26,23 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
-    @PreAuthorize("permitAll()")
-    public List<GetBookDto> getAllBooks() {
-        return bookService.getAll();
-    }
-
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public GetBookDto getOne(@PathVariable long id) {
-        return bookService.getOneById(id);
+    public ResponseEntity<GetBookDto> getOneById(@PathVariable long id) {
+       GetBookDto dto = bookService.getOneById(id);
+         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<List<GetBookDto>> getAll() {
+        List<GetBookDto> dto = bookService.getAll();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/details/{bookId}")
     @PreAuthorize("permitAll()")
-    public BookDetailDto getBookDetails(@PathVariable String bookId) {
+    public GoogleBookDetailDto getBookDetails(@PathVariable String bookId) {
         return bookService.getBookDetail(bookId);
     }
 

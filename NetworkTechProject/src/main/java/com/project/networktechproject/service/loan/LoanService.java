@@ -44,9 +44,9 @@ public class LoanService {
     }
 
     public List<GetLoanResponseDto> getAll() {
-        List<LoanEntity> loan = loanRepository.findAll();
+        List<LoanEntity> loans = loanRepository.findAll();
 
-        return loan
+        return loans
                 .stream()
                 .map(this::mapLoan)
                 .collect(Collectors.toList());

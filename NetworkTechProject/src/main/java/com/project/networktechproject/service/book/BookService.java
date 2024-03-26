@@ -1,6 +1,6 @@
 package com.project.networktechproject.service.book;
 
-import com.project.networktechproject.controller.book.dto.BookDetailDto;
+import com.project.networktechproject.controller.book.dto.GoogleBookDetailDto;
 import com.project.networktechproject.controller.book.dto.CreateBookDto;
 import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookDto;
@@ -11,10 +11,9 @@ import com.project.networktechproject.service.book.error.BookDetailsNotFound;
 import com.project.networktechproject.service.book.error.BookNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +34,16 @@ public class BookService {
         this.restTemplate = restTemplate;
     }
 
+    public GetBookDto getOneById(long id) {
+        BookEntity book = bookRepository
+                .findById(id)
+                .orElseThrow(() -> BookNotFound.create(id));
+
+        return mapBook(book);
+    }
+
     public List<GetBookDto> getAll() {
-        var books = bookRepository.findAll();
+        List<BookEntity> books = bookRepository.findAll();
 
         return books
                 .stream()
@@ -44,39 +51,30 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public GetBookDto getOneById(long id) {
-        var book = bookRepository
-                .findById(id)
-                .orElseThrow(() -> BookNotFound.create(id));
-
-        return mapBook(book);
-    }
-
-    public CreateBookResponseDto create(CreateBookDto book) {
-        Optional<BookEntity> existingBook = bookRepository.findByIsbn(book.getIsbn());
+    public CreateBookResponseDto create(CreateBookDto bookDto) {
+        Optional<BookEntity> existingBook = bookRepository.findByIsbn(bookDto.getIsbn());
 
         if (existingBook.isPresent()) {
-            throw BookAlreadyExists.create(book.getIsbn());
+            throw BookAlreadyExists.create(bookDto.getIsbn());
         }
 
-        var bookEntity = new BookEntity();
-        bookEntity.setIsbn(book.getIsbn());
-        bookEntity.setTitle(book.getTitle());
-        bookEntity.setAuthor(book.getAuthor());
-        bookEntity.setPublisher(book.getPublisher());
-        bookEntity.setYearPublished(book.getYearPublished());
-        bookEntity.setAvailableCopies(book.getAvailableCopies());
-
-        var newBook =  bookRepository.save(bookEntity);
+        BookEntity book = new BookEntity();
+        book.setIsbn(book.getIsbn());
+        book.setTitle(book.getTitle());
+        book.setAuthor(book.getAuthor());
+        book.setPublisher(book.getPublisher());
+        book.setYearPublished(book.getYearPublished());
+        book.setAvailableCopies(book.getAvailableCopies());
+        bookRepository.save(book);
 
         return new CreateBookResponseDto(
-                newBook.getId(),
-                newBook.getIsbn(),
-                newBook.getTitle(),
-                newBook.getAuthor(),
-                newBook.getPublisher(),
-                newBook.getYearPublished(),
-                newBook.getAvailableCopies()
+                book.getId(),
+                book.getIsbn(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getPublisher(),
+                book.getYearPublished(),
+                book.getAvailableCopies()
         );
     }
 
@@ -87,11 +85,10 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public BookDetailDto getBookDetail (String bookId) {
+    public GoogleBookDetailDto getBookDetail (String bookId) {
         try {
             String url = "https://www.googleapis.com/books/v1/volumes/" + bookId + "?key=" + apiKey;
-            return restTemplate.getForObject(url, BookDetailDto.class);
-
+            return restTemplate.getForObject(url, GoogleBookDetailDto.class);
          } catch (RestClientException e) {
             throw BookDetailsNotFound.create(bookId);
         }

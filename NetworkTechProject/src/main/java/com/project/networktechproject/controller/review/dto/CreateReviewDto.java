@@ -1,41 +1,32 @@
 package com.project.networktechproject.controller.review.dto;
 
-import com.project.networktechproject.infrastructure.entity.BookEntity;
-import com.project.networktechproject.infrastructure.entity.UserEntity;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class CreateReviewDto {
-    private BookEntity bookId;
-    private UserEntity userId;
+    @NotNull
     private int rating;
+
     private String comment;
-    private LocalDate reviewDate;
+
+    @NotNull
+    private Date reviewDate;
+
+    @NotNull
+    private Long bookId;
+
+    @NotNull
+    private Long userId;
 
     public CreateReviewDto() {
     }
 
-    public CreateReviewDto(BookEntity bookId, UserEntity userId, int rating, String comment, LocalDate reviewDate) {
-        this.bookId = bookId;
-        this.userId = userId;
+    public CreateReviewDto(int rating, String comment, Date reviewDate, Long bookId, Long userId) {
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
-    }
-
-    public BookEntity getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(BookEntity bookId) {
         this.bookId = bookId;
-    }
-
-    public UserEntity getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UserEntity userId) {
         this.userId = userId;
     }
 
@@ -55,11 +46,27 @@ public class CreateReviewDto {
         this.comment = comment;
     }
 
-    public LocalDate getReviewDate() {
+    public Date getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(LocalDate reviewDate) {
+    public void setReviewDate(Date reviewDate) {
         this.reviewDate = reviewDate;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

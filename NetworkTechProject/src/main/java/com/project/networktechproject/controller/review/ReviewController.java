@@ -2,7 +2,7 @@ package com.project.networktechproject.controller.review;
 
 import com.project.networktechproject.controller.review.dto.CreateReviewDto;
 import com.project.networktechproject.controller.review.dto.CreateReviewResponseDto;
-import com.project.networktechproject.controller.review.dto.GetReviewDto;
+import com.project.networktechproject.controller.review.dto.GetReviewResponseDto;
 import com.project.networktechproject.service.review.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,16 +23,18 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping
-    @PreAuthorize("permitAll()")
-    public List<GetReviewDto> getAll() {
-        return reviewService.getAll();
-    }
-
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public GetReviewDto getOne(@PathVariable long id) {
-        return reviewService.getOne(id);
+    public ResponseEntity<GetReviewResponseDto> getOneById(@PathVariable long id) {
+        GetReviewResponseDto dto = reviewService.getOneById(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<List<GetReviewResponseDto>> getAll() {
+        List<GetReviewResponseDto> dto = reviewService.getAll();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping("/create")

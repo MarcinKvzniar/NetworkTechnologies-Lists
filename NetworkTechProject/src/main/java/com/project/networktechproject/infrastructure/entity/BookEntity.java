@@ -41,6 +41,9 @@ public class BookEntity {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<LoanEntity> loans;
 
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviews;
+
     public long getId() {
         return id;
     }
@@ -103,5 +106,13 @@ public class BookEntity {
 
     public void setLoans(List<LoanEntity> loans) {
         this.loans = loans;
+    }
+
+    public List<ReviewEntity> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewEntity> reviews) {
+        this.reviews = reviews;
     }
 }

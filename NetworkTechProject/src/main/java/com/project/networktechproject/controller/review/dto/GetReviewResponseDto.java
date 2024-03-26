@@ -1,25 +1,28 @@
 package com.project.networktechproject.controller.review.dto;
 
+import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.user.dto.GetUserDto;
+
 import java.sql.Date;
 
-public class CreateReviewResponseDto {
+public class GetReviewResponseDto {
     private long id;
     private int rating;
     private String comment;
     private Date reviewDate;
-    private long userId;
-    private long bookId;
+    private GetUserDto user;
+    private GetBookDto book;
 
-    public CreateReviewResponseDto() {
+    public GetReviewResponseDto() {
     }
 
-    public CreateReviewResponseDto(long id, int rating, String comment, Date reviewDate, long userId, long bookId) {
+    public GetReviewResponseDto(long id, int rating, String comment, Date reviewDate, GetUserDto user, GetBookDto book) {
         this.id = id;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
-        this.userId = userId;
-        this.bookId = bookId;
+        this.user = user;
+        this.book = book;
     }
 
     public long getId() {
@@ -54,19 +57,19 @@ public class CreateReviewResponseDto {
         this.reviewDate = reviewDate;
     }
 
-    public long getUserId() {
-        return userId;
+    public GetUserDto getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(GetUserDto user) {
+        this.user = user;
     }
 
-    public long getBookId() {
-        return bookId;
+    public GetBookDto getBook() {
+        return book;
     }
 
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
+    public void setBook(GetBookDto book) {
+        this.book = book;
     }
 }
