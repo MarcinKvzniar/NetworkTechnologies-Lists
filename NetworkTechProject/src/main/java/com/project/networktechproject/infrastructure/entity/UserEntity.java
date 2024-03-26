@@ -2,7 +2,8 @@ package com.project.networktechproject.infrastructure.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "library")
@@ -23,15 +24,14 @@ public class UserEntity {
 
     @Column(name = "date_of_birth")
     @Basic
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
 
     @Column(name = "email", nullable = false)
     @Basic
     private String email;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private AuthEntity auth;
-
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<LoanEntity> loans;
 
     public long getId() {
         return id;
@@ -57,14 +57,6 @@ public class UserEntity {
         this.name = name;
     }
 
-    public AuthEntity getAuth() {
-        return auth;
-    }
-
-    public void setAuth(AuthEntity auth) {
-        this.auth = auth;
-    }
-
     public String getLastName() {
         return lastName;
     }
@@ -73,11 +65,19 @@ public class UserEntity {
         this.lastName = lastName;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public List<LoanEntity> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(List<LoanEntity> loans) {
+        this.loans = loans;
     }
 }

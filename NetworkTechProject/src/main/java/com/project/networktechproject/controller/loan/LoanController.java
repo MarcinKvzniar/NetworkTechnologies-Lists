@@ -2,12 +2,13 @@ package com.project.networktechproject.controller.loan;
 
 import com.project.networktechproject.controller.loan.dto.CreateLoanDto;
 import com.project.networktechproject.controller.loan.dto.CreateLoanResponseDto;
-import com.project.networktechproject.controller.loan.dto.GetLoanDto;
+import com.project.networktechproject.controller.loan.dto.GetLoanResponseDto;
 import com.project.networktechproject.service.loan.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,18 +25,21 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    @GetMapping
-    public List<GetLoanDto> getAll() {
-        return loanService.getAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<GetLoanResponseDto> getOneById(@PathVariable long id) {
+        GetLoanResponseDto dto = loanService.getOneById(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public GetLoanDto getOne(@PathVariable long id) {
-        return loanService.getOne(id);
+    @GetMapping
+    public ResponseEntity<List<GetLoanResponseDto>> getAll() {
+        // TODO: Make this return only user books for READER and all books for ADMIN
+        List<GetLoanResponseDto> dto = loanService.getAll();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CreateLoanResponseDto> create(@RequestBody CreateLoanDto loan) {
+    public ResponseEntity<CreateLoanResponseDto> create(@RequestBody @Validated CreateLoanDto loan) {
         var newLoan = loanService.create(loan);
         return new ResponseEntity<>(newLoan, HttpStatus.CREATED);
     }

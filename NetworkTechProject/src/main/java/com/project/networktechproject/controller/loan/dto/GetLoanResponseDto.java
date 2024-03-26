@@ -1,23 +1,26 @@
 package com.project.networktechproject.controller.loan.dto;
 
+import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.user.dto.GetUserDto;
+
 import java.sql.Date;
 
-public class CreateLoanResponseDto {
+public class GetLoanResponseDto {
     private long id;
     private Date loanDate;
     private Date dueDate;
-    private long userId;
-    private long bookId;
+    private GetUserDto user;
+    private GetBookDto book;
 
-    public CreateLoanResponseDto() {
+    public GetLoanResponseDto() {
     }
 
-    public CreateLoanResponseDto(long id, Date loanDate, Date dueDate, long bookId, long userId) {
+    public GetLoanResponseDto(long id, Date loanDate, Date dueDate, GetUserDto user, GetBookDto book) {
         this.id = id;
         this.loanDate = loanDate;
         this.dueDate = dueDate;
-        this.userId = userId;
-        this.bookId = bookId;
+        this.user = user;
+        this.book = book;
     }
 
     public long getId() {
@@ -44,19 +47,19 @@ public class CreateLoanResponseDto {
         this.dueDate = dueDate;
     }
 
-    public long getUserId() {
-        return userId;
+    public GetUserDto getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(GetUserDto user) {
+        this.user = user;
     }
 
-    public long getBookId() {
-        return bookId;
+    public GetBookDto getBook() {
+        return book;
     }
 
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
+    public void setBook(GetBookDto book) {
+        this.book = book;
     }
 }

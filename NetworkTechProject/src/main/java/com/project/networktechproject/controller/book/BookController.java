@@ -35,7 +35,7 @@ public class BookController {
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
     public GetBookDto getOne(@PathVariable long id) {
-        return bookService.getOne(id);
+        return bookService.getOneById(id);
     }
 
     @GetMapping("/details/{bookId}")

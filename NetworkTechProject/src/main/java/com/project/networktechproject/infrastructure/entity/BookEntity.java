@@ -3,13 +3,15 @@ package com.project.networktechproject.infrastructure.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "books", schema = "library")
 public class BookEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Basic
@@ -35,6 +37,9 @@ public class BookEntity {
     @Basic
     @Column(name = "available_copies")
     private int availableCopies;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<LoanEntity> loans;
 
     public long getId() {
         return id;
@@ -90,5 +95,13 @@ public class BookEntity {
 
     public void setAvailableCopies(int availableCopies) {
         this.availableCopies = availableCopies;
+    }
+
+    public List<LoanEntity> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(List<LoanEntity> loans) {
+        this.loans = loans;
     }
 }

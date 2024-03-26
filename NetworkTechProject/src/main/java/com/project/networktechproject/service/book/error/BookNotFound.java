@@ -5,6 +5,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class BookNotFound {
     public static ResponseStatusException create(long id) {
-        return new ResponseStatusException(HttpStatus.CONFLICT, String.format("Book with id: %d not found", id));
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Book with id: %s not found", id));
     }
 }

@@ -1,65 +1,50 @@
 package com.project.networktechproject.controller.loan.dto;
 
-import com.project.networktechproject.infrastructure.entity.BookEntity;
-import com.project.networktechproject.infrastructure.entity.UserEntity;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class CreateLoanDto {
-    private BookEntity bookId;
-    private UserEntity userId;
-    private LocalDate loanDate;
-    private LocalDate dueDate;
-    private LocalDate returnDate;
+    @NotNull
+    private Date dueDate;
+
+    @NotNull
+    private Long userId;
+
+    @NotNull
+    private Long bookId;
 
     public CreateLoanDto() {
     }
 
-    public CreateLoanDto(BookEntity bookId, UserEntity userId, LocalDate loanDate, LocalDate dueDate, LocalDate returnDate) {
-        this.bookId = bookId;
-        this.userId = userId;
-        this.loanDate = loanDate;
+    public CreateLoanDto(Date dueDate, Long userId, Long bookId) {
         this.dueDate = dueDate;
-        this.returnDate = returnDate;
+        this.userId = userId;
+        this.bookId = bookId;
     }
 
-    public BookEntity getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(BookEntity bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
-    public UserEntity getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(UserEntity userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public LocalDate getLoanDate() {
-        return loanDate;
-    }
-
-    public void setLoanDate(LocalDate loanDate) {
-        this.loanDate = loanDate;
-    }
-
-    public LocalDate getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
-    }
 }

@@ -1,47 +1,53 @@
 package com.project.networktechproject.infrastructure.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+
+import java.sql.Date;
 
 @Entity
 @Table(name = "loans", schema = "library")
 public class LoanEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private BookEntity bookId;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userId;
+
+    @Column(name = "loan_date", nullable = false)
     @Basic
-    @Column(name = "loan_date")
-    private LocalDate loanDate;
+    private Date loanDate;
+
+    @Column(name = "due_date", nullable = false)
     @Basic
-    @Column(name = "due_date")
-    private LocalDate dueDate;
-    @Basic
+    private Date dueDate;
+
     @Column(name = "return_date")
-    private LocalDate returnDate;
+    @Basic
+    private Date returnDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
+    private BookEntity book;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
 
-    public BookEntity getBookId() {
-        return bookId;
+    public BookEntity getBook() {
+        return book;
     }
 
-    public void setBookId(BookEntity bookId) {
-        this.bookId = bookId;
+    public void setBook(BookEntity bookId) {
+        this.book = bookId;
     }
 
-    public UserEntity getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(UserEntity userId) {
-        this.userId = userId;
+    public void setUser(UserEntity userId) {
+        this.user = userId;
     }
 
     public long getId() {return id;
@@ -51,27 +57,27 @@ public class LoanEntity {
         this.id = id;
     }
 
-    public LocalDate getLoanDate() {
+    public Date getLoanDate() {
         return loanDate;
     }
 
-    public void setLoanDate(LocalDate loanDate) {
+    public void setLoanDate(Date loanDate) {
         this.loanDate = loanDate;
     }
 
-    public LocalDate getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getReturnDate() {
+    public Date getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
+    public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
 }

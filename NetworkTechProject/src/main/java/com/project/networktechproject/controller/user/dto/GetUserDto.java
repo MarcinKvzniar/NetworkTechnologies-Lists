@@ -1,18 +1,18 @@
 package com.project.networktechproject.controller.user.dto;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class GetUserDto {
     private long id;
     private String name;
     private String lastName;
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
     private String email;
 
     public GetUserDto() {
     }
 
-    public GetUserDto(long id, String name, String lastName, LocalDate dateOfBirth, String email) {
+    public GetUserDto(long id, String name, String lastName, Date dateOfBirth, String email) {
         this.id = id;
         this.email = name;
         this.lastName = lastName;
@@ -48,11 +48,11 @@ public class GetUserDto {
         this.lastName = lastName;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }

@@ -40,32 +40,16 @@ public class BookService {
 
         return books
                 .stream()
-                .map(book -> new GetBookDto(
-                    book.getId(),
-                    book.getIsbn(),
-                    book.getTitle(),
-                    book.getAuthor(),
-                    book.getPublisher(),
-                    book.getYearPublished(),
-                    book.getAvailableCopies() > 0
-                ))
+                .map(this::mapBook)
                 .collect(Collectors.toList());
     }
 
-    public GetBookDto getOne(long id) {
+    public GetBookDto getOneById(long id) {
         var book = bookRepository
                 .findById(id)
                 .orElseThrow(() -> BookNotFound.create(id));
 
-        return new GetBookDto(
-                book.getId(),
-                book.getIsbn(),
-                book.getTitle(),
-                book.getAuthor(),
-                book.getPublisher(),
-                book.getYearPublished(),
-                book.getAvailableCopies() > 0
-        );
+        return mapBook(book);
     }
 
     public CreateBookResponseDto create(CreateBookDto book) {
@@ -111,6 +95,18 @@ public class BookService {
          } catch (RestClientException e) {
             throw BookDetailsNotFound.create(bookId);
         }
+    }
+
+    private GetBookDto mapBook(BookEntity book) {
+        return new GetBookDto(
+                book.getId(),
+                book.getIsbn(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getPublisher(),
+                book.getYearPublished(),
+                book.getAvailableCopies() > 0
+        );
     }
 
 }
