@@ -1,19 +1,14 @@
 package com.project.networktechproject.service.book;
 
-import com.project.networktechproject.controller.book.dto.GoogleBookDetailDto;
 import com.project.networktechproject.controller.book.dto.CreateBookDto;
 import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookDto;
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
 import com.project.networktechproject.service.book.error.BookAlreadyExists;
-import com.project.networktechproject.service.book.error.BookDetailsNotFound;
 import com.project.networktechproject.service.book.error.BookNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,15 +18,10 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final RestTemplate restTemplate;
-
-    @Value("${app.api-key}")
-    private String apiKey;
 
     @Autowired
-    public BookService(BookRepository bookRepository, RestTemplate restTemplate) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        this.restTemplate = restTemplate;
     }
 
     public GetBookDto getOneById(long id) {
@@ -83,15 +73,6 @@ public class BookService {
             throw BookNotFound.create(id);
         }
         bookRepository.deleteById(id);
-    }
-
-    public GoogleBookDetailDto getBookDetail (String bookId) {
-        try {
-            String url = "https://www.googleapis.com/books/v1/volumes/" + bookId + "?key=" + apiKey;
-            return restTemplate.getForObject(url, GoogleBookDetailDto.class);
-         } catch (RestClientException e) {
-            throw BookDetailsNotFound.create(bookId);
-        }
     }
 
     private GetBookDto mapBook(BookEntity book) {

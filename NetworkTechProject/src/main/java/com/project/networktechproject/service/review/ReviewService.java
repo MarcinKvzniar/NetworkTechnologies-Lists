@@ -1,12 +1,11 @@
 package com.project.networktechproject.service.review;
 
 import com.project.networktechproject.controller.book.dto.GetBookDto;
-import com.project.networktechproject.controller.loan.dto.GetLoanResponseDto;
 import com.project.networktechproject.controller.review.dto.CreateReviewDto;
 import com.project.networktechproject.controller.review.dto.CreateReviewResponseDto;
 import com.project.networktechproject.controller.review.dto.GetReviewResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
-import com.project.networktechproject.infrastructure.entity.LoanEntity;
+import com.project.networktechproject.infrastructure.entity.AuthEntity;
 import com.project.networktechproject.infrastructure.entity.ReviewEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
 import com.project.networktechproject.infrastructure.repository.ReviewRepository;
@@ -60,7 +59,8 @@ public class ReviewService {
                 .findById(reviewDto.getBookId())
                 .orElseThrow(() -> BookNotFound.create(reviewDto.getBookId()));
 
-        var user = userRepository.findById(reviewDto.getUserId())
+        var user = userRepository
+                .findById(reviewDto.getUserId())
                 .orElseThrow(() -> UserNotFound.create(reviewDto.getUserId()));
 
         ReviewEntity review = new ReviewEntity();

@@ -6,6 +6,7 @@ import com.project.networktechproject.controller.book.dto.CreateBookDto;
 import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookDto;
 import com.project.networktechproject.service.book.BookService;
+import com.project.networktechproject.service.book.GoogleBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,19 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+    private final GoogleBookService googleBookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, GoogleBookService googleBookService) {
         this.bookService = bookService;
+        this.googleBookService = googleBookService;
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<GetBookDto> getOneById(@PathVariable long id) {
        GetBookDto dto = bookService.getOneById(id);
-         return new ResponseEntity<>(dto, HttpStatus.OK);
+       return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping
@@ -42,8 +45,9 @@ public class BookController {
 
     @GetMapping("/details/{bookId}")
     @PreAuthorize("permitAll()")
-    public GoogleBookDetailDto getBookDetails(@PathVariable String bookId) {
-        return bookService.getBookDetail(bookId);
+    public ResponseEntity<GoogleBookDetailDto> getBookDetails(@PathVariable String bookId) {
+       GoogleBookDetailDto dto = googleBookService.getBookDetails(bookId);
+       return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping("/create")
