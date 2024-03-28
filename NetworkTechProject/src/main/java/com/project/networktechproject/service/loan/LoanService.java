@@ -66,7 +66,7 @@ public class LoanService {
 
         var user = userRepository
                 .findById(loanDto.getUserId())
-                .orElseThrow(() -> UserNotFound.create(loanDto.getUserId()));
+                .orElseThrow(() -> UserNotFound.createWithId(loanDto.getUserId()));
 
         LoanEntity loan = new LoanEntity();
         loan.setBook(book);

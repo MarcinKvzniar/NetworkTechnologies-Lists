@@ -1,7 +1,9 @@
 package com.project.networktechproject.service.user;
 
 import com.project.networktechproject.controller.user.dto.GetUserDto;
+import com.project.networktechproject.infrastructure.entity.AuthEntity;
 import com.project.networktechproject.infrastructure.entity.UserEntity;
+import com.project.networktechproject.infrastructure.repository.AuthRepository;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
 import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +16,28 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AuthRepository authRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AuthRepository authRepository) {
         this.userRepository = userRepository;
+        this.authRepository = authRepository;
     }
 
-    public GetUserDto getOne(long id) {
+   public GetUserDto getUserByUsername(String username) {
+       AuthEntity auth = authRepository
+               .findByUsername(username)
+               .orElseThrow(() -> UserNotFound.createWithUsername(username));
+
+       UserEntity user = auth.getUser();
+
+       return mapUser(user);
+    }
+
+    public GetUserDto getOneById(long id) {
         UserEntity user = userRepository
                 .findById(id)
-                .orElseThrow(() -> UserNotFound.create(id));
+                .orElseThrow(() -> UserNotFound.createWithId(id));
 
         return mapUser(user);
     }
@@ -39,7 +53,7 @@ public class UserService {
 
     public void delete(long id) {
         if (!userRepository.existsById(id)) {
-            throw UserNotFound.create(id);
+            throw UserNotFound.createWithId(id);
         }
         userRepository.deleteById(id);
     }

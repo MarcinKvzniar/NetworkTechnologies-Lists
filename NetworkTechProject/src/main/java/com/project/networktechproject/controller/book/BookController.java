@@ -38,13 +38,12 @@ public class BookController {
 
     @GetMapping
     @PreAuthorize("permitAll()")
-    public ResponseEntity<List<GetBookDto>> getAll() {
+    public ResponseEntity<List<GetBookDto>> getAllBooks() {
         List<GetBookDto> dto = bookService.getAll();
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/details/{bookId}")
-    @PreAuthorize("permitAll()")
     public ResponseEntity<GoogleBookDetailDto> getBookDetails(@PathVariable String bookId) {
        GoogleBookDetailDto dto = googleBookService.getBookDetails(bookId);
        return new ResponseEntity<>(dto, HttpStatus.OK);

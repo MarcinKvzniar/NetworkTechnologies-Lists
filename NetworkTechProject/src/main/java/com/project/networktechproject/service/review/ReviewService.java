@@ -5,7 +5,6 @@ import com.project.networktechproject.controller.review.dto.CreateReviewDto;
 import com.project.networktechproject.controller.review.dto.CreateReviewResponseDto;
 import com.project.networktechproject.controller.review.dto.GetReviewResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
-import com.project.networktechproject.infrastructure.entity.AuthEntity;
 import com.project.networktechproject.infrastructure.entity.ReviewEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
 import com.project.networktechproject.infrastructure.repository.ReviewRepository;
@@ -61,7 +60,7 @@ public class ReviewService {
 
         var user = userRepository
                 .findById(reviewDto.getUserId())
-                .orElseThrow(() -> UserNotFound.create(reviewDto.getUserId()));
+                .orElseThrow(() -> UserNotFound.createWithId(reviewDto.getUserId()));
 
         ReviewEntity review = new ReviewEntity();
         review.setBook(book);
