@@ -1,6 +1,8 @@
 package com.project.networktechproject.controller.user;
 
 import com.project.networktechproject.controller.user.dto.GetUserDto;
+import com.project.networktechproject.controller.user.dto.PatchUserDto;
+import com.project.networktechproject.controller.user.dto.PatchUserResponseDto;
 import com.project.networktechproject.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,12 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PatchUserResponseDto> update(@PathVariable long id, @RequestBody PatchUserDto dto) {
+        PatchUserResponseDto responseDto = userService.update(id, dto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 }

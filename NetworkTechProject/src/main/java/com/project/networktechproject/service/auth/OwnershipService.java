@@ -5,7 +5,7 @@ import com.project.networktechproject.infrastructure.repository.AuthRepository;
 import com.project.networktechproject.service.user.error.UserNotFound;
 
 public abstract class OwnershipService {
-    private final AuthRepository authRepository;
+    protected final AuthRepository authRepository;
 
     public OwnershipService(AuthRepository authRepository) {
         this.authRepository = authRepository;
