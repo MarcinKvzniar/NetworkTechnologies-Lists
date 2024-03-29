@@ -30,20 +30,21 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GetBookDto> getOneById(@PathVariable long id) {
        GetBookDto dto = bookService.getOneById(id);
        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<GetBookDto>> getAllBooks() {
         List<GetBookDto> dto = bookService.getAll();
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/details/{bookId}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GoogleBookDetailDto> getBookDetails(@PathVariable String bookId) {
        GoogleBookDetailDto dto = googleBookService.getBookDetails(bookId);
        return new ResponseEntity<>(dto, HttpStatus.OK);

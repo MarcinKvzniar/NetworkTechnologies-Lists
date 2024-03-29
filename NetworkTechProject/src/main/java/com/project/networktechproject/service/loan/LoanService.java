@@ -6,14 +6,18 @@ import com.project.networktechproject.controller.loan.dto.CreateLoanResponseDto;
 import com.project.networktechproject.controller.loan.dto.GetLoanResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
 import com.project.networktechproject.infrastructure.entity.LoanEntity;
+import com.project.networktechproject.infrastructure.repository.AuthRepository;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
 import com.project.networktechproject.infrastructure.repository.LoanRepository;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
+import com.project.networktechproject.service.auth.OwnershipService;
 import com.project.networktechproject.service.book.error.BookNotFound;
 import com.project.networktechproject.service.loan.error.LoanAlreadyExists;
 import com.project.networktechproject.service.loan.error.LoanNotFound;
 import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -22,19 +26,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class LoanService {
+public class LoanService extends OwnershipService {
 
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, UserRepository userRepository) {
+    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, UserRepository userRepository, AuthRepository authRepository) {
+        super(authRepository);
         this.loanRepository = loanRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
     }
 
+    @PostAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, returnObject.user.id)")
     public GetLoanResponseDto getOneById(long id) {
         LoanEntity loan = loanRepository
                 .findById(id)
@@ -43,8 +49,15 @@ public class LoanService {
         return mapLoan(loan);
     }
 
-    public List<GetLoanResponseDto> getAll() {
-        List<LoanEntity> loans = loanRepository.findAll();
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #userId)")
+    public List<GetLoanResponseDto> getAll(Long userId) {
+        List<LoanEntity> loans;
+
+        if (userId == null) {
+            loans = loanRepository.findAll();
+        } else {
+            loans = loanRepository.findByUserId(userId);
+        }
 
         return loans
                 .stream()
@@ -52,6 +65,7 @@ public class LoanService {
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #loanDto.userId)")
     public CreateLoanResponseDto create(CreateLoanDto loanDto) {
         Optional<LoanEntity> existingLoan = loanRepository
                 .findByBookIdAndUserIdAndReturnDateIsNull(loanDto.getBookId(), loanDto.getUserId());
@@ -84,6 +98,7 @@ public class LoanService {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(long id) {
         if (!loanRepository.existsById(id)) {
             throw LoanNotFound.create(id);

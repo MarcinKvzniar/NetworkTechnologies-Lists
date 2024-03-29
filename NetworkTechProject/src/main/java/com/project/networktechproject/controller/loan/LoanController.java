@@ -7,6 +7,7 @@ import com.project.networktechproject.service.loan.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/api/loans")
+@PostAuthorize("isAuthenticated()")
 public class LoanController {
 
     private final LoanService loanService;
@@ -32,9 +33,8 @@ public class LoanController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetLoanResponseDto>> getAll() {
-        // TODO: Make this return only user books for READER and all books for ADMIN
-        List<GetLoanResponseDto> dto = loanService.getAll();
+    public ResponseEntity<List<GetLoanResponseDto>> getAll(@RequestParam(required = false) Long userId) {
+        List<GetLoanResponseDto> dto = loanService.getAll(userId);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
