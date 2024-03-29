@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/users")
 @PreAuthorize("isAuthenticated()")
 public class UserController {
-
     private final UserService userService;
 
     @Autowired

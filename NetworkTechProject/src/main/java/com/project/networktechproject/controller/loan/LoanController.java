@@ -3,6 +3,7 @@ package com.project.networktechproject.controller.loan;
 import com.project.networktechproject.controller.loan.dto.CreateLoanDto;
 import com.project.networktechproject.controller.loan.dto.CreateLoanResponseDto;
 import com.project.networktechproject.controller.loan.dto.GetLoanResponseDto;
+import com.project.networktechproject.controller.loan.dto.GetLoansPageResponseDto;
 import com.project.networktechproject.service.loan.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,8 @@ public class LoanController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetLoanResponseDto>> getAll(@RequestParam(required = false) Long userId) {
-        List<GetLoanResponseDto> dto = loanService.getAll(userId);
+    public ResponseEntity<GetLoansPageResponseDto> getAll(@RequestParam(required = false) Long userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        GetLoansPageResponseDto dto = loanService.getAll(userId, page, size);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

@@ -4,6 +4,7 @@ import com.project.networktechproject.controller.book.dto.GetBookDto;
 import com.project.networktechproject.controller.loan.dto.CreateLoanDto;
 import com.project.networktechproject.controller.loan.dto.CreateLoanResponseDto;
 import com.project.networktechproject.controller.loan.dto.GetLoanResponseDto;
+import com.project.networktechproject.controller.loan.dto.GetLoansPageResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
 import com.project.networktechproject.infrastructure.entity.LoanEntity;
 import com.project.networktechproject.infrastructure.repository.AuthRepository;
@@ -16,6 +17,9 @@ import com.project.networktechproject.service.loan.error.LoanAlreadyExists;
 import com.project.networktechproject.service.loan.error.LoanNotFound;
 import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -50,25 +54,34 @@ public class LoanService extends OwnershipService {
     }
 
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #userId)")
-    public List<GetLoanResponseDto> getAll(Long userId) {
-        List<LoanEntity> loans;
+    public GetLoansPageResponseDto getAll(Long userId, int page, int size) {
+        Page<LoanEntity> loansPage;
+
+        Pageable pageable = PageRequest.of(page, size);
 
         if (userId == null) {
-            loans = loanRepository.findAll();
+            loansPage = loanRepository.findAll(pageable);
         } else {
-            loans = loanRepository.findByUserId(userId);
+            loansPage = loanRepository.findByUserId(userId, pageable);
         }
 
-        return loans
+        List<GetLoanResponseDto> loansDto = loansPage
                 .stream()
                 .map(this::mapLoan)
-                .collect(Collectors.toList());
+                .toList();
+
+        return new GetLoansPageResponseDto(
+                loansDto,
+                loansPage.getNumber(),
+                loansPage.getTotalElements(),
+                loansPage.getTotalPages(),
+                loansPage.hasNext());
     }
 
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #loanDto.userId)")
     public CreateLoanResponseDto create(CreateLoanDto loanDto) {
         Optional<LoanEntity> existingLoan = loanRepository
-                .findByBookIdAndUserIdAndReturnDateIsNull(loanDto.getBookId(), loanDto.getUserId());
+                .findByBookIdAndUserId(loanDto.getBookId(), loanDto.getUserId());
 
         if (existingLoan.isPresent()) {
             throw LoanAlreadyExists.create(loanDto.getBookId(), loanDto.getUserId());
