@@ -1,10 +1,7 @@
 package com.project.networktechproject.controller.book;
 
 
-import com.project.networktechproject.controller.book.dto.GoogleBookDetailDto;
-import com.project.networktechproject.controller.book.dto.CreateBookDto;
-import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
-import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.book.dto.*;
 import com.project.networktechproject.service.book.BookService;
 import com.project.networktechproject.service.book.GoogleBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +34,8 @@ public class BookController {
     }
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<GetBookDto>> getAllBooks() {
-        List<GetBookDto> dto = bookService.getAll();
+    public ResponseEntity<GetBooksPageResponseDto> getAllBooks(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        GetBooksPageResponseDto dto = bookService.getAll(page, size);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

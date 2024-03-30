@@ -75,7 +75,8 @@ public class LoanService extends OwnershipService {
                 loansPage.getNumber(),
                 loansPage.getTotalElements(),
                 loansPage.getTotalPages(),
-                loansPage.hasNext());
+                loansPage.hasNext()
+        );
     }
 
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #loanDto.userId)")

@@ -3,16 +3,20 @@ package com.project.networktechproject.service.book;
 import com.project.networktechproject.controller.book.dto.CreateBookDto;
 import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.book.dto.GetBooksPageResponseDto;
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
 import com.project.networktechproject.service.book.error.BookAlreadyExists;
 import com.project.networktechproject.service.book.error.BookNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -32,13 +36,26 @@ public class BookService {
         return mapBook(book);
     }
 
-    public List<GetBookDto> getAll() {
-        List<BookEntity> books = bookRepository.findAll();
+    @PreAuthorize("isAuthenticated()")
+    public GetBooksPageResponseDto getAll(int page, int size) {
+        Page<BookEntity> booksPage;
 
-        return books
+        Pageable pageable = PageRequest.of(page, size);
+
+        booksPage = bookRepository.findAll(pageable);
+
+        List<GetBookDto> booksDto = booksPage
                 .stream()
                 .map(this::mapBook)
-                .collect(Collectors.toList());
+                .toList();
+
+        return new GetBooksPageResponseDto(
+                booksDto,
+                booksPage.getNumber(),
+                booksPage.getTotalElements(),
+                booksPage.getTotalPages(),
+                booksPage.hasNext()
+        );
     }
 
     public CreateBookResponseDto create(CreateBookDto bookDto) {
