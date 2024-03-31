@@ -21,14 +21,14 @@ public class GoogleBookService {
         this.restTemplate = restTemplate;
     }
 
-    public GoogleBookDetailDto getBookDetails (String bookId) {
+    public GoogleBookDetailDto getBookDetailsByIsbn (String isbn) {
         try {
-            String url = "https://www.googleapis.com/books/v1/volumes/" + bookId + "?key=" + apiKey;
+            String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "?key=" + apiKey;
             return restTemplate.getForObject(url, GoogleBookDetailDto.class);
         } catch (RestClientException e) {
             throw new RestClientResponseException("Error while fetching book details", 500, "Error", null, null, null);
         } catch (RuntimeException e) {
-            throw BookDetailsNotFound.create(bookId);
+            throw BookDetailsNotFound.create(isbn);
         }
     }
 }

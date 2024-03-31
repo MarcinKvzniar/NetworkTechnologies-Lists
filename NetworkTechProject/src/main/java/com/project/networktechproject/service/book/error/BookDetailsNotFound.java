@@ -5,8 +5,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class BookDetailsNotFound {
 
-    public static ResponseStatusException create(String id) {
+    public static ResponseStatusException create(String isbn) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND,
-                String.format("Book details with id: %s not found in Google Books API", id));
+                String.format("Book details with isbn: %s not found in Google Books API", isbn));
     }
 }

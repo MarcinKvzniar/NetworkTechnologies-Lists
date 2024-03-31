@@ -39,10 +39,10 @@ public class BookController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/details/{bookId}")
+    @GetMapping("/details/{isbn}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<GoogleBookDetailDto> getBookDetails(@PathVariable String bookId) {
-       GoogleBookDetailDto dto = googleBookService.getBookDetails(bookId);
+    public ResponseEntity<GoogleBookDetailDto> getBookDetails(@PathVariable String isbn) {
+       GoogleBookDetailDto dto = googleBookService.getBookDetailsByIsbn(isbn);
        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
