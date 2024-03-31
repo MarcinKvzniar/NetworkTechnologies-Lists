@@ -1,6 +1,6 @@
 package com.project.networktechproject.controller.review.dto;
 
-import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
 
 import java.sql.Date;
@@ -11,12 +11,12 @@ public class GetReviewResponseDto {
     private String comment;
     private Date reviewDate;
     private GetUserDto user;
-    private GetBookDto book;
+    private GetBookResponseDto book;
 
     public GetReviewResponseDto() {
     }
 
-    public GetReviewResponseDto(long id, int rating, String comment, Date reviewDate, GetUserDto user, GetBookDto book) {
+    public GetReviewResponseDto(long id, int rating, String comment, Date reviewDate, GetUserDto user, GetBookResponseDto book) {
         this.id = id;
         this.rating = rating;
         this.comment = comment;
@@ -65,11 +65,11 @@ public class GetReviewResponseDto {
         this.user = user;
     }
 
-    public GetBookDto getBook() {
+    public GetBookResponseDto getBook() {
         return book;
     }
 
-    public void setBook(GetBookDto book) {
+    public void setBook(GetBookResponseDto book) {
         this.book = book;
     }
 }

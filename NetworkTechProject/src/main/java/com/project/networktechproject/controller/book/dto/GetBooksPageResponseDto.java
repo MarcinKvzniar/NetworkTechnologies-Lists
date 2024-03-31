@@ -3,13 +3,13 @@ package com.project.networktechproject.controller.book.dto;
 import java.util.List;
 
 public class GetBooksPageResponseDto {
-    private List<GetBookDto> books;
+    private List<GetBookResponseDto> books;
     private int currentPage;
     private long totalItems;
     private int totalPages;
     private boolean hasMore;
 
-    public GetBooksPageResponseDto(List<GetBookDto> books, int currentPage, long totalItems, int totalPages, boolean hasMore) {
+    public GetBooksPageResponseDto(List<GetBookResponseDto> books, int currentPage, long totalItems, int totalPages, boolean hasMore) {
         this.books = books;
         this.currentPage = currentPage;
         this.totalItems = totalItems;
@@ -17,11 +17,11 @@ public class GetBooksPageResponseDto {
         this.hasMore = hasMore;
     }
 
-    public List<GetBookDto> getBooks() {
+    public List<GetBookResponseDto> getBooks() {
         return books;
     }
 
-    public void setBooks(List<GetBookDto> books) {
+    public void setBooks(List<GetBookResponseDto> books) {
         this.books = books;
     }
 

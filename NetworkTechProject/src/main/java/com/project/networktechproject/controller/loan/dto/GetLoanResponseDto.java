@@ -1,6 +1,6 @@
 package com.project.networktechproject.controller.loan.dto;
 
-import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
 
 import java.sql.Date;
@@ -10,12 +10,12 @@ public class GetLoanResponseDto {
     private Date loanDate;
     private Date dueDate;
     private GetUserDto user;
-    private GetBookDto book;
+    private GetBookResponseDto book;
 
     public GetLoanResponseDto() {
     }
 
-    public GetLoanResponseDto(long id, Date loanDate, Date dueDate, GetUserDto user, GetBookDto book) {
+    public GetLoanResponseDto(long id, Date loanDate, Date dueDate, GetUserDto user, GetBookResponseDto book) {
         this.id = id;
         this.loanDate = loanDate;
         this.dueDate = dueDate;
@@ -55,11 +55,11 @@ public class GetLoanResponseDto {
         this.user = user;
     }
 
-    public GetBookDto getBook() {
+    public GetBookResponseDto getBook() {
         return book;
     }
 
-    public void setBook(GetBookDto book) {
+    public void setBook(GetBookResponseDto book) {
         this.book = book;
     }
 }

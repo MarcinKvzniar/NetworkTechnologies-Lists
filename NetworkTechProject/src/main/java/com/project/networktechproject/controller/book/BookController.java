@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/books")
@@ -28,8 +26,8 @@ public class BookController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<GetBookDto> getOneById(@PathVariable long id) {
-       GetBookDto dto = bookService.getOneById(id);
+    public ResponseEntity<GetBookResponseDto> getOneById(@PathVariable long id) {
+       GetBookResponseDto dto = bookService.getOneById(id);
        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

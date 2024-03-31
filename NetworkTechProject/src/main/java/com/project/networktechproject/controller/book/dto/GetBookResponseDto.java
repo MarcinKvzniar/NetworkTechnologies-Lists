@@ -1,6 +1,6 @@
 package com.project.networktechproject.controller.book.dto;
 
-public class GetBookDto {
+public class GetBookResponseDto {
     private long id;
     private String isbn;
     private String title;
@@ -9,7 +9,7 @@ public class GetBookDto {
     private int yearPublished;
     private boolean isAvailable;
 
-    public GetBookDto(long id, String isbn, String title, String author, String publisher, int yearPublished, boolean isAvailable) {
+    public GetBookResponseDto(long id, String isbn, String title, String author, String publisher, int yearPublished, boolean isAvailable) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -19,7 +19,7 @@ public class GetBookDto {
         this.isAvailable = isAvailable;
     }
 
-    public GetBookDto() {
+    public GetBookResponseDto() {
     }
 
     public long getId() {

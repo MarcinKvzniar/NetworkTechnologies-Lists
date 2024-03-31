@@ -1,6 +1,6 @@
 package com.project.networktechproject.service.loan;
 
-import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
 import com.project.networktechproject.controller.loan.dto.CreateLoanDto;
 import com.project.networktechproject.controller.loan.dto.CreateLoanResponseDto;
 import com.project.networktechproject.controller.loan.dto.GetLoanResponseDto;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class LoanService extends OwnershipService {
@@ -129,7 +128,7 @@ public class LoanService extends OwnershipService {
                 loan.getUser().getEmail()
         );
 
-        GetBookDto book = new GetBookDto(
+        GetBookResponseDto book = new GetBookResponseDto(
                 loan.getBook().getId(),
                 loan.getBook().getIsbn(),
                 loan.getBook().getTitle(),

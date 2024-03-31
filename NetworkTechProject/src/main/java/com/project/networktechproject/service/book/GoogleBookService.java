@@ -23,12 +23,36 @@ public class GoogleBookService {
 
     public GoogleBookDetailDto getBookDetailsByIsbn (String isbn) {
         try {
-            String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "?key=" + apiKey;
-            return restTemplate.getForObject(url, GoogleBookDetailDto.class);
+            String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + apiKey;
+            GoogleBookDetailDto response = restTemplate.getForObject(url, GoogleBookDetailDto.class);
+
+            if (response != null) {
+                String language = response.getLanguage();
+                int pageCount = response.getPageCount();
+                String categories = response.getCategories();
+                String description = response.getDescription();
+                String thumbnail = null;
+
+                if (response.getImageLinks() != null) {
+                    thumbnail = response.getImageLinks().getThumbnail();
+                }
+
+                GoogleBookDetailDto bookDetails = new GoogleBookDetailDto();
+                bookDetails.setLanguage(language);
+                bookDetails.setPageCount(pageCount);
+                bookDetails.setCategories(categories);
+                bookDetails.setDescription(description);
+
+                GoogleBookDetailDto.ImageLinks imageLinks = new GoogleBookDetailDto.ImageLinks();
+                imageLinks.setThumbnail(thumbnail);
+                bookDetails.setImageLinks(imageLinks);
+
+                return bookDetails;
+            } else {
+                throw BookDetailsNotFound.create(isbn);
+            }
         } catch (RestClientException e) {
             throw new RestClientResponseException("Error while fetching book details", 500, "Error", null, null, null);
-        } catch (RuntimeException e) {
-            throw BookDetailsNotFound.create(isbn);
         }
     }
 }

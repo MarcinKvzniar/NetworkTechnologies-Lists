@@ -2,7 +2,7 @@ package com.project.networktechproject.service.book;
 
 import com.project.networktechproject.controller.book.dto.CreateBookDto;
 import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
-import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBooksPageResponseDto;
 import com.project.networktechproject.infrastructure.entity.BookEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
@@ -28,7 +28,7 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public GetBookDto getOneById(long id) {
+    public GetBookResponseDto getOneById(long id) {
         BookEntity book = bookRepository
                 .findById(id)
                 .orElseThrow(() -> BookNotFound.create(id));
@@ -44,7 +44,7 @@ public class BookService {
 
         booksPage = bookRepository.findAll(pageable);
 
-        List<GetBookDto> booksDto = booksPage
+        List<GetBookResponseDto> booksDto = booksPage
                 .stream()
                 .map(this::mapBook)
                 .toList();
@@ -92,8 +92,8 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    private GetBookDto mapBook(BookEntity book) {
-        return new GetBookDto(
+    private GetBookResponseDto mapBook(BookEntity book) {
+        return new GetBookResponseDto(
                 book.getId(),
                 book.getIsbn(),
                 book.getTitle(),

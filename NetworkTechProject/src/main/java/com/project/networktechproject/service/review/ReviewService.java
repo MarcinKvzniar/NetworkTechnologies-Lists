@@ -1,6 +1,6 @@
 package com.project.networktechproject.service.review;
 
-import com.project.networktechproject.controller.book.dto.GetBookDto;
+import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
 import com.project.networktechproject.controller.review.dto.CreateReviewDto;
 import com.project.networktechproject.controller.review.dto.CreateReviewResponseDto;
 import com.project.networktechproject.controller.review.dto.GetReviewResponseDto;
@@ -23,7 +23,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ReviewService extends OwnershipService {
@@ -120,7 +119,7 @@ public class ReviewService extends OwnershipService {
                 review.getUser().getEmail()
         );
 
-        GetBookDto book = new GetBookDto(
+        GetBookResponseDto book = new GetBookResponseDto(
                 review.getBook().getId(),
                 review.getBook().getIsbn(),
                 review.getBook().getTitle(),
