@@ -66,12 +66,12 @@ public class BookService {
         }
 
         BookEntity book = new BookEntity();
-        book.setIsbn(book.getIsbn());
-        book.setTitle(book.getTitle());
-        book.setAuthor(book.getAuthor());
-        book.setPublisher(book.getPublisher());
-        book.setYearPublished(book.getYearPublished());
-        book.setAvailableCopies(book.getAvailableCopies());
+        book.setIsbn(bookDto.getIsbn());
+        book.setTitle(bookDto.getTitle());
+        book.setAuthor(bookDto.getAuthor());
+        book.setPublisher(bookDto.getPublisher());
+        book.setYearPublished(bookDto.getYearPublished());
+        book.setAvailableCopies(bookDto.getAvailableCopies());
         bookRepository.save(book);
 
         return new CreateBookResponseDto(
