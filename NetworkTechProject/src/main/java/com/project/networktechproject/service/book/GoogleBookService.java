@@ -9,6 +9,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 public class GoogleBookService {
     private final RestTemplate restTemplate;
@@ -26,33 +29,45 @@ public class GoogleBookService {
             String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + apiKey;
             GoogleBookDetailDto response = restTemplate.getForObject(url, GoogleBookDetailDto.class);
 
-            if (response != null) {
-                String language = response.getLanguage();
-                int pageCount = response.getPageCount();
-                String categories = response.getCategories();
-                String description = response.getDescription();
-                String thumbnail = null;
+            if (response != null && response.getItems() != null && !response.getItems().isEmpty()) {
+                GoogleBookDetailDto.Item item = response.getItems().get(0);
+                GoogleBookDetailDto.VolumeInfo volumeInfo = item.getVolumeInfo();
 
-                if (response.getImageLinks() != null) {
-                    thumbnail = response.getImageLinks().getThumbnail();
-                }
-
-                GoogleBookDetailDto bookDetails = new GoogleBookDetailDto();
-                bookDetails.setLanguage(language);
-                bookDetails.setPageCount(pageCount);
-                bookDetails.setCategories(categories);
-                bookDetails.setDescription(description);
-
-                GoogleBookDetailDto.ImageLinks imageLinks = new GoogleBookDetailDto.ImageLinks();
-                imageLinks.setThumbnail(thumbnail);
-                bookDetails.setImageLinks(imageLinks);
-
-                return bookDetails;
+                return extractResponse(volumeInfo);
             } else {
                 throw BookDetailsNotFound.create(isbn);
             }
         } catch (RestClientException e) {
             throw new RestClientResponseException("Error while fetching book details", 500, "Error", null, null, null);
         }
+    }
+
+    private static GoogleBookDetailDto extractResponse(GoogleBookDetailDto.VolumeInfo volumeInfo) {
+        String title = volumeInfo.getTitle();
+        String language = volumeInfo.getLanguage();
+        int pageCount = volumeInfo.getPageCount();
+        List<String> categories = volumeInfo.getCategories();
+        String description = volumeInfo.getDescription();
+        String thumbnail = volumeInfo.getImageLinks() != null ? volumeInfo.getImageLinks().getThumbnail() : null;
+
+        GoogleBookDetailDto.Item item = new GoogleBookDetailDto.Item();
+
+        GoogleBookDetailDto.VolumeInfo resultVolumeInfo = new GoogleBookDetailDto.VolumeInfo();
+        resultVolumeInfo.setTitle(title);
+        resultVolumeInfo.setLanguage(language);
+        resultVolumeInfo.setPageCount(pageCount);
+        resultVolumeInfo.setCategories(categories);
+        resultVolumeInfo.setDescription(description);
+
+        GoogleBookDetailDto.ImageLinks resultImageLinks = new GoogleBookDetailDto.ImageLinks();
+        resultImageLinks.setThumbnail(thumbnail);
+        resultVolumeInfo.setImageLinks(resultImageLinks);
+
+        item.setVolumeInfo(resultVolumeInfo);
+
+        GoogleBookDetailDto result = new GoogleBookDetailDto();
+        result.setItems(Collections.singletonList(item));
+
+        return result;
     }
 }

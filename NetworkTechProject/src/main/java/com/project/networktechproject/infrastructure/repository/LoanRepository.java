@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface LoanRepository extends JpaRepository<LoanEntity, Long> {
-    Optional<LoanEntity> findByBookIdAndUserId(long bookId, long userId);
+    Optional<LoanEntity> findByBookIdAndUserId(Long bookId, Long userId);
 
     List<LoanEntity> findByUserId(long userId);
     Page<LoanEntity> findByUserId(long userId, Pageable pageable);

@@ -1,6 +1,7 @@
 package com.project.networktechproject.infrastructure.repository;
 
 import com.project.networktechproject.infrastructure.entity.BookEntity;
+import com.project.networktechproject.infrastructure.entity.LoanEntity;
 import com.project.networktechproject.infrastructure.entity.ReviewEntity;
 import com.project.networktechproject.infrastructure.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
-
+    Optional<ReviewEntity> findByBookIdAndUserId(long bookId, long userId);
 }

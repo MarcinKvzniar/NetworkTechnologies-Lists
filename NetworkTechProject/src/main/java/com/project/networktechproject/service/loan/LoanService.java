@@ -47,7 +47,7 @@ public class LoanService extends OwnershipService {
     public GetLoanResponseDto getOneById(long id) {
         LoanEntity loan = loanRepository
                 .findById(id)
-                .orElseThrow(() -> LoanNotFound.create(id));
+                .orElseThrow(() -> LoanNotFound.createWithId(id));
 
         return mapLoan(loan);
     }
@@ -114,7 +114,7 @@ public class LoanService extends OwnershipService {
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(long id) {
         if (!loanRepository.existsById(id)) {
-            throw LoanNotFound.create(id);
+            throw LoanNotFound.createWithId(id);
         }
         loanRepository.deleteById(id);
     }

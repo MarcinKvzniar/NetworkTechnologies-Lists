@@ -6,13 +6,13 @@ import com.project.networktechproject.controller.review.dto.CreateReviewResponse
 import com.project.networktechproject.controller.review.dto.GetReviewResponseDto;
 import com.project.networktechproject.controller.review.dto.GetReviewsPageResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
+import com.project.networktechproject.infrastructure.entity.LoanEntity;
 import com.project.networktechproject.infrastructure.entity.ReviewEntity;
-import com.project.networktechproject.infrastructure.repository.AuthRepository;
-import com.project.networktechproject.infrastructure.repository.BookRepository;
-import com.project.networktechproject.infrastructure.repository.ReviewRepository;
-import com.project.networktechproject.infrastructure.repository.UserRepository;
+import com.project.networktechproject.infrastructure.repository.*;
 import com.project.networktechproject.service.auth.OwnershipService;
 import com.project.networktechproject.service.book.error.BookNotFound;
+import com.project.networktechproject.service.loan.error.LoanNotFound;
+import com.project.networktechproject.service.review.error.ReviewAlreadyExists;
 import com.project.networktechproject.service.review.error.ReviewNotFound;
 import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReviewService extends OwnershipService {
@@ -30,13 +31,15 @@ public class ReviewService extends OwnershipService {
     private final ReviewRepository reviewRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final LoanRepository loanRepository;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, BookRepository bookRepository, UserRepository userRepository, AuthRepository authRepository) {
+    public ReviewService(ReviewRepository reviewRepository, BookRepository bookRepository, UserRepository userRepository, AuthRepository authRepository, LoanRepository loanRepository) {
         super(authRepository);
         this.reviewRepository = reviewRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.loanRepository = loanRepository;
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -70,12 +73,22 @@ public class ReviewService extends OwnershipService {
         );
     }
 
-    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #reviewDto.userId)")
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated()")
     public CreateReviewResponseDto create(CreateReviewDto reviewDto) {
-        /*/
-            I assume that user can create more than one review per book,
-            so I don't check if the user has already reviewed the book.
-        /*/
+        // Check if the review already exists
+        Optional<ReviewEntity> existingReview = reviewRepository
+                .findByBookIdAndUserId(reviewDto.getUserId(), reviewDto.getBookId());
+        if (existingReview.isPresent()) {
+            throw ReviewAlreadyExists.create(reviewDto.getBookId(), reviewDto.getUserId());
+        }
+
+        // Check if the user has borrowed the book that is being reviewed
+        Optional<LoanEntity> loan = loanRepository
+                .findByBookIdAndUserId(reviewDto.getBookId(), reviewDto.getUserId());
+        if (loan.isEmpty()) {
+            throw LoanNotFound.createWithBookIdAndUserId(reviewDto.getBookId(), reviewDto.getUserId());
+        }
+
         var book = bookRepository
                 .findById(reviewDto.getBookId())
                 .orElseThrow(() -> BookNotFound.create(reviewDto.getBookId()));
