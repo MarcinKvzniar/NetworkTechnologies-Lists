@@ -4,6 +4,7 @@ import java.util.List;
 
 public class GoogleBookDetailDto {
     private List<Item> items;
+    private boolean isAvailable;
 
     public List<Item> getItems() {
         return items;
@@ -13,10 +14,17 @@ public class GoogleBookDetailDto {
         this.items = items;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
 
     public static class Item {
         private VolumeInfo volumeInfo;
-        private ImageLinks imageLinks;
 
         public VolumeInfo getVolumeInfo() {
             return volumeInfo;

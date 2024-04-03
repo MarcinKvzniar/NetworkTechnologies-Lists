@@ -1,6 +1,7 @@
 package com.project.networktechproject.service.book;
 
 import com.project.networktechproject.controller.book.dto.GoogleBookDetailDto;
+import com.project.networktechproject.infrastructure.repository.BookRepository;
 import com.project.networktechproject.service.book.error.BookDetailsNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,13 +16,15 @@ import java.util.List;
 @Service
 public class GoogleBookService {
     private final RestTemplate restTemplate;
+    private final BookRepository bookRepository;
 
     @Value("${app.api-key}")
     private String apiKey;
 
     @Autowired
-    public GoogleBookService(RestTemplate restTemplate) {
+    public GoogleBookService(RestTemplate restTemplate, BookRepository bookRepository) {
         this.restTemplate = restTemplate;
+        this.bookRepository = bookRepository;
     }
 
     public GoogleBookDetailDto getBookDetailsByIsbn (String isbn) {
@@ -33,9 +36,37 @@ public class GoogleBookService {
                 GoogleBookDetailDto.Item item = response.getItems().get(0);
                 GoogleBookDetailDto.VolumeInfo volumeInfo = item.getVolumeInfo();
 
-                return extractResponse(volumeInfo);
+                GoogleBookDetailDto result = extractResponse(volumeInfo);
+
+                boolean isAvailable = bookRepository.findByIsbn(isbn).isPresent();
+                result.setAvailable(isAvailable);
+
+                return result;
             } else {
                 throw BookDetailsNotFound.create(isbn);
+            }
+        } catch (RestClientException e) {
+            throw new RestClientResponseException("Error while fetching book details", 500, "Error", null, null, null);
+        }
+    }
+
+    public GoogleBookDetailDto getBookDetailByTitle (String title) {
+        try {
+            String url = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + title + "&key=" + apiKey;
+            GoogleBookDetailDto response = restTemplate.getForObject(url, GoogleBookDetailDto.class);
+
+            if (response != null && response.getItems() != null && !response.getItems().isEmpty()) {
+                GoogleBookDetailDto.Item item = response.getItems().get(0);
+                GoogleBookDetailDto.VolumeInfo volumeInfo = item.getVolumeInfo();
+
+                GoogleBookDetailDto result = extractResponse(volumeInfo);
+
+                boolean isAvailable = bookRepository.findByTitle(title).isPresent();
+                result.setAvailable(isAvailable);
+
+                return result;
+            } else {
+                throw BookDetailsNotFound.create(title);
             }
         } catch (RestClientException e) {
             throw new RestClientResponseException("Error while fetching book details", 500, "Error", null, null, null);

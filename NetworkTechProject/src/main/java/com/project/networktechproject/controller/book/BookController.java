@@ -32,15 +32,23 @@ public class BookController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GetBooksPageResponseDto> getAllBooks(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         GetBooksPageResponseDto dto = bookService.getAll(page, size);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/details/{isbn}")
+    @GetMapping("/details/isbn/{isbn}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<GoogleBookDetailDto> getBookDetails(@PathVariable String isbn) {
+    public ResponseEntity<GoogleBookDetailDto> getBookDetailsByIsbn(@PathVariable String isbn) {
        GoogleBookDetailDto dto = googleBookService.getBookDetailsByIsbn(isbn);
+       return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/details/title/{title}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<GoogleBookDetailDto> getBookDetailsByTitle(@PathVariable String title) {
+       GoogleBookDetailDto dto = googleBookService.getBookDetailByTitle(title);
        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
