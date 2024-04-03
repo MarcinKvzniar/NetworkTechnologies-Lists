@@ -14,7 +14,11 @@ import com.project.networktechproject.service.book.error.BookNotFound;
 import com.project.networktechproject.service.loan.error.LoanNotFound;
 import com.project.networktechproject.service.review.error.ReviewAlreadyExists;
 import com.project.networktechproject.service.review.error.ReviewNotFound;
+import com.project.networktechproject.service.review.error.ReviewRatingNotValid;
 import com.project.networktechproject.service.user.error.UserNotFound;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +28,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService extends OwnershipService {
@@ -32,17 +38,18 @@ public class ReviewService extends OwnershipService {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final LoanRepository loanRepository;
+    private final Validator validator;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, BookRepository bookRepository, UserRepository userRepository, AuthRepository authRepository, LoanRepository loanRepository) {
+    public ReviewService(ReviewRepository reviewRepository, BookRepository bookRepository, UserRepository userRepository, AuthRepository authRepository, LoanRepository loanRepository, Validator validator) {
         super(authRepository);
         this.reviewRepository = reviewRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
         this.loanRepository = loanRepository;
+        this.validator = validator;
     }
 
-    @PreAuthorize("isAuthenticated()")
     public GetReviewResponseDto getOneById(long id) {
         ReviewEntity review = reviewRepository
                 .findById(id)
@@ -51,7 +58,6 @@ public class ReviewService extends OwnershipService {
         return mapReview(review);
     }
 
-    @PreAuthorize("isAuthenticated()")
     public GetReviewsPageResponseDto getAll(int page, int size) {
         Page<ReviewEntity> reviewsPage;
 
@@ -75,6 +81,12 @@ public class ReviewService extends OwnershipService {
 
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated()")
     public CreateReviewResponseDto create(CreateReviewDto reviewDto) {
+        // Check if rating is valid
+        Set<ConstraintViolation<CreateReviewDto>> violations = validator.validate(reviewDto);
+        if (!violations.isEmpty()) {
+            throw ReviewRatingNotValid.create(reviewDto.getRating());
+        }
+
         // Check if the review already exists
         Optional<ReviewEntity> existingReview = reviewRepository
                 .findByBookIdAndUserId(reviewDto.getUserId(), reviewDto.getBookId());

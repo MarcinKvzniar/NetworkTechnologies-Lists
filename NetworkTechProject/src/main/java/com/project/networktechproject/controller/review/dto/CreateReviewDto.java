@@ -1,10 +1,15 @@
 package com.project.networktechproject.controller.review.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
 
 public class CreateReviewDto {
+
+    @Min(1)
+    @Max(10)
     @NotNull
     private int rating;
 

@@ -12,7 +12,7 @@ public class CreateLoanResponseDto {
     public CreateLoanResponseDto() {
     }
 
-    public CreateLoanResponseDto(long id, Date loanDate, Date dueDate, long bookId, long userId) {
+    public CreateLoanResponseDto(long id, Date loanDate, Date dueDate, long userId, long bookId) {
         this.id = id;
         this.loanDate = loanDate;
         this.dueDate = dueDate;

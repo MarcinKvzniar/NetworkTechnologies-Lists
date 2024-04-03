@@ -5,6 +5,7 @@ import com.project.networktechproject.controller.review.dto.CreateReviewResponse
 import com.project.networktechproject.controller.review.dto.GetReviewResponseDto;
 import com.project.networktechproject.controller.review.dto.GetReviewsPageResponseDto;
 import com.project.networktechproject.service.review.ReviewService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class ReviewController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CreateReviewResponseDto> create(@RequestBody CreateReviewDto review) {
+    public ResponseEntity<CreateReviewResponseDto> create(@Valid @RequestBody CreateReviewDto review) {
         var newReview = reviewService.create(review);
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }
