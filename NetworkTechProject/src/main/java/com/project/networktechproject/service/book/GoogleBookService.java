@@ -61,7 +61,9 @@ public class GoogleBookService {
 
                 GoogleBookDetailDto result = extractResponse(volumeInfo);
 
-                boolean isAvailable = bookRepository.findByTitle(title).isPresent();
+                String queryTitle = volumeInfo.getTitle();
+
+                boolean isAvailable = bookRepository.findByTitle(queryTitle).isPresent();
                 result.setAvailable(isAvailable);
 
                 return result;
