@@ -10,6 +10,7 @@ import com.project.networktechproject.infrastructure.repository.AuthRepository;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
 import com.project.networktechproject.service.auth.error.PasswordNotMatching;
 import com.project.networktechproject.service.auth.error.UserAlreadyExists;
+import com.project.networktechproject.service.auth.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,9 +37,13 @@ public class AuthService {
     @Transactional
     public RegisterResponseDto register(RegisterDto dto) {
         Optional<AuthEntity> existingAuth = authRepository.findByUsername(dto.getUsername());
-
         if (existingAuth.isPresent()) {
-            throw UserAlreadyExists.create(dto.getUsername());
+            throw UserAlreadyExists.createWithUsername(dto.getUsername());
+        }
+
+        Optional<UserEntity> existingUser = userRepository.findByEmail(dto.getEmail());
+        if (existingUser.isPresent()) {
+            throw UserAlreadyExists.createWithEmail(dto.getEmail());
         }
 
         UserEntity userEntity = new UserEntity();
@@ -53,13 +58,15 @@ public class AuthService {
         authEntity.setUser(userEntity);
         authRepository.save(authEntity);
 
-        return new RegisterResponseDto(userEntity.getId(), authEntity.getUsername(), authEntity.getRole());
+        String message = "Account set up successfully, you can update your personal information in your user profile.";
+
+        return new RegisterResponseDto(userEntity.getId(), authEntity.getUsername(), authEntity.getRole(), message);
     }
 
     public LoginResponseDto login(LoginDto dto) {
         AuthEntity authEntity = authRepository
                 .findByUsername(dto.getUsername())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> UserNotFound.create(dto.getUsername()));
 
         if (!passwordEncoder.matches(dto.getPassword(), authEntity.getPassword())) {
             throw PasswordNotMatching.create();

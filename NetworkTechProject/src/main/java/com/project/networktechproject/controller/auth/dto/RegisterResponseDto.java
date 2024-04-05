@@ -6,11 +6,13 @@ public class RegisterResponseDto {
     private String username;
     private UserRole role;
     private long userId;
+    String message;
 
-    public RegisterResponseDto(long userId, String username, UserRole role) {
+    public RegisterResponseDto(long userId, String username, UserRole role, String message) {
         this.username = username;
         this.role = role;
         this.userId = userId;
+        this.message = message;
     }
 
     public String getUsername() {
@@ -35,5 +37,13 @@ public class RegisterResponseDto {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
