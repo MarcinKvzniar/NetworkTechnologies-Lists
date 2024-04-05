@@ -4,9 +4,11 @@ import com.project.networktechproject.commonTypes.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class RegisterDto {
     @NotBlank(message = "Username is mandatory")
+    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "Username must contain only letters, numbers, underscores, and hyphens")
     private String username;
 
     @NotBlank(message = "Password is mandatory")

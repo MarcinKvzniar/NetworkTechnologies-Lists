@@ -1,11 +1,25 @@
 package com.project.networktechproject.controller.book.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class CreateBookDto {
+    @NotBlank(message = "ISBN is mandatory")
+    @Pattern(regexp = "\\d+", message = "ISBN must contain only numbers")
     private String isbn;
+
+    @NotBlank(message = "Title is mandatory")
     private String title;
+
+    @NotBlank(message = "Author is mandatory")
     private String author;
+
     private String publisher;
+
     private int yearPublished;
+
+    @Min(value = 1, message = "Available copies must be greater than 0")
     private int availableCopies;
 
     public CreateBookDto() {
