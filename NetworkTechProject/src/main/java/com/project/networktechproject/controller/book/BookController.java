@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/books")
+@PreAuthorize("isAuthenticated()")
 public class BookController {
 
     private final BookService bookService;
@@ -25,28 +26,24 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GetBookResponseDto> getOneById(@PathVariable long id) {
        GetBookResponseDto dto = bookService.getOneById(id);
        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GetBooksPageResponseDto> getAllBooks(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         GetBooksPageResponseDto dto = bookService.getAll(page, size);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/details/isbn/{isbn}")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GoogleBookDetailDto> getBookDetailsByIsbn(@PathVariable String isbn) {
        GoogleBookDetailDto dto = googleBookService.getBookDetailsByIsbn(isbn);
        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/details/title/{title}")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GoogleBookDetailDto> getBookDetailsByTitle(@PathVariable String title) {
        GoogleBookDetailDto dto = googleBookService.getBookDetailByTitle(title);
        return new ResponseEntity<>(dto, HttpStatus.OK);
