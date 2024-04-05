@@ -25,6 +25,7 @@ public class GoogleBookDetailDto {
 
     public static class Item {
         private VolumeInfo volumeInfo;
+        private SaleInfo saleInfo;
 
         public VolumeInfo getVolumeInfo() {
             return volumeInfo;
@@ -34,10 +35,19 @@ public class GoogleBookDetailDto {
             this.volumeInfo = volumeInfo;
         }
 
+        public SaleInfo getSaleInfo() {
+            return saleInfo;
+        }
+
+        public void setSaleInfo(SaleInfo saleInfo) {
+            this.saleInfo = saleInfo;
+        }
     }
 
     public static class VolumeInfo {
         private String title;
+        private List<String> authors;
+        private String publishedDate;
         private String description;
         private List<String> categories;
         private int pageCount;
@@ -91,6 +101,22 @@ public class GoogleBookDetailDto {
         public void setLanguage(String language) {
             this.language = language;
         }
+
+        public List<String> getAuthors() {
+            return authors;
+        }
+
+        public void setAuthors(List<String> authors) {
+            this.authors = authors;
+        }
+
+        public String getPublishedDate() {
+            return publishedDate;
+        }
+
+        public void setPublishedDate(String publishedDate) {
+            this.publishedDate = publishedDate;
+        }
     }
 
     public static class ImageLinks {
@@ -102,6 +128,18 @@ public class GoogleBookDetailDto {
 
         public void setThumbnail(String thumbnail) {
             this.thumbnail = thumbnail;
+        }
+    }
+
+    public static class SaleInfo {
+        private boolean isEbook;
+
+        public boolean isEbook() {
+            return isEbook;
+        }
+
+        public void setEbook(boolean isEbook) {
+            this.isEbook = isEbook;
         }
     }
 }

@@ -78,7 +78,6 @@ public class LoanService extends OwnershipService {
         );
     }
 
-    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #loanDto.userId)")
     public CreateLoanResponseDto create(CreateLoanDto loanDto) {
         Optional<LoanEntity> existingLoan = loanRepository
                 .findByBookIdAndUserId(loanDto.getBookId(), loanDto.getUserId());
@@ -111,7 +110,6 @@ public class LoanService extends OwnershipService {
         );
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public void delete(long id) {
         if (!loanRepository.existsById(id)) {
             throw LoanNotFound.createWithId(id);

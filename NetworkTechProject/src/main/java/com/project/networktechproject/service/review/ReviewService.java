@@ -53,7 +53,7 @@ public class ReviewService extends OwnershipService {
     public GetReviewResponseDto getOneById(long id) {
         ReviewEntity review = reviewRepository
                 .findById(id)
-                .orElseThrow(() -> ReviewNotFound.create(id));
+                .orElseThrow(() -> ReviewNotFound.createWithId(id));
 
         return mapReview(review);
     }
@@ -79,7 +79,7 @@ public class ReviewService extends OwnershipService {
         );
     }
 
-    @PreAuthorize("hasRole('ADMIN') or isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #reviewDto.userId)")
     public CreateReviewResponseDto create(CreateReviewDto reviewDto) {
         // Check if rating is valid
         Set<ConstraintViolation<CreateReviewDto>> violations = validator.validate(reviewDto);
@@ -98,7 +98,7 @@ public class ReviewService extends OwnershipService {
         Optional<LoanEntity> loan = loanRepository
                 .findByBookIdAndUserId(reviewDto.getBookId(), reviewDto.getUserId());
         if (loan.isEmpty()) {
-            throw LoanNotFound.createWithBookIdAndUserId(reviewDto.getBookId(), reviewDto.getUserId());
+            throw ReviewNotFound.createWithBookIdAndUserId(reviewDto.getBookId(), reviewDto.getUserId());
         }
 
         var book = bookRepository
@@ -130,7 +130,7 @@ public class ReviewService extends OwnershipService {
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #reviewDto.userId)")
     public void delete(long id) {
         if (!reviewRepository.existsById(id)) {
-            throw ReviewNotFound.create(id);
+            throw ReviewNotFound.createWithId(id);
         }
         reviewRepository.deleteById(id);
     }

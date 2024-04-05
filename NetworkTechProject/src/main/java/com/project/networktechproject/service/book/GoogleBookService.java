@@ -35,8 +35,9 @@ public class GoogleBookService {
             if (response != null && response.getItems() != null && !response.getItems().isEmpty()) {
                 GoogleBookDetailDto.Item item = response.getItems().get(0);
                 GoogleBookDetailDto.VolumeInfo volumeInfo = item.getVolumeInfo();
+                GoogleBookDetailDto.SaleInfo saleInfo = item.getSaleInfo();
 
-                GoogleBookDetailDto result = extractResponse(volumeInfo);
+                GoogleBookDetailDto result = extractResponse(volumeInfo, saleInfo);
 
                 boolean isAvailable = bookRepository.findByIsbn(isbn).isPresent();
                 result.setAvailable(isAvailable);
@@ -58,8 +59,9 @@ public class GoogleBookService {
             if (response != null && response.getItems() != null && !response.getItems().isEmpty()) {
                 GoogleBookDetailDto.Item item = response.getItems().get(0);
                 GoogleBookDetailDto.VolumeInfo volumeInfo = item.getVolumeInfo();
+                GoogleBookDetailDto.SaleInfo saleInfo = item.getSaleInfo();
 
-                GoogleBookDetailDto result = extractResponse(volumeInfo);
+                GoogleBookDetailDto result = extractResponse(volumeInfo, saleInfo);
 
                 String queryTitle = volumeInfo.getTitle();
 
@@ -75,18 +77,23 @@ public class GoogleBookService {
         }
     }
 
-    private static GoogleBookDetailDto extractResponse(GoogleBookDetailDto.VolumeInfo volumeInfo) {
+    private static GoogleBookDetailDto extractResponse(GoogleBookDetailDto.VolumeInfo volumeInfo, GoogleBookDetailDto.SaleInfo saleInfo) {
         String title = volumeInfo.getTitle();
+        List<String> authors = volumeInfo.getAuthors();
+        String publishedDate = volumeInfo.getPublishedDate();
         String language = volumeInfo.getLanguage();
         int pageCount = volumeInfo.getPageCount();
         List<String> categories = volumeInfo.getCategories();
         String description = volumeInfo.getDescription();
         String thumbnail = volumeInfo.getImageLinks() != null ? volumeInfo.getImageLinks().getThumbnail() : null;
+        boolean isEbook = saleInfo.isEbook();
 
         GoogleBookDetailDto.Item item = new GoogleBookDetailDto.Item();
 
         GoogleBookDetailDto.VolumeInfo resultVolumeInfo = new GoogleBookDetailDto.VolumeInfo();
         resultVolumeInfo.setTitle(title);
+        resultVolumeInfo.setAuthors(authors);
+        resultVolumeInfo.setPublishedDate(publishedDate);
         resultVolumeInfo.setLanguage(language);
         resultVolumeInfo.setPageCount(pageCount);
         resultVolumeInfo.setCategories(categories);
@@ -96,7 +103,11 @@ public class GoogleBookService {
         resultImageLinks.setThumbnail(thumbnail);
         resultVolumeInfo.setImageLinks(resultImageLinks);
 
+        GoogleBookDetailDto.SaleInfo resultSaleInfo = new GoogleBookDetailDto.SaleInfo();
+        resultSaleInfo.setEbook(isEbook);
+
         item.setVolumeInfo(resultVolumeInfo);
+        item.setSaleInfo(resultSaleInfo);
 
         GoogleBookDetailDto result = new GoogleBookDetailDto();
         result.setItems(Collections.singletonList(item));

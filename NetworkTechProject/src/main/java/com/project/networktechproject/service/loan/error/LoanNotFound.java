@@ -8,7 +8,4 @@ public class LoanNotFound {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Loan with id: %s not found", id));
     }
 
-    public static ResponseStatusException createWithBookIdAndUserId(long bookId, long userId) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Loan with bookId: %s and userId: %s not found", bookId, userId));
-    }
 }
