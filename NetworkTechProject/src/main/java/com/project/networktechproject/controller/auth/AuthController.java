@@ -8,7 +8,6 @@ import com.project.networktechproject.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -35,7 +34,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    @ApiResponse(responseCode = "201")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User registered"),
+            @ApiResponse(responseCode = "400", description = "Register failed", content = @Content)
+    })
     public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody RegisterDto requestBody) {
         RegisterResponseDto dto = authService.register(requestBody);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
