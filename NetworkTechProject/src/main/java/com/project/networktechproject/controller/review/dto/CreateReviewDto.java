@@ -1,5 +1,6 @@
 package com.project.networktechproject.controller.review.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -11,17 +12,22 @@ public class CreateReviewDto {
     @Min(1)
     @Max(10)
     @NotNull
+    @Schema(name = "rating", example = "8")
     private int rating;
 
+    @Schema(name = "comment", example = "This book is amazing!", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String comment;
 
     @NotNull
+    @Schema(name = "reviewDate", example = "2024-04-07")
     private Date reviewDate;
 
     @NotNull
+    @Schema(name = "bookId", example = "1")
     private Long bookId;
 
     @NotNull
+    @Schema(name = "userId", example = "1")
     private Long userId;
 
     public CreateReviewDto() {

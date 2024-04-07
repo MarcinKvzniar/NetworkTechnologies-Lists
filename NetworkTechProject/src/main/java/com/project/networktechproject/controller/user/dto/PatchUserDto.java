@@ -1,13 +1,21 @@
 package com.project.networktechproject.controller.user.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.sql.Date;
 
 public class PatchUserDto {
+    @Schema(name = "name", example = "John")
     private JsonNullable<String> name;
+
+    @Schema(name = "lastName", example = "Doe")
     private JsonNullable<String> lastName;
+
+    @Schema(name = "dateOfBirth", example = "1990-12-31")
     private JsonNullable<Date> dateOfBirth;
+
+    @Schema(name = "email", example = "email@email.com")
     private JsonNullable<String> email;
 
     public PatchUserDto(JsonNullable<String> name, JsonNullable<String> lastName, JsonNullable<Date> dateOfBirth, JsonNullable<String> email) {

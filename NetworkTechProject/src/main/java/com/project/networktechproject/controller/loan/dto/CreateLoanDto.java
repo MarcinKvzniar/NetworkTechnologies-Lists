@@ -1,17 +1,21 @@
 package com.project.networktechproject.controller.loan.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
 
 public class CreateLoanDto {
     @NotNull
+    @Schema(name = "dueDate", example = "2024-04-07")
     private Date dueDate;
 
     @NotNull
+    @Schema(name = "userId", example = "1")
     private Long userId;
 
     @NotNull
+    @Schema(name = "bookId", example = "1")
     private Long bookId;
 
     public CreateLoanDto() {

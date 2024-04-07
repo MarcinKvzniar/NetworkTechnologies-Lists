@@ -1,12 +1,15 @@
 package com.project.networktechproject.controller.auth.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
 public class LoginDto {
     @NotBlank(message = "Username is mandatory")
+    @Schema(name = "username", example = "username")
     private String username;
 
     @NotBlank(message = "Password is mandatory")
+    @Schema(name = "password", example = "password")
     private String password;
 
     public LoginDto(String username, String password) {
