@@ -1,19 +1,20 @@
 package com.project.networktechproject.controller.review.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class CreateReviewResponseDto {
     private long id;
     private int rating;
     private String comment;
-    private Date reviewDate;
+    private LocalDate reviewDate;
     private long userId;
     private long bookId;
 
     public CreateReviewResponseDto() {
     }
 
-    public CreateReviewResponseDto(long id, int rating, String comment, Date reviewDate, long userId, long bookId) {
+    public CreateReviewResponseDto(long id, int rating, String comment, LocalDate reviewDate, long userId, long bookId) {
         this.id = id;
         this.rating = rating;
         this.comment = comment;
@@ -46,11 +47,11 @@ public class CreateReviewResponseDto {
         this.comment = comment;
     }
 
-    public Date getReviewDate() {
+    public LocalDate getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(Date reviewDate) {
+    public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
 

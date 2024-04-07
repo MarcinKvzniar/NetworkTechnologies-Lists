@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class CreateReviewDto {
 
@@ -20,7 +21,7 @@ public class CreateReviewDto {
 
     @NotNull
     @Schema(name = "reviewDate", example = "2024-04-07")
-    private Date reviewDate;
+    private LocalDate reviewDate;
 
     @NotNull
     @Schema(name = "bookId", example = "1")
@@ -33,7 +34,7 @@ public class CreateReviewDto {
     public CreateReviewDto() {
     }
 
-    public CreateReviewDto(int rating, String comment, Date reviewDate, Long bookId, Long userId) {
+    public CreateReviewDto(int rating, String comment, LocalDate reviewDate, Long bookId, Long userId) {
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
@@ -57,11 +58,11 @@ public class CreateReviewDto {
         this.comment = comment;
     }
 
-    public Date getReviewDate() {
+    public LocalDate getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(Date reviewDate) {
+    public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
 

@@ -1,10 +1,7 @@
 package com.project.networktechproject.service.loan;
 
 import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
-import com.project.networktechproject.controller.loan.dto.CreateLoanDto;
-import com.project.networktechproject.controller.loan.dto.CreateLoanResponseDto;
-import com.project.networktechproject.controller.loan.dto.GetLoanResponseDto;
-import com.project.networktechproject.controller.loan.dto.GetLoansPageResponseDto;
+import com.project.networktechproject.controller.loan.dto.*;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
 import com.project.networktechproject.infrastructure.entity.LoanEntity;
 import com.project.networktechproject.infrastructure.repository.AuthRepository;
@@ -12,8 +9,10 @@ import com.project.networktechproject.infrastructure.repository.BookRepository;
 import com.project.networktechproject.infrastructure.repository.LoanRepository;
 import com.project.networktechproject.infrastructure.repository.UserRepository;
 import com.project.networktechproject.service.auth.OwnershipService;
+import com.project.networktechproject.service.auth.error.Forbidden;
 import com.project.networktechproject.service.book.error.BookNotFound;
 import com.project.networktechproject.service.loan.error.LoanAlreadyExists;
+import com.project.networktechproject.service.loan.error.LoanAlreadyReturned;
 import com.project.networktechproject.service.loan.error.LoanNotFound;
 import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +21,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class LoanService extends OwnershipService {
-
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
@@ -78,6 +77,7 @@ public class LoanService extends OwnershipService {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #loanDto.userId)")
     public CreateLoanResponseDto create(CreateLoanDto loanDto) {
         Optional<LoanEntity> existingLoan = loanRepository
                 .findByBookIdAndUserId(loanDto.getBookId(), loanDto.getUserId());
@@ -97,7 +97,7 @@ public class LoanService extends OwnershipService {
         LoanEntity loan = new LoanEntity();
         loan.setBook(book);
         loan.setUser(user);
-        loan.setLoanDate(new Date(System.currentTimeMillis()));
+        loan.setLoanDate(LocalDate.now());
         loan.setDueDate(loanDto.getDueDate());
         loanRepository.save(loan);
 
@@ -115,6 +115,32 @@ public class LoanService extends OwnershipService {
             throw LoanNotFound.createWithId(id);
         }
         loanRepository.deleteById(id);
+    }
+
+    public ReturnLoanResponseDto returnBook(long id, Authentication authentication) {
+        LoanEntity loan = loanRepository
+                .findById(id)
+                .orElseThrow(() -> LoanNotFound.createWithId(id));
+
+        if (!isOwnerOrAdmin(getAuthInfo(authentication), loan.getUser().getId())) {
+            throw Forbidden.create();
+        }
+
+        if (loan.getReturnDate() != null) {
+            throw LoanAlreadyReturned.create(loan.getId());
+        }
+
+        loan.setReturnDate(LocalDate.now());
+        loanRepository.save(loan);
+
+        return new ReturnLoanResponseDto(
+                loan.getId(),
+                loan.getLoanDate(),
+                loan.getDueDate(),
+                loan.getUser().getId(),
+                loan.getBook().getId(),
+                loan.getReturnDate()
+        );
     }
 
     private GetLoanResponseDto mapLoan(LoanEntity loan) {

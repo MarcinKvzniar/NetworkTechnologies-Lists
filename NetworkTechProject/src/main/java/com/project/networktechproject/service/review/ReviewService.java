@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -114,7 +115,7 @@ public class ReviewService extends OwnershipService {
         review.setUser(user);
         review.setRating(reviewDto.getRating());
         review.setComment(reviewDto.getComment());
-        review.setReviewDate(reviewDto.getReviewDate());
+        review.setReviewDate(LocalDate.now());
         reviewRepository.save(review);
 
         return new CreateReviewResponseDto(

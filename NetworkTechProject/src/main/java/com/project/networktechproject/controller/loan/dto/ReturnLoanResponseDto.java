@@ -2,23 +2,24 @@ package com.project.networktechproject.controller.loan.dto;
 
 import java.time.LocalDate;
 
-public class CreateLoanResponseDto {
-    private long id;
-    private LocalDate loanDate;
-    private LocalDate dueDate;
-    private long userId;
-    private long bookId;
+public class ReturnLoanResponseDto {
 
-    public CreateLoanResponseDto() {
-    }
+        private long id;
+        private LocalDate loanDate;
+        private LocalDate dueDate;
+        private long userId;
+        private long bookId;
+        private LocalDate returnDate;
 
-    public CreateLoanResponseDto(long id, LocalDate loanDate, LocalDate dueDate, long userId, long bookId) {
-        this.id = id;
-        this.loanDate = loanDate;
-        this.dueDate = dueDate;
-        this.userId = userId;
-        this.bookId = bookId;
-    }
+
+        public ReturnLoanResponseDto(long id, LocalDate loanDate, LocalDate dueDate, long userId, long bookId, LocalDate returnDate) {
+            this.id = id;
+            this.loanDate = loanDate;
+            this.dueDate = dueDate;
+            this.userId = userId;
+            this.bookId = bookId;
+            this.returnDate = returnDate;
+        }
 
     public long getId() {
         return id;
@@ -59,4 +60,13 @@ public class CreateLoanResponseDto {
     public void setBookId(long bookId) {
         this.bookId = bookId;
     }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
+    }
 }
+

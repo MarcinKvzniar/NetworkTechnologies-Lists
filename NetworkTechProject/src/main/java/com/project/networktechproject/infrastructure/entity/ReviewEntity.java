@@ -3,6 +3,7 @@ package com.project.networktechproject.infrastructure.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "reviews", schema = "library")
@@ -23,7 +24,7 @@ public class ReviewEntity {
 
     @Basic
     @Column(name = "review_date")
-    private Date reviewDate;
+    private LocalDate reviewDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
@@ -58,11 +59,11 @@ public class ReviewEntity {
         this.comment = comment;
     }
 
-    public Date getReviewDate() {
+    public LocalDate getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(Date reviewDate) {
+    public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
 

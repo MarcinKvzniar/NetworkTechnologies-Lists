@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class PatchUserDto {
     @Schema(name = "name", example = "John")
@@ -13,12 +14,12 @@ public class PatchUserDto {
     private JsonNullable<String> lastName;
 
     @Schema(name = "dateOfBirth", example = "1990-12-31")
-    private JsonNullable<Date> dateOfBirth;
+    private JsonNullable<LocalDate> dateOfBirth;
 
     @Schema(name = "email", example = "email@email.com")
     private JsonNullable<String> email;
 
-    public PatchUserDto(JsonNullable<String> name, JsonNullable<String> lastName, JsonNullable<Date> dateOfBirth, JsonNullable<String> email) {
+    public PatchUserDto(JsonNullable<String> name, JsonNullable<String> lastName, JsonNullable<LocalDate> dateOfBirth, JsonNullable<String> email) {
         this.email = name;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -41,11 +42,11 @@ public class PatchUserDto {
         this.lastName = lastName;
     }
 
-    public JsonNullable<Date> getDateOfBirth() {
+    public JsonNullable<LocalDate> getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(JsonNullable<Date> dateOfBirth) {
+    public void setDateOfBirth(JsonNullable<LocalDate> dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

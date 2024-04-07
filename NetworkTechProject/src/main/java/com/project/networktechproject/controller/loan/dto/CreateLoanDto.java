@@ -3,12 +3,12 @@ package com.project.networktechproject.controller.loan.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class CreateLoanDto {
     @NotNull
     @Schema(name = "dueDate", example = "2024-04-07")
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @NotNull
     @Schema(name = "userId", example = "1")
@@ -21,7 +21,7 @@ public class CreateLoanDto {
     public CreateLoanDto() {
     }
 
-    public CreateLoanDto(Date dueDate, Long userId, Long bookId) {
+    public CreateLoanDto(LocalDate dueDate, Long userId, Long bookId) {
         this.dueDate = dueDate;
         this.userId = userId;
         this.bookId = bookId;
@@ -43,11 +43,11 @@ public class CreateLoanDto {
         this.userId = userId;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 

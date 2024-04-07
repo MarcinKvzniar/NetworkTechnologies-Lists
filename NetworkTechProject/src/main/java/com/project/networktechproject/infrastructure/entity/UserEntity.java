@@ -3,6 +3,7 @@ package com.project.networktechproject.infrastructure.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class UserEntity {
 
     @Column(name = "date_of_birth")
     @Basic
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "email", nullable = false)
     @Basic
@@ -68,11 +69,11 @@ public class UserEntity {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

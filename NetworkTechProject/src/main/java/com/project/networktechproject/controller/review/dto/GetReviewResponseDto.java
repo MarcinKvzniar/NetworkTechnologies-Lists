@@ -4,19 +4,20 @@ import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
 import com.project.networktechproject.controller.user.dto.GetUserDto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class GetReviewResponseDto {
     private long id;
     private int rating;
     private String comment;
-    private Date reviewDate;
+    private LocalDate reviewDate;
     private GetUserDto user;
     private GetBookResponseDto book;
 
     public GetReviewResponseDto() {
     }
 
-    public GetReviewResponseDto(long id, int rating, String comment, Date reviewDate, GetUserDto user, GetBookResponseDto book) {
+    public GetReviewResponseDto(long id, int rating, String comment, LocalDate reviewDate, GetUserDto user, GetBookResponseDto book) {
         this.id = id;
         this.rating = rating;
         this.comment = comment;
@@ -49,11 +50,11 @@ public class GetReviewResponseDto {
         this.comment = comment;
     }
 
-    public Date getReviewDate() {
+    public LocalDate getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(Date reviewDate) {
+    public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
 
