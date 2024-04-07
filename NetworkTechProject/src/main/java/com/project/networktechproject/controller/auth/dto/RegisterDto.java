@@ -1,6 +1,7 @@
 package com.project.networktechproject.controller.auth.dto;
 
 import com.project.networktechproject.commonTypes.UserRole;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,15 +10,19 @@ import jakarta.validation.constraints.Pattern;
 public class RegisterDto {
     @NotBlank(message = "Username is mandatory")
     @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "Username must contain only letters, numbers, underscores, and hyphens")
+    @Schema(name = "username", example = "username")
     private String username;
 
     @NotBlank(message = "Password is mandatory")
+    @Schema(name = "password", example = "password")
     private String password;
 
     @NotNull
+    @Schema(name = "role", example = "ROLE_ADMIN")
     private UserRole role;
 
     @NotBlank(message = "Email is mandatory")
+    @Schema(name = "email", example = "email@email.com")
     @Email
     private String email;
 

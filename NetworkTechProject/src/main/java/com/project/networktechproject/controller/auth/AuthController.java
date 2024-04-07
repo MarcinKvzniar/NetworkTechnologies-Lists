@@ -5,6 +5,12 @@ import com.project.networktechproject.controller.auth.dto.LoginResponseDto;
 import com.project.networktechproject.controller.auth.dto.RegisterDto;
 import com.project.networktechproject.controller.auth.dto.RegisterResponseDto;
 import com.project.networktechproject.service.auth.AuthService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@PreAuthorize("hasRole('ADMIN')")
+@Tag(name = "Auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -27,7 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMIN')")
+    @ApiResponse(responseCode = "201")
     public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody RegisterDto requestBody) {
         RegisterResponseDto dto = authService.register(requestBody);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
@@ -35,6 +43,11 @@ public class AuthController {
 
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
+    @SecurityRequirements
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Login successful"),
+            @ApiResponse(responseCode = "401", description = "Login failed", content = @Content)
+    })
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginDto requestBody) {
         LoginResponseDto dto = authService.login(requestBody);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);

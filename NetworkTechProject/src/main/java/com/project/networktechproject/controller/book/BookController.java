@@ -38,18 +38,6 @@ public class BookController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/details/isbn/{isbn}")
-    public ResponseEntity<GoogleBookDetailDto> getBookDetailsByIsbn(@PathVariable String isbn) {
-       GoogleBookDetailDto dto = googleBookService.getBookDetailsByIsbn(isbn);
-       return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    @GetMapping("/details/title/{title}")
-    public ResponseEntity<GoogleBookDetailDto> getBookDetailsByTitle(@PathVariable String title) {
-       GoogleBookDetailDto dto = googleBookService.getBookDetailByTitle(title);
-       return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CreateBookResponseDto> create(@Valid @RequestBody CreateBookDto book) {
@@ -63,5 +51,18 @@ public class BookController {
         bookService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/details/isbn/{isbn}")
+    public ResponseEntity<GoogleBookDetailDto> getBookDetailsByIsbn(@PathVariable String isbn) {
+       GoogleBookDetailDto dto = googleBookService.getBookDetailsByIsbn(isbn);
+       return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/details/title/{title}")
+    public ResponseEntity<GoogleBookDetailDto> getBookDetailsByTitle(@PathVariable String title) {
+       GoogleBookDetailDto dto = googleBookService.getBookDetailByTitle(title);
+       return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
 }
 
