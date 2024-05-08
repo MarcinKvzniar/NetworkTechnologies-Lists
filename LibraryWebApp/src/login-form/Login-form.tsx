@@ -4,6 +4,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 type FormValues = {
   username: string;
@@ -11,9 +12,10 @@ type FormValues = {
 };
 
 function LoginForm() {
+  const navigate = useNavigate();
+
   const submit = useCallback((values: FormValues, formik: any) => {
-    console.log(values);
-    formik.resetForm();
+    navigate('/home');
   }, []);
 
   const validationSchema = useMemo(

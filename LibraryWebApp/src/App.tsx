@@ -3,6 +3,8 @@ import { Container, Grid } from '@mui/material';
 import './App.css';
 import LoginForm from './login-form/Login-form';
 import BookList from './books-form/BookList';
+import HomePage from './home-page/HomePage';
+import { Navigate, Routes, Route } from 'react-router-dom';
 
 const mockBooks = [
   {
@@ -54,18 +56,44 @@ const mockBooks = [
 
 function App() {
   return (
-    <Container maxWidth="lg">
-      <Grid container spacing={3}>
-        {/* Login Form Section */}
-        <Grid item xs={12} md={6}>
-          <LoginForm />
-        </Grid>
-        {/* Book List Section */}
-        <Grid item xs={12} md={6}>
-          <BookList books={mockBooks} />
-        </Grid>
-      </Grid>
-    </Container>
+    // <Container maxWidth="lg">
+    //   <Grid container spacing={3}>
+    //     {/* Login Form Section */}
+    //     <Grid item xs={12} md={6}>
+    //       <LoginForm />
+    //     </Grid>
+    //     {/* Book List Section */}
+    //     <Grid item xs={12} md={6}>
+    //       <BookList books={mockBooks} />
+    //     </Grid>
+    //   </Grid>
+    // </Container>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/login" element={<LoginForm />} />
+      <Route
+        path="home/1"
+        element={
+          <div
+            style={{ height: '300px', width: '100%', backgroundColor: 'red' }}
+          />
+        }
+      />
+      <Route
+        path="home/2"
+        element={
+          <div
+            style={{
+              height: '300px',
+              width: '100%',
+              backgroundColor: 'blue',
+            }}
+          />
+        }
+      />
+      <Route path="*" element={<h1>404</h1>} />
+    </Routes>
   );
 }
 
