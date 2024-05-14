@@ -2,7 +2,7 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-export function MenuAppBar() {
+export default function MenuAppBar() {
   const navigate = useNavigate();
 
   return (
@@ -13,9 +13,9 @@ export function MenuAppBar() {
           edge="start"
           color="inherit"
           aria-label="menu"
-          sx={{ mr: 2 }}
+          sx={{ mr: 2 }} // margin-right: 2
         >
-          <MenuIcon> </MenuIcon>
+          <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Library
@@ -27,7 +27,7 @@ export function MenuAppBar() {
             aria-label="account"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            onClick={() => navigate('/home')}
+            onClick={() => navigate('/login')}
             sx={{ mr: 2 }}
           >
             <AccountCircle />

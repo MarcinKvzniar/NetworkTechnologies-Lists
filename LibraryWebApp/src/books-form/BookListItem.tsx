@@ -1,4 +1,3 @@
-import React from 'react';
 import { ListItem, ListItemText } from '@mui/material';
 
 interface BookListItemProps {
@@ -13,7 +12,7 @@ interface BookListItemProps {
   };
 }
 
-const BookListItem: React.FC<BookListItemProps> = ({ book }) => {
+function BookListItem({ book }: BookListItemProps) {
   return (
     <ListItem>
       <ListItemText
@@ -31,6 +30,6 @@ const BookListItem: React.FC<BookListItemProps> = ({ book }) => {
       />
     </ListItem>
   );
-};
+}
 
 export default BookListItem;
