@@ -4,7 +4,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import axios, { AxiosInstance } from 'axios';
 
 type FormValues = {
   username: string;
@@ -12,14 +12,19 @@ type FormValues = {
 };
 
 function LoginForm() {
-  const navigate = useNavigate();
+  const submit = useCallback((values: FormValues, formik: any) => {
+    const client: AxiosInstance = axios.create({
+      baseURL: 'http://localhost:8080/api',
+    });
 
-  const submit = useCallback(
-    (values: FormValues, formik: any) => {
-      navigate('/home');
-    },
-    [navigate],
-  );
+    client.post('/auth/login', values).then((response) => {
+      console.log(response);
+
+      if (!response.success) {
+        formik.setErrors({ username: 'Invalid username or password' });
+      }
+    });
+  }, []);
 
   const validationSchema = useMemo(
     () =>
