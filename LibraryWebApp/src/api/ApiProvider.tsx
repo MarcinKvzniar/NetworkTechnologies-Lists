@@ -3,7 +3,11 @@ import { LibraryClient } from './library-client';
 
 const ApiContext = createContext(new LibraryClient());
 
-export default function ApiProvider({ children }: any) {
+export default function ApiProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const apiClient = new LibraryClient();
 
   return (

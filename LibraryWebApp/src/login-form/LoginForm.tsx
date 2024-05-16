@@ -4,7 +4,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
-import axios, { AxiosInstance } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useApi } from '../api/ApiProvider';
 
 type FormValues = {
   username: string;
@@ -12,25 +13,30 @@ type FormValues = {
 };
 
 function LoginForm() {
-  const submit = useCallback((values: FormValues, formik: any) => {
-    const client: AxiosInstance = axios.create({
-      baseURL: 'http://localhost:8080/api',
-    });
+  const navigate = useNavigate();
+  const apiClient = useApi();
 
-    client.post('/auth/login', values).then((response) => {
-      console.log(response);
-
-      if (!response.success) {
-        formik.setErrors({ username: 'Invalid username or password' });
-      }
-    });
-  }, []);
+  const onSubmit = useCallback(
+    (values: FormValues, formik: any) => {
+      apiClient.login(values).then((response) => {
+        if (response.success) {
+          navigate('/home');
+        } else {
+          formik.setFieldError({ username: 'Invalid username or password' });
+        }
+      });
+    },
+    [apiClient, navigate],
+  );
 
   const validationSchema = useMemo(
     () =>
-      yup.object({
+      yup.object().shape({
         username: yup.string().required('Username cannot be empty'),
-        password: yup.string().required('Password cannot be empty').min(5),
+        password: yup
+          .string()
+          .required('Password cannot be empty')
+          .min(5, 'Password must be at least 5 characters'),
       }),
     [],
   );
@@ -38,7 +44,7 @@ function LoginForm() {
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
-      onSubmit={submit}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
       validateOnBlur
       validateOnChange

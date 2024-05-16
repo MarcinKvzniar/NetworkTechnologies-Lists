@@ -1,10 +1,11 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
-import { LoginRequestDto } from './dto/login-request.dto';
-import { LoginResponseDto } from './dto/login-response.dto';
+import { LoginRequestDto } from './dto/auth/login-request.dto';
+import { LoginResponseDto } from './dto/auth/login-response.dto';
+import { BookResponseDto } from './dto/book/book-response.dto';
 
-type ClientResponse = {
+type ClientResponse<T> = {
   success: boolean;
-  data: any;
+  data: T;
   status: number;
 };
 
@@ -18,7 +19,9 @@ export class LibraryClient {
     });
   }
 
-  public async login(data: LoginRequestDto): Promise<ClientResponse> {
+  public async login(
+    data: LoginRequestDto,
+  ): Promise<ClientResponse<LoginResponseDto | null>> {
     try {
       const response: AxiosResponse<LoginResponseDto> = await this.client.post(
         '/auth/login',
@@ -30,7 +33,7 @@ export class LibraryClient {
 
       return {
         success: true,
-        data: undefined,
+        data: response.data,
         status: response.status,
       };
     } catch (error) {
@@ -38,7 +41,28 @@ export class LibraryClient {
 
       return {
         success: false,
-        data: axiosError.response?.data,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async getBooks(): Promise<ClientResponse<BookResponseDto | null>> {
+    try {
+      const response: AxiosResponse<BookResponseDto> =
+        await this.client.get('/books');
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
         status: axiosError.response?.status || 0,
       };
     }
