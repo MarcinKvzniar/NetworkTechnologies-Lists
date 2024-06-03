@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { LoginRequestDto } from './dto/auth/login-request.dto';
 import { LoginResponseDto } from './dto/auth/login-response.dto';
-import { BookResponseDto } from './dto/book/book-response.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -10,12 +9,11 @@ type ClientResponse<T> = {
 };
 
 export class LibraryClient {
-  private baseUrl = 'http://localhost:8080/api';
   private client: AxiosInstance;
 
   constructor() {
     this.client = axios.create({
-      baseURL: this.baseUrl,
+      baseURL: 'http://localhost:8080/api',
     });
   }
 
@@ -47,10 +45,9 @@ export class LibraryClient {
     }
   }
 
-  public async getBooks(): Promise<ClientResponse<BookResponseDto | null>> {
+  public async getBooks(): Promise<ClientResponse<any | null>> {
     try {
-      const response: AxiosResponse<BookResponseDto> =
-        await this.client.get('/books');
+      const response = await this.client.get('/books');
 
       return {
         success: true,

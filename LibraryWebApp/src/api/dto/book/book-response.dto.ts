@@ -1,9 +1,9 @@
 export class BookResponseDto {
-  id: number | undefined;
-  isbn: string | undefined;
-  title: string | undefined;
-  author: string | undefined;
-  publisher: string | undefined;
-  yearPublished: number | undefined;
-  isAvailable: boolean | undefined;
+  id!: number;
+  isbn!: string;
+  title!: string;
+  author!: string;
+  publisher!: string;
+  yearPublished!: number;
+  isAvailable!: boolean;
 }

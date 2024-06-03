@@ -13,6 +13,9 @@ function HomePage() {
         <Button variant="contained" component={Link} to="loans" sx={{ m: 1 }}>
           Loans
         </Button>
+        <Button variant="contained" component={Link} to="catalog" sx={{ m: 1 }}>
+          Catalog
+        </Button>
       </Box>
       <Outlet />
     </Box>

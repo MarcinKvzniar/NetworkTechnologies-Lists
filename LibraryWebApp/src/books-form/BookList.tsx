@@ -1,6 +1,8 @@
 import { List, Container, Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
 import BookListItem from './BookListItem';
 import './BookList.css';
+import { useApi } from '../api/ApiProvider';
 
 interface Book {
   id: number;
@@ -16,71 +18,34 @@ interface BookListProps {
   books: Book[];
 }
 
-const mockBooks = [
-  {
-    id: 1,
-    isbn: '9780061120084',
-    title: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    publisher: 'Harper Perennial Modern Classics',
-    yearPublished: 1960,
-    isAvailable: true,
-  },
-  {
-    id: 2,
-    isbn: '9781982137274',
-    title: '1984',
-    author: 'George Orwell',
-    publisher: 'Signet Classic',
-    yearPublished: 1949,
-    isAvailable: false,
-  },
-  {
-    id: 3,
-    isbn: '9780143111597',
-    title: 'The Catcher in the Rye',
-    author: 'J.D. Salinger',
-    publisher: 'Back Bay Books',
-    yearPublished: 1951,
-    isAvailable: true,
-  },
-  {
-    id: 4,
-    isbn: '9780446310789',
-    title: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    publisher: 'Warner Books',
-    yearPublished: 1960,
-    isAvailable: true,
-  },
-  {
-    id: 5,
-    isbn: '9780743273565',
-    title: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald',
-    publisher: 'Scribner',
-    yearPublished: 1925,
-    isAvailable: false,
-  },
-];
-
 function BookList({ books }: BookListProps) {
+  const [bookData, setBookData] = useState<Book[]>([]);
+  const apiClient = useApi();
+
+  useEffect(() => {
+    apiClient.getBooks().then((response) => {
+      if (response.success && response.data) {
+        setBookData(response.data);
+      } else {
+        console.error('No books found');
+      }
+    });
+  }, [apiClient]);
+
   return (
-    <>
-      <Container maxWidth="lg">
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <List className="BookList">
-              {mockBooks.map((book) => (
-                <div key={book.id} className="BookListItem">
-                  <BookListItem key={book.id} book={book} />
-                </div>
-              ))}
-            </List>
-          </Grid>
+    <Container maxWidth="lg">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <List className="BookList">
+            {bookData.map((book) => (
+              <div key={book.id} className="BookListItem">
+                <BookListItem key={book.id} book={book} />
+              </div>
+            ))}
+          </List>
         </Grid>
-      </Container>
-    </>
+      </Grid>
+    </Container>
   );
 }
 
