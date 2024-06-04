@@ -1,30 +1,24 @@
 import { ListItem, ListItemText } from '@mui/material';
+import { UserDto } from '../api/dto/user/user.dto';
+import { BookResponseDto } from '../api/dto/book/book-response.dto';
 
 interface LoanListItemProps {
   loan: {
     id: number;
     loanDate: string;
     dueDate: string;
-    user: {
-      id: number;
-      name: string;
-      lastName: string;
-      dateOfBirth: string;
-      email: string;
-    };
-    book: {
-      id: number;
-      isbn: string;
-      title: string;
-      author: string;
-      publisher: string;
-      yearPublished: number;
-      isAvailable: boolean;
-    };
+    user: UserDto[];
+    book: BookResponseDto;
   };
 }
 
 function LoanListItem({ loan }: LoanListItemProps) {
+  const loanDate = new Date(loan.loanDate);
+  const formattedLoanDate = `${loanDate.getFullYear()}-${String(loanDate.getMonth() + 1).padStart(2, '0')}-${String(loanDate.getDate()).padStart(2, '0')}`;
+
+  const dueDate = new Date(loan.dueDate);
+  const formattedDueDate = `${dueDate.getFullYear()}-${String(dueDate.getMonth() + 1).padStart(2, '0')}-${String(dueDate.getDate()).padStart(2, '0')}`;
+
   return (
     <ListItem>
       <ListItemText
@@ -33,8 +27,8 @@ function LoanListItem({ loan }: LoanListItemProps) {
           <>
             <div>ISBN: {loan.book.isbn}</div>
             <div>Author: {loan.book.author}</div>
-            <div>Loan Date: {loan.loanDate}</div>
-            <div>Due Date: {loan.dueDate}</div>
+            <div>Loan Date: {formattedLoanDate}</div>
+            <div>Due Date: {formattedDueDate}</div>
           </>
         }
       />

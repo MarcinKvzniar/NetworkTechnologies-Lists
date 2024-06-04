@@ -16,7 +16,7 @@ function BookListItem({ book }: BookListItemProps) {
   return (
     <ListItem>
       <ListItemText
-        primary={`${book.title} (${book.yearPublished})`}
+        primary={`${book.title}`}
         secondary={
           <>
             <div>
@@ -30,6 +30,10 @@ function BookListItem({ book }: BookListItemProps) {
             <div>
               {' '}
               <b>Publisher: </b> {book.publisher}
+            </div>
+            <div>
+              {' '}
+              <b>Year Published: </b> {book.yearPublished}
             </div>
             <div className={book.available ? 'Available' : 'NotAvailable'}>
               {book.available ? 'Available' : 'Not Available'}

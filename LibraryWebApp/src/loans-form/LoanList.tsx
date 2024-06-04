@@ -3,27 +3,15 @@ import LoanListItem from './LoanListItem';
 import './LoanList.css';
 import { useEffect, useState } from 'react';
 import { useApi } from '../api/ApiProvider';
+import { UserDto } from '../api/dto/user/user.dto';
+import { BookResponseDto } from '../api/dto/book/book-response.dto';
 
 interface Loan {
   id: number;
   loanDate: string;
   dueDate: string;
-  user: {
-    id: number;
-    name: string;
-    lastName: string;
-    dateOfBirth: string;
-    email: string;
-  };
-  book: {
-    id: number;
-    isbn: string;
-    title: string;
-    author: string;
-    publisher: string;
-    yearPublished: number;
-    isAvailable: boolean;
-  };
+  user: UserDto[];
+  book: BookResponseDto;
 }
 
 interface LoanListProps {
@@ -39,7 +27,7 @@ function LoanList({ loans }: LoanListProps) {
   useEffect(() => {
     apiClient.getLoans(page).then((response) => {
       if (response.success && response.data) {
-        //    setLoanData(response.data.loans);
+        setLoanData(response.data.loans);
         setHasMore(response.data.hasMore);
       } else {
         setLoanData([]);
