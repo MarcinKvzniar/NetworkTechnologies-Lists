@@ -4,6 +4,9 @@ import { LoginResponseDto } from './dto/auth/login-response.dto';
 import { BooksPageDto } from './dto/book/books-page-response.dto';
 import { LoansPageDto } from './dto/loan/loans-page-response.dto';
 import { BookDetailsDto } from './dto/book-details/book-details.dto';
+import { jwtDecode } from 'jwt-decode';
+import { RegisterRequestDto } from './dto/auth/register-request.dto';
+import { RegisterResponseDto } from './dto/auth/register-response.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -20,6 +23,21 @@ export class LibraryClient {
     });
   }
 
+  public getUserRole(): string | null {
+    const token = this.client.defaults.headers.common[
+      'Authorization'
+    ] as string;
+    console.log(this.client.defaults.headers.common['Authorization']);
+
+    if (!token) {
+      return null;
+    }
+
+    const decodedToken: any = jwtDecode(token.split(' ')[1]);
+    console.log(decodedToken);
+    return decodedToken.role || null;
+  }
+
   public async login(
     data: LoginRequestDto,
   ): Promise<ClientResponse<LoginResponseDto | null>> {
@@ -31,6 +49,29 @@ export class LibraryClient {
 
       this.client.defaults.headers.common['Authorization'] =
         `Bearer ${response.data.token}`;
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async registerUser(
+    data: RegisterRequestDto,
+  ): Promise<ClientResponse<RegisterResponseDto | null>> {
+    try {
+      const response: AxiosResponse<RegisterResponseDto> =
+        await this.client.post('/auth/register', data);
 
       return {
         success: true,
