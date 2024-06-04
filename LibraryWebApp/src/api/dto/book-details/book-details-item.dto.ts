@@ -1,4 +1,4 @@
-interface VolumeInfo {
+interface volumeInfo {
   title: string;
   authors: string[];
   publishedDate: string;
@@ -11,11 +11,11 @@ interface VolumeInfo {
   language: string;
 }
 
-interface SaleInfo {
-  isEbook: boolean;
+interface saleInfo {
+  ebook: boolean;
 }
 
 export class BookDetailsItemDto {
-  volumeInfo!: VolumeInfo;
-  saleInfo!: SaleInfo;
+  volumeInfo!: volumeInfo;
+  saleInfo!: saleInfo;
 }

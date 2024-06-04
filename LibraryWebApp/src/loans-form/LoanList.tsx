@@ -12,7 +12,7 @@ interface Loan {
     id: number;
     name: string;
     lastName: string;
-    dob: string;
+    dateOfBirth: string;
     email: string;
   };
   book: {
@@ -39,7 +39,7 @@ function LoanList({ loans }: LoanListProps) {
   useEffect(() => {
     apiClient.getLoans(page).then((response) => {
       if (response.success && response.data) {
-        setLoanData(response.data.loans);
+        //    setLoanData(response.data.loans);
         setHasMore(response.data.hasMore);
       } else {
         setLoanData([]);

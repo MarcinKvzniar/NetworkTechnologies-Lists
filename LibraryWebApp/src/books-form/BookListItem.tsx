@@ -8,7 +8,7 @@ interface BookListItemProps {
     author: string;
     publisher: string;
     yearPublished: number;
-    isAvailable: boolean;
+    available: boolean;
   };
 }
 
@@ -19,11 +19,20 @@ function BookListItem({ book }: BookListItemProps) {
         primary={`${book.title} (${book.yearPublished})`}
         secondary={
           <>
-            <div>Author: {book.author}</div>
-            <div>ISBN: {book.isbn}</div>
-            <div>Publisher: {book.publisher}</div>
-            <div className={book.isAvailable ? 'Available' : 'NotAvailable'}>
-              {book.isAvailable ? 'Available' : 'Not Available'}
+            <div>
+              {' '}
+              <b>Author: </b> {book.author}
+            </div>
+            <div>
+              {' '}
+              <b>ISBN: </b> {book.isbn}
+            </div>
+            <div>
+              {' '}
+              <b>Publisher: </b> {book.publisher}
+            </div>
+            <div className={book.available ? 'Available' : 'NotAvailable'}>
+              {book.available ? 'Available' : 'Not Available'}
             </div>
           </>
         }

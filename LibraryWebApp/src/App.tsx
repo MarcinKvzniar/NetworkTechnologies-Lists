@@ -3,6 +3,7 @@ import LoginForm from './login-form/LoginForm';
 import BookList from './books-form/BookList';
 import HomePage from './home-page/HomePage';
 import LoanList from './loans-form/LoanList';
+import BookDetailsForm from './book-details-form/BookDetailsForm';
 import { Navigate, Routes, Route } from 'react-router-dom';
 import ApiProvider from './api/ApiProvider';
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/home" element={<HomePage />}>
           <Route path="books" element={<BookList books={[]} />} />
           <Route path="loans" element={<LoanList loans={[]} />} />
+          <Route path="catalog" element={<BookDetailsForm />} />
         </Route>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="*" element={<h1>404</h1>} />

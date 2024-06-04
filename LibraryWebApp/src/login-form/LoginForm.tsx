@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import './LoginForm.css';
 import LoginIcon from '@mui/icons-material/Login';
 import { Formik } from 'formik';
@@ -55,6 +55,17 @@ function LoginForm() {
           className="Login-form"
           onSubmit={formik.handleSubmit}
         >
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="DarkBlue"
+            gutterBottom
+            className="header"
+          >
+            Library Application
+          </Typography>
+
           <TextField
             id="username"
             label="username"
@@ -83,6 +94,16 @@ function LoginForm() {
             {' '}
             Sign In{' '}
           </Button>
+          <Typography
+            variant="body2"
+            color="darkBlue"
+            align="center"
+            className="footer"
+          >
+            {'If you do not have an account, please contact us at '}
+            <a href="mailto:library@gmail.com">library@gmail.com</a>
+            {' or find our library, in order to register as a reader.'}
+          </Typography>
         </form>
       )}
     </Formik>

@@ -9,7 +9,7 @@ interface LoanListItemProps {
       id: number;
       name: string;
       lastName: string;
-      dob: string;
+      dateOfBirth: string;
       email: string;
     };
     book: {

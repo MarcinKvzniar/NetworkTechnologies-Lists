@@ -3,6 +3,7 @@ import { LoginRequestDto } from './dto/auth/login-request.dto';
 import { LoginResponseDto } from './dto/auth/login-response.dto';
 import { BooksPageDto } from './dto/book/books-page-response.dto';
 import { LoansPageDto } from './dto/loan/loans-page-response.dto';
+import { BookDetailsDto } from './dto/book-details/book-details.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -75,6 +76,52 @@ export class LibraryClient {
   ): Promise<ClientResponse<LoansPageDto | null>> {
     try {
       const url = `/loans?page=${page}`;
+      const response = await this.client.get(url);
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async getBookDetailsByTitle(
+    title: string,
+  ): Promise<ClientResponse<BookDetailsDto | null>> {
+    try {
+      const url = `/books/details/title/${title}`;
+      const response = await this.client.get(url);
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async getBookDetailsByIsbn(
+    isbn: string,
+  ): Promise<ClientResponse<BookDetailsDto | null>> {
+    try {
+      const url = `/books/details/isbn/${isbn}`;
       const response = await this.client.get(url);
 
       return {

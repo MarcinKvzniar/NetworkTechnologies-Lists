@@ -5,5 +5,5 @@ export class BookResponseDto {
   author!: string;
   publisher!: string;
   yearPublished!: number;
-  isAvailable!: boolean;
+  available!: boolean;
 }

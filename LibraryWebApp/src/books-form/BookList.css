@@ -15,8 +15,10 @@
 
 .Available {
   color: green;
+  font-weight: bold;
 }
 
 .NotAvailable {
   color: red;
+  font-weight: bold;
 }

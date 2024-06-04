@@ -11,7 +11,7 @@ interface Book {
   author: string;
   publisher: string;
   yearPublished: number;
-  isAvailable: boolean;
+  available: boolean;
 }
 
 interface BookListProps {
