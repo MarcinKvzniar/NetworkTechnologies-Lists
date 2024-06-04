@@ -1,0 +1,15 @@
+.Create-Loan-Form {
+  padding: 5px;
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.header {
+  font-style: bold;
+  font-size: 2rem;
+  margin-top: -50px;
+}

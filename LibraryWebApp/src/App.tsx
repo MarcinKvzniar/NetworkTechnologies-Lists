@@ -8,6 +8,7 @@ import LibrarianPanel from './librarian-panel/LibrarianPanel';
 import { Navigate, Routes, Route } from 'react-router-dom';
 import ApiProvider from './api/ApiProvider';
 import RegisterUser from './librarian-panel/register-form/RegisterUser';
+import CreateLoan from './librarian-panel/add-loan-form/AddLoanForm';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         </Route>
         <Route path="/librarian" element={<LibrarianPanel />} />
         <Route path="/librarian/register" element={<RegisterUser />} />
+        <Route path="/librarian/add-loan" element={<CreateLoan />} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>

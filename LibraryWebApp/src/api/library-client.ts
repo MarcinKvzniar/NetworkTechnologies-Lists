@@ -7,6 +7,8 @@ import { BookDetailsDto } from './dto/book-details/book-details.dto';
 import { jwtDecode } from 'jwt-decode';
 import { RegisterRequestDto } from './dto/auth/register-request.dto';
 import { RegisterResponseDto } from './dto/auth/register-response.dto';
+import { CreateLoanRequestDto } from './dto/loan/create-loan-request.dto';
+import { CreateLoanResponseDto } from './dto/loan/create-loan-response.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -118,6 +120,29 @@ export class LibraryClient {
     try {
       const url = `/loans?page=${page}`;
       const response = await this.client.get(url);
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async createLoan(
+    data: CreateLoanRequestDto,
+  ): Promise<ClientResponse<CreateLoanResponseDto | null>> {
+    try {
+      const response: AxiosResponse<CreateLoanResponseDto> =
+        await this.client.post('/loans/create', data);
 
       return {
         success: true,

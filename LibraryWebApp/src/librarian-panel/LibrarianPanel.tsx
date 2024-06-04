@@ -37,9 +37,9 @@ export default function LibrarianPanel() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => navigate('/add-loan')}
+          onClick={() => navigate('/librarian/add-loan')}
         >
-          Add Loan
+          Add New Loan
         </Button>
       </Box>
 
@@ -47,9 +47,9 @@ export default function LibrarianPanel() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => navigate('/add-book')}
+          onClick={() => navigate('librarian/add-book')}
         >
-          Add Book
+          Add New Book
         </Button>
       </Box>
     </Box>
