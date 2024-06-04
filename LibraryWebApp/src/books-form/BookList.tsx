@@ -1,4 +1,4 @@
-import { List, Container, Grid } from '@mui/material';
+import { List, Container, Grid, Button, Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import BookListItem from './BookListItem';
 import './BookList.css';
@@ -20,17 +20,30 @@ interface BookListProps {
 
 function BookList({ books }: BookListProps) {
   const [bookData, setBookData] = useState<Book[]>([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const apiClient = useApi();
 
   useEffect(() => {
-    apiClient.getBooks().then((response) => {
+    apiClient.getBooks(page).then((response) => {
       if (response.success && response.data) {
-        setBookData(response.data);
+        setBookData(response.data.books);
+        setHasMore(response.data.hasMore);
       } else {
-        console.error('No books found');
+        setBookData([]);
       }
     });
-  }, [apiClient]);
+  }, [apiClient, page]);
+
+  const handleNext = () => {
+    if (hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    setPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
 
   return (
     <Container maxWidth="lg">
@@ -43,6 +56,25 @@ function BookList({ books }: BookListProps) {
               </div>
             ))}
           </List>
+          <Box display="flex" justifyContent="center" mt={2} mb={1}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handlePrevious}
+              style={{ marginRight: '10px' }}
+              disabled={page === 0}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              disabled={!hasMore}
+            >
+              Next
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </Container>

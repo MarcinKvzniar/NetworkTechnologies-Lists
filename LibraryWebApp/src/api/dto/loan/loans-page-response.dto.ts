@@ -1,6 +1,6 @@
 import { LoanResponseDto } from './loan-response.dto';
 
-export class LoansPageResponseDto {
+export class LoansPageDto {
   loans!: LoanResponseDto[];
   currentPage!: number;
   totalItems!: number;
