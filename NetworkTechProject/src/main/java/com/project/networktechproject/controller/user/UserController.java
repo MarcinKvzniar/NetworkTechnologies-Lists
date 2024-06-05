@@ -1,6 +1,7 @@
 package com.project.networktechproject.controller.user;
 
 import com.project.networktechproject.controller.user.dto.GetUserDto;
+import com.project.networktechproject.controller.user.dto.GetUsersPageResponseDto;
 import com.project.networktechproject.controller.user.dto.PatchUserDto;
 import com.project.networktechproject.controller.user.dto.PatchUserResponseDto;
 import com.project.networktechproject.service.user.UserService;
@@ -54,8 +55,8 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Users found"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
-    public ResponseEntity<List<GetUserDto>> getAllUsers() {
-        List<GetUserDto> dto = userService.getAll();
+    public ResponseEntity<GetUsersPageResponseDto> getAllUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        GetUsersPageResponseDto dto = userService.getAll(page, size);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

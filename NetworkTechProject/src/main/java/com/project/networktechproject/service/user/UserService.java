@@ -1,6 +1,7 @@
 package com.project.networktechproject.service.user;
 
 import com.project.networktechproject.controller.user.dto.GetUserDto;
+import com.project.networktechproject.controller.user.dto.GetUsersPageResponseDto;
 import com.project.networktechproject.controller.user.dto.PatchUserDto;
 import com.project.networktechproject.controller.user.dto.PatchUserResponseDto;
 import com.project.networktechproject.infrastructure.entity.AuthEntity;
@@ -10,6 +11,9 @@ import com.project.networktechproject.infrastructure.repository.UserRepository;
 import com.project.networktechproject.service.auth.OwnershipService;
 import com.project.networktechproject.service.user.error.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -45,13 +49,25 @@ public class UserService extends OwnershipService {
         return mapUser(user);
     }
 
-    public List<GetUserDto> getAll() {
-        List<UserEntity> users = userRepository.findAll();
+    public GetUsersPageResponseDto getAll(int page, int size) {
+        Page<UserEntity> usersPage;
 
-        return users
+        Pageable pageable = PageRequest.of(page, size);
+
+        usersPage = userRepository.findAll(pageable);
+
+        List<GetUserDto> usersDto = usersPage
                 .stream()
                 .map(this::mapUser)
-                .collect(Collectors.toList());
+                .toList();
+
+        return new GetUsersPageResponseDto(
+                usersDto,
+                usersPage.getNumber(),
+                usersPage.getTotalElements(),
+                usersPage.getTotalPages(),
+                usersPage.hasNext()
+        );
     }
 
     public void delete(long id) {

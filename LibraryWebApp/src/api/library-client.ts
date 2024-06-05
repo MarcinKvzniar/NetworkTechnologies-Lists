@@ -11,7 +11,7 @@ import { CreateLoanRequestDto } from './dto/loan/create-loan-request.dto';
 import { CreateLoanResponseDto } from './dto/loan/create-loan-response.dto';
 import { CreateBookRequestDto } from './dto/book/create-book-request.dto';
 import { CreateBookResponseDto } from './dto/book/create-book-response.dto';
-import { UserDto } from './dto/user/user.dto';
+import { UsersPageDto } from './dto/user/users-page-response.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -94,9 +94,12 @@ export class LibraryClient {
     }
   }
 
-  public async getUsers(): Promise<ClientResponse<UserDto[] | null>> {
+  public async getUsers(
+    page: number,
+  ): Promise<ClientResponse<UsersPageDto | null>> {
     try {
-      const response = await this.client.get('/users');
+      const url = `/users?page=${page}`;
+      const response = await this.client.get(url);
 
       return {
         success: true,
