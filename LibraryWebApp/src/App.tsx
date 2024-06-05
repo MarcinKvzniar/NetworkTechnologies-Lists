@@ -10,6 +10,7 @@ import ApiProvider from './api/ApiProvider';
 import RegisterUser from './librarian-panel/user-operations/register-form/RegisterUser';
 import CreateLoan from './librarian-panel/add-loan-form/AddLoanForm';
 import CreateBook from './librarian-panel/add-book-form/AddBookForm';
+import UserList from './librarian-panel/user-operations/users-form/UserList';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/librarian/register" element={<RegisterUser />} />
         <Route path="/librarian/add-loan" element={<CreateLoan />} />
         <Route path="/librarian/add-book" element={<CreateBook />} />
+        <Route path="/librarian/users" element={<UserList users={[]} />} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>

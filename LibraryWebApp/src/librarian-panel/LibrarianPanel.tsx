@@ -49,8 +49,16 @@ export default function LibrarianPanel() {
               variant="contained"
               color="primary"
               onClick={() => navigate('/librarian/register')}
+              sx={{ marginBottom: 5 }}
             >
               Register New User
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate('/librarian/users')}
+            >
+              List Of Users
             </Button>
           </Box>
         </Grid>
