@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { useApi } from '../../api/ApiProvider';
+import { useApi } from '../../../api/ApiProvider';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import LoginIcon from '@mui/icons-material/Login';
 
 type FormValues = {
   username: string;
@@ -73,11 +72,11 @@ function RegisterUser() {
               component="h1"
               variant="h2"
               align="center"
-              color="DarkBlue"
+              color="Black"
               gutterBottom
               className="header"
             >
-              Register new user
+              Register New User
             </Typography>
 
             <TextField
@@ -122,10 +121,9 @@ function RegisterUser() {
               helperText={formik.touched.username && formik.errors.username}
               margin="normal"
             />
-            <Box margin="normal">
+            <Box margin="normal" marginTop={5}>
               <Button
                 variant="contained"
-                startIcon={<LoginIcon />}
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
               >

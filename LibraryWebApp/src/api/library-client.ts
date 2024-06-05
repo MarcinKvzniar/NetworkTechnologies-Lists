@@ -9,6 +9,9 @@ import { RegisterRequestDto } from './dto/auth/register-request.dto';
 import { RegisterResponseDto } from './dto/auth/register-response.dto';
 import { CreateLoanRequestDto } from './dto/loan/create-loan-request.dto';
 import { CreateLoanResponseDto } from './dto/loan/create-loan-response.dto';
+import { CreateBookRequestDto } from './dto/book/create-book-request.dto';
+import { CreateBookResponseDto } from './dto/book/create-book-response.dto';
+import { UserDto } from './dto/user/user.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -91,12 +94,55 @@ export class LibraryClient {
     }
   }
 
+  public async getUsers(): Promise<ClientResponse<UserDto[] | null>> {
+    try {
+      const response = await this.client.get('/users');
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
   public async getBooks(
     page: number,
   ): Promise<ClientResponse<BooksPageDto | null>> {
     try {
       const url = `/books?page=${page}`;
       const response = await this.client.get(url);
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async createBook(
+    data: CreateBookRequestDto,
+  ): Promise<ClientResponse<CreateBookResponseDto | null>> {
+    try {
+      const response: AxiosResponse<CreateBookResponseDto> =
+        await this.client.post('/books/create', data);
 
       return {
         success: true,

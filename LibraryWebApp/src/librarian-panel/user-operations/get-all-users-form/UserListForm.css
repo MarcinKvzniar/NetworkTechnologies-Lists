@@ -1,0 +1,11 @@
+interface User {
+  id: number;
+  name: string;
+  lastname: string;
+  dateofbirth: string;
+  email: string;
+}
+
+interface UserListProps {
+  users: User[];
+}

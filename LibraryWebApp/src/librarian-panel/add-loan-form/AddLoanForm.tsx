@@ -20,11 +20,13 @@ function CreateLoan() {
       apiClient.createLoan(values).then((response) => {
         if (response.success) {
           console.log(response);
-          alert(`Book with id ${values.bookId} has been successfully loaned.`);
+          alert(
+            `Book with id ${values.bookId} has been successfully loaned to user with id ${values.userId}.`,
+          );
           navigate('/librarian');
         } else {
           console.log(response);
-          alert('Invalid user details. Please try again.');
+          alert('Invalid details. Please try again.');
         }
       });
     },
@@ -60,7 +62,7 @@ function CreateLoan() {
               component="h1"
               variant="h2"
               align="center"
-              color="DarkBlue"
+              color="Black"
               gutterBottom
               className="header"
             >
@@ -69,7 +71,7 @@ function CreateLoan() {
 
             <TextField
               id="dueDate"
-              label="dueDate (yyyy-mm-dd)"
+              label="Due Date (yyyy-mm-dd)"
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -79,7 +81,7 @@ function CreateLoan() {
             />
             <TextField
               id="userId"
-              label="userId"
+              label="User Id"
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -89,7 +91,7 @@ function CreateLoan() {
             />
             <TextField
               id="bookId"
-              label="bookId"
+              label="Book Id"
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -97,7 +99,7 @@ function CreateLoan() {
               helperText={formik.touched.bookId && formik.errors.bookId}
               margin="normal"
             />
-            <Box margin="normal">
+            <Box margin="normal" marginTop={5}>
               <Button
                 variant="contained"
                 type="submit"
