@@ -60,6 +60,7 @@ function LoanList({ loans }: LoanListProps) {
             <Button
               variant="contained"
               color="primary"
+              sx={{ backgroundColor: 'DarkBlue' }}
               onClick={handlePrevious}
               style={{ marginRight: '10px' }}
               disabled={page === 0}
@@ -69,6 +70,7 @@ function LoanList({ loans }: LoanListProps) {
             <Button
               variant="contained"
               color="primary"
+              sx={{ backgroundColor: 'DarkBlue' }}
               onClick={handleNext}
               disabled={!hasMore}
             >

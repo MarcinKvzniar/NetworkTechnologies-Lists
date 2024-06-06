@@ -90,6 +90,7 @@ function LoginForm() {
             startIcon={<LoginIcon />}
             type="submit"
             disabled={!(formik.isValid && formik.dirty)}
+            sx={{ backgroundColor: 'DarkBlue' }}
           >
             {' '}
             Sign In{' '}

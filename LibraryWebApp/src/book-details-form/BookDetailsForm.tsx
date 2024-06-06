@@ -80,38 +80,38 @@ function BookDetailsForm() {
             <CardMedia
               component="img"
               height="140"
-              image={bookDetail.volumeInfo.imageLinks.thumbnail}
-              alt={bookDetail.volumeInfo.title}
+              image={bookDetail?.volumeInfo?.imageLinks?.thumbnail}
+              alt={bookDetail?.volumeInfo?.title}
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                {bookDetail.volumeInfo.title}
+                {bookDetail?.volumeInfo?.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {bookDetail.volumeInfo.description}
+                {bookDetail?.volumeInfo?.description}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <b>Authors: </b> {bookDetail.volumeInfo.authors.join(', ')}
+                <b>Authors: </b> {bookDetail?.volumeInfo?.authors?.join(', ')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <b>Published Date: </b> {bookDetail.volumeInfo.publishedDate}
+                <b>Published Date: </b> {bookDetail?.volumeInfo?.publishedDate}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <b>Categories: </b>{' '}
-                {bookDetail.volumeInfo.categories.join(', ')}
+                {bookDetail?.volumeInfo?.categories?.join(', ')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <b>Page Count: </b> {bookDetail.volumeInfo.pageCount}
+                <b>Page Count: </b> {bookDetail?.volumeInfo?.pageCount}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <b>Language: </b> {bookDetail.volumeInfo.language}
+                <b>Language: </b> {bookDetail?.volumeInfo?.language}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <b>Ebook: </b> {bookDetail.saleInfo.ebook ? 'Yes' : 'No'}
+                <b>Ebook: </b> {bookDetail?.saleInfo?.ebook ? 'Yes' : 'No'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <b>Availability: </b>{' '}
-                {bookDetailsData.isAvailable ? 'Yes' : 'No'}
+                {bookDetailsData?.isAvailable ? 'Yes' : 'No'}
               </Typography>
             </CardContent>
           </Card>

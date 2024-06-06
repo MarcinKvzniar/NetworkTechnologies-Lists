@@ -43,7 +43,7 @@ public class LoanController {
             @ApiResponse(responseCode = "200", description = "Loans found"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
-    public ResponseEntity<GetLoansPageResponseDto> getAll(@RequestParam(required = false) Long userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<GetLoansPageResponseDto> getAll(@RequestParam(required = false) Long userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
         GetLoansPageResponseDto dto = loanService.getAll(userId, page, size);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
