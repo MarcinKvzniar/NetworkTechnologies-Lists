@@ -116,6 +116,13 @@ export default function LibrarianPanel() {
             >
               Add New Book
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate('/librarian/delete-book')}
+            >
+              Delete Book
+            </Button>
           </Box>
         </Grid>
       </Grid>

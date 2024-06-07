@@ -163,6 +163,26 @@ export class LibraryClient {
     }
   }
 
+  public async deleteBook(id: number): Promise<ClientResponse<null | Error>> {
+    try {
+      await this.client.delete(`/books/delete/${id}`);
+
+      return {
+        success: true,
+        data: null,
+        status: 200,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: axiosError,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
   public async getLoans(
     page: number,
   ): Promise<ClientResponse<LoansPageDto | null>> {
