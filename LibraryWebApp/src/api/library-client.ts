@@ -163,7 +163,11 @@ export class LibraryClient {
     }
   }
 
-  public async deleteBook(id: number): Promise<ClientResponse<null | Error>> {
+  public async deleteBook(
+    id: number,
+    retries = 5,
+    backoff = 300,
+  ): Promise<ClientResponse<null | Error>> {
     try {
       await this.client.delete(`/books/delete/${id}`);
 
@@ -174,6 +178,11 @@ export class LibraryClient {
       };
     } catch (error) {
       const axiosError = error as AxiosError<Error>;
+
+      if (axiosError.response?.status === 429 && retries > 0) {
+        await new Promise((resolve) => setTimeout(resolve, backoff));
+        return this.deleteBook(id, retries - 1, backoff * 2);
+      }
 
       return {
         success: false,
