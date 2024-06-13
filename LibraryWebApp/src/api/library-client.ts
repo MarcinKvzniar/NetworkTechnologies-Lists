@@ -4,7 +4,7 @@ import { LoginResponseDto } from './dto/auth/login-response.dto';
 import { BooksPageDto } from './dto/book/books-page-response.dto';
 import { LoansPageDto } from './dto/loan/loans-page-response.dto';
 import { BookDetailsDto } from './dto/book-details/book-details.dto';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { RegisterRequestDto } from './dto/auth/register-request.dto';
 import { RegisterResponseDto } from './dto/auth/register-response.dto';
 import { CreateLoanRequestDto } from './dto/loan/create-loan-request.dto';
@@ -12,6 +12,7 @@ import { CreateLoanResponseDto } from './dto/loan/create-loan-response.dto';
 import { CreateBookRequestDto } from './dto/book/create-book-request.dto';
 import { CreateBookResponseDto } from './dto/book/create-book-response.dto';
 import { UsersPageDto } from './dto/user/users-page-response.dto';
+import Cookies from 'universal-cookie';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -19,28 +20,56 @@ type ClientResponse<T> = {
   status: number;
 };
 
+interface MyJwtPayLoad extends JwtPayload {
+  role?: string;
+}
+
 export class LibraryClient {
   private client: AxiosInstance;
+  private cookies = new Cookies();
 
   constructor() {
     this.client = axios.create({
       baseURL: 'http://localhost:8080/api',
     });
+
+    this.client.interceptors.request.use((config) => {
+      const token = this.cookies.get('token');
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      return config;
+    });
+
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
+          await this.refreshToken();
+
+          return this.client(originalRequest);
+        }
+
+        return Promise.reject(error);
+      },
+    );
   }
 
-  public getUserRole(): string | null {
-    const token = this.client.defaults.headers.common[
-      'Authorization'
-    ] as string;
-    console.log(this.client.defaults.headers.common['Authorization']);
-
-    if (!token) {
-      return null;
+  public getUserRole(): string {
+    const token = this.cookies.get('token');
+    if (token) {
+      const decoded = jwtDecode<MyJwtPayLoad>(token);
+      if (decoded.role) {
+        return decoded.role;
+      }
     }
-
-    const decodedToken: any = jwtDecode(token.split(' ')[1]);
-    console.log(decodedToken);
-    return decodedToken.role || null;
+    return '';
   }
 
   public async login(
@@ -54,6 +83,16 @@ export class LibraryClient {
 
       this.client.defaults.headers.common['Authorization'] =
         `Bearer ${response.data.token}`;
+
+      const decoded = jwtDecode<MyJwtPayLoad>(response.data.token);
+
+      if (decoded.exp) {
+        this.cookies.set('token', response.data.token, {
+          expires: new Date(decoded.exp * 1000),
+        });
+
+        this.cookies.set('refreshToken', response.data.refreshToken);
+      }
 
       return {
         success: true,
@@ -69,6 +108,34 @@ export class LibraryClient {
         status: axiosError.response?.status || 0,
       };
     }
+  }
+
+  public async refreshToken(): Promise<void> {
+    const refreshToken = this.cookies.get('refreshToken');
+
+    if (refreshToken) {
+      const response = await this.client.post('/auth/refresh', {
+        refreshToken: refreshToken,
+      });
+
+      this.client.defaults.headers.common['Authorization'] =
+        `Bearer ${response.data.token}`;
+
+      const decoded = jwtDecode<MyJwtPayLoad>(response.data.token);
+
+      if (decoded.exp) {
+        this.cookies.set('token', response.data.token, {
+          expires: new Date(decoded.exp * 1000),
+        });
+
+        this.cookies.set('refreshToken', response.data.refreshToken);
+      }
+    }
+  }
+
+  public signOut(): void {
+    this.cookies.remove('token');
+    this.client.defaults.headers.common['Authorization'] = '';
   }
 
   public async registerUser(

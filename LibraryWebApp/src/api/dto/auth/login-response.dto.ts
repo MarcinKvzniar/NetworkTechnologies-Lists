@@ -1,5 +1,6 @@
 export class LoginResponseDto {
-  token: string | undefined;
+  token!: string;
+  refreshToken!: string;
   username: string | undefined;
   role: string | undefined;
 }
