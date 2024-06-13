@@ -8,7 +8,7 @@ import LibrarianPanel from './librarian-panel/LibrarianPanel';
 import { Navigate, Routes, Route } from 'react-router-dom';
 import ApiProvider from './api/ApiProvider';
 import RegisterUser from './librarian-panel/user-operations/register-form/RegisterUser';
-import CreateLoan from './librarian-panel/add-loan-form/AddLoanForm';
+import CreateLoan from './librarian-panel/loan-operations/add-loan-form/AddLoanForm';
 import CreateBook from './librarian-panel/book-operations/add-book-form/AddBookForm';
 import UserList from './librarian-panel/user-operations/users-form/UserList';
 import DeleteBook from './librarian-panel/book-operations/delete-book-form/DeleteBookForm';

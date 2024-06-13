@@ -305,6 +305,28 @@ export class LibraryClient {
     }
   }
 
+  public async returnLoan(id: number): Promise<ClientResponse<null>> {
+    try {
+      const response: AxiosResponse<null> = await this.client.patch(
+        `/loans/return/${id}`,
+      );
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
   public async getBookDetailsByTitle(
     title: string,
   ): Promise<ClientResponse<BookDetailsDto | null>> {
