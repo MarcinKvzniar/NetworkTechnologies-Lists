@@ -19,11 +19,11 @@ function UserListItem({ user }: UserListItemProps) {
           <>
             <div>
               {' '}
-              <b>Date Of Birth: </b> {user.dateOfBirth}
+              <b>Date Of Birth: </b> {user.dateOfBirth}{' '}
             </div>
             <div>
               {' '}
-              <b>Email: </b> {user.email}
+              <b>Email: </b> {user.email}{' '}
             </div>
           </>
         }

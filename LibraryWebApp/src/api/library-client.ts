@@ -14,6 +14,8 @@ import { CreateBookResponseDto } from './dto/book/create-book-response.dto';
 import { UsersPageDto } from './dto/user/users-page-response.dto';
 import Cookies from 'universal-cookie';
 import { UserDto } from './dto/user/user.dto';
+import { PatchUserDto } from './dto/user/patch-user.dto';
+import { PatchUserResponseDto } from './dto/user/patch-user-response.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -284,6 +286,29 @@ export class LibraryClient {
     }
   }
 
+  public async getAllLoans(
+    page: number,
+  ): Promise<ClientResponse<LoansPageDto | null>> {
+    try {
+      const url = `/loans?page=${page}`;
+      const response = await this.client.get(url);
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
   public async createLoan(
     data: CreateLoanRequestDto,
   ): Promise<ClientResponse<CreateLoanResponseDto | null>> {
@@ -379,6 +404,30 @@ export class LibraryClient {
     try {
       const response: AxiosResponse<UserDto> =
         await this.client.get('/users/me');
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async patchUser(
+    data: PatchUserDto,
+    id: number,
+  ): Promise<ClientResponse<PatchUserResponseDto | null>> {
+    try {
+      const response: AxiosResponse<PatchUserResponseDto> =
+        await this.client.patch(`/users/${id}`, data);
 
       return {
         success: true,

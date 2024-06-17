@@ -32,7 +32,6 @@ function LoanList({ loans }: LoanListProps) {
         const userId = userResponse.data.id;
         const loansResponse = await apiClient.getLoans(page, userId);
         if (loansResponse.success && loansResponse.data) {
-          console.log(loansResponse.data.loans);
           setLoanData(loansResponse.data.loans);
           setHasMore(loansResponse.data.hasMore);
         } else {

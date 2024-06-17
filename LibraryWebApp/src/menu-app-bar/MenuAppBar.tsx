@@ -6,7 +6,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
+import { AccountCircle } from '@mui/icons-material';
 import { useNavigate, Link } from 'react-router-dom';
 import { useApi } from '../api/ApiProvider';
 
@@ -24,9 +24,7 @@ export default function MenuAppBar() {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
+        ></IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }}>
             Library Application
@@ -51,7 +49,7 @@ export default function MenuAppBar() {
             aria-label="account"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/account')}
             sx={{ mr: 2 }}
           >
             <AccountCircle />

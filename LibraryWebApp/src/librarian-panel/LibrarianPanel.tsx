@@ -88,8 +88,16 @@ export default function LibrarianPanel() {
                 variant="contained"
                 color="primary"
                 onClick={() => navigate('/librarian/add-loan')}
+                sx={{ marginBottom: 5 }}
               >
                 Add New Loan
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/librarian/loans')}
+              >
+                List Of Loans
               </Button>
             </Box>
           </Grid>
