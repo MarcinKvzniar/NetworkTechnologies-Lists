@@ -19,13 +19,11 @@ function CreateLoan() {
     (values: FormValues) => {
       apiClient.createLoan(values).then((response) => {
         if (response.success) {
-          console.log(response);
           alert(
             `Book with id ${values.bookId} has been successfully loaned to user with id ${values.userId}.`,
           );
           navigate('/librarian');
         } else {
-          console.log(response);
           alert('Invalid details. Please try again.');
         }
       });

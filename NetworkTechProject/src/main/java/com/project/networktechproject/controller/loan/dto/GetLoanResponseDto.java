@@ -10,16 +10,18 @@ public class GetLoanResponseDto {
     private long id;
     private LocalDate loanDate;
     private LocalDate dueDate;
+    private LocalDate returnDate;
     private GetUserDto user;
     private GetBookResponseDto book;
 
     public GetLoanResponseDto() {
     }
 
-    public GetLoanResponseDto(long id, LocalDate loanDate, LocalDate dueDate, GetUserDto user, GetBookResponseDto book) {
+    public GetLoanResponseDto(long id, LocalDate loanDate, LocalDate dueDate, LocalDate returnDate, GetUserDto user, GetBookResponseDto book) {
         this.id = id;
         this.loanDate = loanDate;
         this.dueDate = dueDate;
+        this.returnDate = returnDate;
         this.user = user;
         this.book = book;
     }
@@ -46,6 +48,14 @@ public class GetLoanResponseDto {
 
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
     }
 
     public GetUserDto getUser() {

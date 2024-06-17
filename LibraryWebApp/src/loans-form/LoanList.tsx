@@ -10,6 +10,7 @@ interface Loan {
   id: number;
   loanDate: string;
   dueDate: string;
+  returnDate: string;
   user: UserDto[];
   book: BookResponseDto;
 }
@@ -25,14 +26,22 @@ function LoanList({ loans }: LoanListProps) {
   const apiClient = useApi();
 
   useEffect(() => {
-    apiClient.getLoans(page).then((response) => {
-      if (response.success && response.data) {
-        setLoanData(response.data.loans);
-        setHasMore(response.data.hasMore);
-      } else {
-        setLoanData([]);
+    const fetchLoansAndUser = async () => {
+      const userResponse = await apiClient.getCurrentUser();
+      if (userResponse.success && userResponse.data) {
+        const userId = userResponse.data.id;
+        const loansResponse = await apiClient.getLoans(page, userId);
+        if (loansResponse.success && loansResponse.data) {
+          console.log(loansResponse.data.loans);
+          setLoanData(loansResponse.data.loans);
+          setHasMore(loansResponse.data.hasMore);
+        } else {
+          setLoanData([]);
+        }
       }
-    });
+    };
+
+    fetchLoansAndUser();
   }, [apiClient, page]);
 
   const handleNext = () => {

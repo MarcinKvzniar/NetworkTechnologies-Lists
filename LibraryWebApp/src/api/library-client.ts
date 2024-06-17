@@ -13,6 +13,7 @@ import { CreateBookRequestDto } from './dto/book/create-book-request.dto';
 import { CreateBookResponseDto } from './dto/book/create-book-response.dto';
 import { UsersPageDto } from './dto/user/users-page-response.dto';
 import Cookies from 'universal-cookie';
+import { UserDto } from './dto/user/user.dto';
 
 type ClientResponse<T> = {
   success: boolean;
@@ -261,9 +262,10 @@ export class LibraryClient {
 
   public async getLoans(
     page: number,
+    userId: number,
   ): Promise<ClientResponse<LoansPageDto | null>> {
     try {
-      const url = `/loans?page=${page}`;
+      const url = `/loans?userId=${userId}&page=${page}`;
       const response = await this.client.get(url);
 
       return {
@@ -356,6 +358,27 @@ export class LibraryClient {
     try {
       const url = `/books/details/isbn/${isbn}`;
       const response = await this.client.get(url);
+
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: null,
+        status: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  public async getCurrentUser(): Promise<ClientResponse<UserDto | null>> {
+    try {
+      const response: AxiosResponse<UserDto> =
+        await this.client.get('/users/me');
 
       return {
         success: true,

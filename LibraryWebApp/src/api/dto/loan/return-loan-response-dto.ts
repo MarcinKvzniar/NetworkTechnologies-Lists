@@ -5,7 +5,7 @@ export class LoanResponseDto {
   id!: number;
   loanDate!: string;
   dueDate!: string;
-  returnDate!: string;
   user!: UserDto[];
   book!: BookResponseDto;
+  returnDate!: string;
 }

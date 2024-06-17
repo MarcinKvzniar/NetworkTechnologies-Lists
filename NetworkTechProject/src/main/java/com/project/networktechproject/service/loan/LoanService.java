@@ -51,7 +51,7 @@ public class LoanService extends OwnershipService {
         return mapLoan(loan);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and this.isOwner(authentication.name, #userId)")
+    @PreAuthorize("hasRole('ADMIN') or (isAuthenticated() and this.isOwner(authentication.name, #userId))")
     public GetLoansPageResponseDto getAll(Long userId, int page, int size) {
         Page<LoanEntity> loansPage;
 
@@ -166,6 +166,7 @@ public class LoanService extends OwnershipService {
                 loan.getId(),
                 loan.getLoanDate(),
                 loan.getDueDate(),
+                loan.getReturnDate(),
                 user,
                 book
         );
