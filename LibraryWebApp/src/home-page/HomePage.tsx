@@ -2,11 +2,11 @@ import { Box, Button, Typography } from '@mui/material';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import MenuAppBar from '../menu-app-bar/MenuAppBar';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { createGlobalStyle } from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { useApi } from '../api/ApiProvider';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,17 +18,17 @@ function HomePage() {
   const [bestsellers, setBestsellers] = useState([]);
   const location = useLocation();
   const { t } = useTranslation();
+  const apiClient = useApi();
 
   useEffect(() => {
-    const fetchBestsellers = async () => {
-      const response = await axios.get(
-        `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`,
-      );
-      setBestsellers(response.data.results.books);
-    };
-
-    fetchBestsellers();
-  }, []);
+    apiClient.getNYTBestsellers().then((response) => {
+      if (response.success && response.data) {
+        setBestsellers(response.data);
+      } else {
+        setBestsellers([]);
+      }
+    });
+  }, [apiClient]);
 
   return (
     <>
