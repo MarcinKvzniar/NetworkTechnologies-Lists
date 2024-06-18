@@ -434,7 +434,7 @@ export class LibraryClient {
   public async patchUser(
     data: PatchUserDto,
     id: number,
-  ): Promise<ClientResponse<PatchUserResponseDto | null>> {
+  ): Promise<ClientResponse<PatchUserDto | null>> {
     try {
       const response: AxiosResponse<PatchUserResponseDto> =
         await this.client.patch(`/users/${id}`, data);

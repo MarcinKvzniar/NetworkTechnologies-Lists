@@ -1,63 +1,67 @@
 package com.project.networktechproject.controller.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Optional;
+
+@JsonPropertyOrder({ "name", "lastName", "dateOfBirth", "email" })
 
 public class PatchUserDto {
     @Schema(name = "name", example = "John")
-    private JsonNullable<String> name;
+    private Optional<String> name;
 
     @Schema(name = "lastName", example = "Doe")
-    private JsonNullable<String> lastName;
+    private Optional<String> lastName;
 
     @Schema(name = "dateOfBirth", example = "1990-12-31")
-    private JsonNullable<LocalDate> dateOfBirth;
+    private Optional<LocalDate> dateOfBirth;
 
     @Schema(name = "email", example = "email@email.com")
-    private JsonNullable<String> email;
+    private Optional<String> email;
 
-    public PatchUserDto(JsonNullable<String> name, JsonNullable<String> lastName, JsonNullable<LocalDate> dateOfBirth, JsonNullable<String> email) {
-        this.name = name;
+    public PatchUserDto(Optional<String> name, Optional<String> lastName, Optional<LocalDate> dateOfBirth, Optional<String> email) {
+        this.name = email;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-        this.email = email;
+        this.email = name;
     }
 
     public PatchUserDto() {
     }
 
-    public JsonNullable<String> getName() {
+    public Optional<String> getName() {
         return name;
     }
 
-    public void setName(JsonNullable<String> name) {
+    public void setName(Optional<String> name) {
         this.name = name;
     }
 
-    public JsonNullable<String> getLastName() {
+    public Optional<String> getLastName() {
         return lastName;
     }
 
-    public void setLastName(JsonNullable<String> lastName) {
+    public void setLastName(Optional<String> lastName) {
         this.lastName = lastName;
     }
 
-    public JsonNullable<LocalDate> getDateOfBirth() {
+    public Optional<LocalDate> getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(JsonNullable<LocalDate> dateOfBirth) {
+    public void setDateOfBirth(Optional<LocalDate> dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public JsonNullable<String> getEmail() {
+    public Optional<String> getEmail() {
         return email;
     }
 
-    public void setEmail(JsonNullable<String> email) {
+    public void setEmail(Optional<String> email) {
         this.email = email;
     }
 }

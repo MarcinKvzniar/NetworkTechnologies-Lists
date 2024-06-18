@@ -5,7 +5,9 @@ import com.project.networktechproject.controller.book.dto.CreateBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBookResponseDto;
 import com.project.networktechproject.controller.book.dto.GetBooksPageResponseDto;
 import com.project.networktechproject.infrastructure.entity.BookEntity;
+import com.project.networktechproject.infrastructure.entity.LoanEntity;
 import com.project.networktechproject.infrastructure.repository.BookRepository;
+import com.project.networktechproject.infrastructure.repository.LoanRepository;
 import com.project.networktechproject.service.book.error.BookAlreadyExists;
 import com.project.networktechproject.service.book.error.BookNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,12 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final LoanRepository loanRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, LoanRepository loanRepository) {
         this.bookRepository = bookRepository;
+        this.loanRepository = loanRepository;
     }
 
     public GetBookResponseDto getOneById(long id) {
@@ -89,6 +93,10 @@ public class BookService {
         if (!bookRepository.existsById(id)) {
             throw BookNotFound.create(id);
         }
+
+        List<LoanEntity> loans = loanRepository.findByBookId(id);
+        loanRepository.deleteAll(loans);
+
         bookRepository.deleteById(id);
     }
 

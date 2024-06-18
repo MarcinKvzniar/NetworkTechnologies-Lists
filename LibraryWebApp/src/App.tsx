@@ -35,7 +35,7 @@ function withAdmin<P>(Component: ComponentType<P>) {
   return function ProtectedRoute(props: PropsWithChildren<P>) {
     const apiClient = useApi();
 
-    if (apiClient.getUserRole() !== 'admin') {
+    if (apiClient.getUserRole() !== 'ROLE_ADMIN') {
       return <Navigate to="/home" />;
     }
 
