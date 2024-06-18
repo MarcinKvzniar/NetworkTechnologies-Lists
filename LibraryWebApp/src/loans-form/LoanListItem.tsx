@@ -6,8 +6,9 @@ import {
 } from '@mui/material';
 import { UserDto } from '../api/dto/user/user.dto';
 import { BookResponseDto } from '../api/dto/book/book-response.dto';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useApi } from '../api/ApiProvider';
+import { useTranslation } from 'react-i18next';
 
 interface LoanListItemProps {
   loan: {
@@ -21,6 +22,8 @@ interface LoanListItemProps {
 }
 
 function LoanListItem({ loan }: LoanListItemProps) {
+  const { t } = useTranslation();
+
   const loanDate = new Date(loan.loanDate);
   const formattedLoanDate = `${loanDate.getFullYear()}-${String(loanDate.getMonth() + 1).padStart(2, '0')}-${String(loanDate.getDate()).padStart(2, '0')}`;
 
@@ -34,7 +37,7 @@ function LoanListItem({ loan }: LoanListItemProps) {
 
   if (Array.isArray(returnDate) && returnDate.length === 3) {
     returnDateObj = new Date(returnDate[0], returnDate[1] - 1, returnDate[2]);
-    isReturned = returnDateObj > loanDate;
+    isReturned = returnDateObj >= loanDate;
     formattedReturnDate = `${returnDateObj.getFullYear()}-${String(returnDateObj.getMonth() + 1).padStart(2, '0')}-${String(returnDateObj.getDate()).padStart(2, '0')}`;
   }
 
@@ -42,7 +45,7 @@ function LoanListItem({ loan }: LoanListItemProps) {
 
   const handleReturn = async () => {
     const confirmReturn = window.confirm(
-      'Are you sure you want to return this book?',
+      t('Are you sure you want to return this book?'),
     );
     if (confirmReturn) {
       const today = new Date();
@@ -55,9 +58,9 @@ function LoanListItem({ loan }: LoanListItemProps) {
       const response = await apiClient.returnLoan(loan.id);
       if (response.success && response.data) {
         setReturnDate(returnDateString);
-        alert('Loan returned successfully');
+        alert(t('Loan returned successfully'));
       } else {
-        alert('Failed to return loan');
+        alert(t('Failed to return loan'));
       }
     }
   };
@@ -68,12 +71,28 @@ function LoanListItem({ loan }: LoanListItemProps) {
         primary={`${loan.book.title}`}
         secondary={
           <>
-            <div>ISBN: {loan.book.isbn}</div>
-            <div>Author: {loan.book.author}</div>
-            <div>Loan Date: {formattedLoanDate}</div>
-            <div>Due Date: {formattedDueDate}</div>
-            <div>Return Date: {formattedReturnDate}</div>
-            {isReturned && <div>The book has been returned.</div>}
+            <div>
+              {' '}
+              <b>ISBN: </b> {loan.book.isbn}
+            </div>
+            <div>
+              <b> {t('Author')}: </b> {loan.book.author}
+            </div>
+            <div>
+              <b> {t('Loan Date')}: </b> {formattedLoanDate}
+            </div>
+            <div>
+              <b> {t('Due Date')}: </b> {formattedDueDate}
+            </div>
+            <div>
+              <b> {t('Return Date')}: </b> {formattedReturnDate}
+            </div>
+            {isReturned && (
+              <div>
+                {' '}
+                <b> {t('The book has been returned')}. </b>{' '}
+              </div>
+            )}
           </>
         }
       />
@@ -85,7 +104,7 @@ function LoanListItem({ loan }: LoanListItemProps) {
           disabled={formattedReturnDate !== 'Not returned'}
           onClick={handleReturn}
         >
-          RETURN
+          {t('Return')}
         </Button>
       </ListItemSecondaryAction>
     </ListItem>

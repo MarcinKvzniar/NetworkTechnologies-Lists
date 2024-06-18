@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 type FormValues = {
   username: string;
@@ -13,6 +14,7 @@ type FormValues = {
 };
 
 function RegisterUser() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const apiClient = useApi();
 
@@ -20,37 +22,37 @@ function RegisterUser() {
     (values: FormValues) => {
       apiClient.registerUser(values).then((response) => {
         if (response.success) {
-          alert('User has been created successfully.');
+          alert(t('User has been created successfully.'));
           navigate('/librarian');
         } else {
-          alert('Invalid user details. Please try again.');
+          alert(t('Invalid user details. Please try again.'));
         }
       });
     },
-    [apiClient, navigate],
+    [apiClient, navigate, t],
   );
 
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        username: yup.string().required('Username cannot be empty'),
+        username: yup.string().required(t('Username cannot be empty')),
         password: yup
           .string()
-          .required('Password cannot be empty')
-          .min(5, 'Password must be at least 5 characters'),
+          .required(t('Password cannot be empty'))
+          .min(5, t('Password must be at least 5 characters')),
         role: yup
           .string()
-          .required('Role cannot be empty')
+          .required(t('Role cannot be empty'))
           .oneOf(
             ['ROLE_ADMIN', 'ROLE_READER'],
-            'Role must be either ROLE_ADMIN or ROLE_READER',
+            t('Role must be either ROLE_ADMIN or ROLE_READER'),
           ),
         email: yup
           .string()
-          .email('Email must be a valid email')
-          .required('Email cannot be empty'),
+          .email(t('Email must be a valid email'))
+          .required(t('Email cannot be empty')),
       }),
-    [],
+    [t],
   );
 
   return (
@@ -76,12 +78,12 @@ function RegisterUser() {
               gutterBottom
               className="header"
             >
-              Register New User
+              {t('Register New User')}
             </Typography>
 
             <TextField
               id="username"
-              label="username"
+              label={t('Username')}
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -91,7 +93,7 @@ function RegisterUser() {
             />
             <TextField
               id="password"
-              label="password"
+              label={t('Password')}
               variant="standard"
               type="password"
               onBlur={formik.handleBlur}
@@ -102,7 +104,7 @@ function RegisterUser() {
             />
             <TextField
               id="role"
-              label="role"
+              label={t('Role')}
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -112,7 +114,7 @@ function RegisterUser() {
             />
             <TextField
               id="email"
-              label="email"
+              label="Email"
               variant="standard"
               type="email"
               onBlur={formik.handleBlur}
@@ -127,8 +129,7 @@ function RegisterUser() {
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
               >
-                {' '}
-                Register{' '}
+                {t('Register')}
               </Button>
             </Box>
           </Box>

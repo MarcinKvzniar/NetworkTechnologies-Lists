@@ -62,6 +62,20 @@ export class LibraryClient {
         return Promise.reject(error);
       },
     );
+
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response.status === 401) {
+          await this.refreshToken();
+
+          const originalRequest = error.config;
+          return this.client(originalRequest);
+        }
+
+        throw error;
+      },
+    );
   }
 
   public getUserRole(): string {

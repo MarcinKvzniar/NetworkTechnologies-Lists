@@ -4,9 +4,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import BookIcon from '@mui/icons-material/Book';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import MenuAppBar from '../menu-app-bar/MenuAppBar';
+import { useTranslation } from 'react-i18next';
 
 export default function LibrarianPanel() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -25,7 +27,7 @@ export default function LibrarianPanel() {
             gutterBottom
             fontWeight={'bold'}
           >
-            Welcome to Librarian Panel
+            {t('Librarian Panel')}
           </Typography>
         </Box>
 
@@ -45,7 +47,7 @@ export default function LibrarianPanel() {
               >
                 <PersonIcon fontSize="large" />
                 <Typography variant="h6" marginLeft={1}>
-                  User Operations
+                  {t('User Operations')}
                 </Typography>
               </Box>
               <Button
@@ -54,14 +56,14 @@ export default function LibrarianPanel() {
                 onClick={() => navigate('/librarian/register')}
                 sx={{ marginBottom: 5 }}
               >
-                Register New User
+                {t('Register New User')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => navigate('/librarian/users')}
               >
-                List Of Users
+                {t('List Of Users')}
               </Button>
             </Box>
           </Grid>
@@ -81,7 +83,7 @@ export default function LibrarianPanel() {
               >
                 <ChangeCircleIcon fontSize="large" />
                 <Typography variant="h6" marginLeft={1}>
-                  Loan Operations
+                  {t('Loan Operations')}
                 </Typography>
               </Box>
               <Button
@@ -90,14 +92,14 @@ export default function LibrarianPanel() {
                 onClick={() => navigate('/librarian/add-loan')}
                 sx={{ marginBottom: 5 }}
               >
-                Add New Loan
+                {t('Add New Loan')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => navigate('/librarian/loans')}
               >
-                List Of Loans
+                {t('List Of Loans')}
               </Button>
             </Box>
           </Grid>
@@ -117,7 +119,7 @@ export default function LibrarianPanel() {
               >
                 <BookIcon fontSize="large" />
                 <Typography variant="h6" marginLeft={1}>
-                  Book Operations
+                  {t('Book Operations')}
                 </Typography>
               </Box>
               <Button
@@ -126,14 +128,14 @@ export default function LibrarianPanel() {
                 onClick={() => navigate('/librarian/add-book')}
                 sx={{ marginBottom: 5 }}
               >
-                Add New Book
+                {t('Add New Book')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => navigate('/librarian/delete-book')}
               >
-                Delete Book
+                {t('Delete Book')}
               </Button>
             </Box>
           </Grid>

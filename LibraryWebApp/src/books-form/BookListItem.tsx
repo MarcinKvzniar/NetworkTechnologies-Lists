@@ -1,4 +1,5 @@
 import { ListItem, ListItemText } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface BookListItemProps {
   book: {
@@ -13,6 +14,8 @@ interface BookListItemProps {
 }
 
 function BookListItem({ book }: BookListItemProps) {
+  const { t } = useTranslation();
+
   return (
     <ListItem>
       <ListItemText
@@ -21,7 +24,7 @@ function BookListItem({ book }: BookListItemProps) {
           <>
             <div>
               {' '}
-              <b>Author: </b> {book.author}
+              <b>{t('Author')}: </b> {book.author}
             </div>
             <div>
               {' '}
@@ -29,14 +32,14 @@ function BookListItem({ book }: BookListItemProps) {
             </div>
             <div>
               {' '}
-              <b>Publisher: </b> {book.publisher}
+              <b>{t('Publisher')}: </b> {book.publisher}
             </div>
             <div>
               {' '}
-              <b>Year Published: </b> {book.yearPublished}
+              <b>{t('Year Published')}: </b> {book.yearPublished}
             </div>
             <div className={book.available ? 'Available' : 'NotAvailable'}>
-              {book.available ? 'Available' : 'Not Available'}
+              {book.available ? t('Available') : t('Not Available')}
             </div>
           </>
         }

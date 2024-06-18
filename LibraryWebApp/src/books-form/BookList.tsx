@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import BookListItem from './BookListItem';
 import './BookList.css';
 import { useApi } from '../api/ApiProvider';
+import { useTranslation } from 'react-i18next';
 
 interface Book {
   id: number;
@@ -23,6 +24,7 @@ function BookList({ books }: BookListProps) {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const apiClient = useApi();
+  const { t } = useTranslation();
 
   useEffect(() => {
     apiClient.getBooks(page).then((response) => {
@@ -65,7 +67,7 @@ function BookList({ books }: BookListProps) {
               style={{ marginRight: '10px' }}
               disabled={page === 0}
             >
-              Previous
+              {t('Previous')}
             </Button>
             <Button
               variant="contained"
@@ -74,7 +76,7 @@ function BookList({ books }: BookListProps) {
               onClick={handleNext}
               disabled={!hasMore}
             >
-              Next
+              {t('Next')}
             </Button>
           </Box>
         </Grid>

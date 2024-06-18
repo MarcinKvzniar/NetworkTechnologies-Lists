@@ -13,16 +13,18 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 
 function AccountDetails() {
   const [userData, setUserData] = useState<UserDto>();
   const apiClient = useApi();
+  const { t } = useTranslation();
 
   useEffect(() => {
     apiClient.getCurrentUser().then((response) => {
       if (response.success && response.data) {
         setUserData(response.data);
-        console.log(`response data: ${response.data}`);
       } else {
         setUserData(undefined);
       }
@@ -30,7 +32,7 @@ function AccountDetails() {
   }, [apiClient]);
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <Typography justifyContent={'center'}>{t('Loading...')}</Typography>;
   }
 
   const handleSignOut = async () => {
@@ -38,26 +40,34 @@ function AccountDetails() {
     window.location.href = '/login';
   };
 
+  const locale = i18n.language;
+  const formattedDateOfBirth = new Date(
+    userData.dateOfBirth,
+  ).toLocaleDateString(locale === 'en' ? 'en-US' : 'pl-PL');
+
   return (
     <Container maxWidth="sm">
       <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
-          Account Details
+          {t('Account Details')}
         </Typography>
         <List>
           <ListItem>
-            <ListItemText primary="User ID" secondary={userData.id} />
+            <ListItemText primary={t('ID number')} secondary={userData.id} />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Name" secondary={userData.name} />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Last Name" secondary={userData.lastName} />
+            <ListItemText primary={t('Name')} secondary={userData.name} />
           </ListItem>
           <ListItem>
             <ListItemText
-              primary="Date of Birth"
-              secondary={userData.dateOfBirth}
+              primary={t('Last Name')}
+              secondary={userData.lastName}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary={t('Date Of Birth')}
+              secondary={formattedDateOfBirth}
             />
           </ListItem>
           <ListItem>
@@ -72,7 +82,7 @@ function AccountDetails() {
           startIcon={<EditIcon />}
           style={{ flexGrow: 1, marginRight: '10px' }}
         >
-          Edit Details
+          {t('Edit Details')}
         </Button>
         <Button
           variant="contained"
@@ -81,7 +91,7 @@ function AccountDetails() {
           style={{ flexGrow: 1, marginRight: '10px' }}
           onClick={handleSignOut}
         >
-          Sign Out
+          {t('Sign Out')}
         </Button>
       </Box>
     </Container>

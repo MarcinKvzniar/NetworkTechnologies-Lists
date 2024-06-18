@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 type FormValues = {
   bookId: number;
@@ -11,6 +12,7 @@ type FormValues = {
 
 function DeleteBook() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const apiClient = useApi();
 
   const onSubmit = useCallback(
@@ -18,23 +20,25 @@ function DeleteBook() {
       apiClient.deleteBook(values.bookId).then((response) => {
         if (response.success) {
           alert(
-            `Book with id ${values.bookId} has been successfully deleted from the library.`,
+            t('Book with id ') +
+              `${values.bookId}` +
+              t(' has been successfully deleted from the library.'),
           );
           navigate('/librarian');
         } else {
-          alert('Invalid book id. Please try again.');
+          alert(t('Invalid book id. Please try again.'));
         }
       });
     },
-    [apiClient, navigate],
+    [apiClient, navigate, t],
   );
 
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        bookId: yup.number().required('Book id cannot be empty'),
+        bookId: yup.number().required(t('Book id cannot be empty')),
       }),
-    [],
+    [t],
   );
 
   return (
@@ -60,12 +64,12 @@ function DeleteBook() {
               gutterBottom
               className="header"
             >
-              Delete Book
+              {t('Delete Book')}
             </Typography>
 
             <TextField
               id="bookId"
-              label="Book ID"
+              label={t('Book ID')}
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -79,7 +83,7 @@ function DeleteBook() {
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
               >
-                Delete a book
+                {t('Delete Book')}
               </Button>
             </Box>
           </Box>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BookResponseDto } from '../../../api/dto/book/book-response.dto';
 import { UserDto } from '../../../api/dto/user/user.dto';
 import { ListItem, ListItemText } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface LoanItemProps {
   loan: {
@@ -15,6 +16,8 @@ interface LoanItemProps {
 }
 
 function LoanItem({ loan }: LoanItemProps) {
+  const { t } = useTranslation();
+
   const loanDate = new Date(loan.loanDate);
   const formattedLoanDate = `${loanDate.getFullYear()}-${String(loanDate.getMonth() + 1).padStart(2, '0')}-${String(loanDate.getDate()).padStart(2, '0')}`;
 
@@ -24,11 +27,11 @@ function LoanItem({ loan }: LoanItemProps) {
   const [returnDate] = useState(loan.returnDate);
   let returnDateObj = null;
   let isReturned = false;
-  let formattedReturnDate = 'Not returned';
+  let formattedReturnDate = t('Not returned');
 
   if (Array.isArray(returnDate) && returnDate.length === 3) {
     returnDateObj = new Date(returnDate[0], returnDate[1] - 1, returnDate[2]);
-    isReturned = returnDateObj > loanDate;
+    isReturned = returnDateObj >= loanDate;
     formattedReturnDate = `${returnDateObj.getFullYear()}-${String(returnDateObj.getMonth() + 1).padStart(2, '0')}-${String(returnDateObj.getDate()).padStart(2, '0')}`;
   }
 
@@ -44,21 +47,26 @@ function LoanItem({ loan }: LoanItemProps) {
             </div>
             <div>
               {' '}
-              <b>Author: </b> {loan.book.author}
+              <b>{t('Author')}: </b> {loan.book.author}
             </div>
             <div>
               {' '}
-              <b>Loan Date: </b> {formattedLoanDate}
+              <b>{t('Loan Date')}: </b> {formattedLoanDate}
             </div>
             <div>
               {' '}
-              <b>Due Date: </b> {formattedDueDate}
+              <b>{t('Due Date')}: </b> {formattedDueDate}
             </div>
             <div>
               {' '}
-              <b>Return Date: </b> {formattedReturnDate}{' '}
+              <b>{t('Return Date')}: </b> {formattedReturnDate}{' '}
             </div>
-            {isReturned && <div>The book has been returned.</div>}
+            {isReturned && (
+              <div>
+                {' '}
+                <b> {t('The book has been returned')}. </b>{' '}
+              </div>
+            )}
           </>
         }
       />

@@ -4,6 +4,7 @@ import { UserDto } from '../../../api/dto/user/user.dto';
 import { useApi } from '../../../api/ApiProvider';
 import { Box, Button, Container, Grid, List, Typography } from '@mui/material';
 import LoanItem from './LoanItem';
+import { useTranslation } from 'react-i18next';
 
 interface Loan {
   id: number;
@@ -23,6 +24,7 @@ function AllLoans({ loans }: LoansProps) {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const apiClient = useApi();
+  const { t } = useTranslation();
 
   useEffect(() => {
     apiClient.getAllLoans(page).then((response) => {
@@ -57,7 +59,7 @@ function AllLoans({ loans }: LoansProps) {
             gutterBottom
             className="header"
           >
-            All Loans
+            {t('All Loans')}
           </Typography>
           <Box display="flex" justifyContent="center" alignItems="center">
             <List className="LoanList">
@@ -75,7 +77,7 @@ function AllLoans({ loans }: LoansProps) {
                 style={{ marginRight: '10px', marginLeft: '10px' }}
                 disabled={page === 0}
               >
-                Previous
+                {t('Previous')}
               </Button>
               <Button
                 variant="contained"
@@ -83,7 +85,7 @@ function AllLoans({ loans }: LoansProps) {
                 onClick={handleNext}
                 disabled={!hasMore}
               >
-                Next
+                {t('Next')}
               </Button>
             </Box>
           </Box>

@@ -14,30 +14,34 @@ import UserList from './librarian-panel/user-operations/users-form/UserList';
 import DeleteBook from './librarian-panel/book-operations/delete-book-form/DeleteBookForm';
 import AllLoans from './librarian-panel/loan-operations/all-loans-form/AllLoansForm';
 import AccountDetails from './account-details-form/AccountDetails';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 
 function App() {
   return (
-    <ApiProvider>
-      <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/home" element={<HomePage />}>
-          <Route path="books" element={<BookList books={[]} />} />
-          <Route path="loans" element={<LoanList loans={[]} />} />
-          <Route path="catalog" element={<BookDetailsForm />} />
-        </Route>
-        <Route path="/account" element={<AccountDetails />} />
+    <I18nextProvider i18n={i18n}>
+      <ApiProvider>
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/home" element={<HomePage />}>
+            <Route path="books" element={<BookList books={[]} />} />
+            <Route path="loans" element={<LoanList loans={[]} />} />
+            <Route path="catalog" element={<BookDetailsForm />} />
+          </Route>
+          <Route path="/account" element={<AccountDetails />} />
 
-        <Route path="/librarian" element={<LibrarianPanel />} />
-        <Route path="/librarian/register" element={<RegisterUser />} />
-        <Route path="/librarian/users" element={<UserList users={[]} />} />
-        <Route path="/librarian/add-loan" element={<CreateLoan />} />
-        <Route path="/librarian/loans" element={<AllLoans loans={[]} />} />
-        <Route path="/librarian/add-book" element={<CreateBook />} />
-        <Route path="/librarian/delete-book" element={<DeleteBook />} />
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="*" element={<h1>404</h1>} />
-      </Routes>
-    </ApiProvider>
+          <Route path="/librarian" element={<LibrarianPanel />} />
+          <Route path="/librarian/register" element={<RegisterUser />} />
+          <Route path="/librarian/users" element={<UserList users={[]} />} />
+          <Route path="/librarian/add-loan" element={<CreateLoan />} />
+          <Route path="/librarian/loans" element={<AllLoans loans={[]} />} />
+          <Route path="/librarian/add-book" element={<CreateBook />} />
+          <Route path="/librarian/delete-book" element={<DeleteBook />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="*" element={<h1>404</h1>} />
+        </Routes>
+      </ApiProvider>
+    </I18nextProvider>
   );
 }
 

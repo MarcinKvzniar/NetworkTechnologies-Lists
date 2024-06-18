@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useApi } from '../api/ApiProvider';
 import { UserDto } from '../api/dto/user/user.dto';
 import { BookResponseDto } from '../api/dto/book/book-response.dto';
+import { useTranslation } from 'react-i18next';
 
 interface Loan {
   id: number;
@@ -24,6 +25,7 @@ function LoanList({ loans }: LoanListProps) {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const apiClient = useApi();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchLoansAndUser = async () => {
@@ -73,7 +75,7 @@ function LoanList({ loans }: LoanListProps) {
               style={{ marginRight: '10px' }}
               disabled={page === 0}
             >
-              Previous
+              {t('Previous')}
             </Button>
             <Button
               variant="contained"
@@ -82,7 +84,7 @@ function LoanList({ loans }: LoanListProps) {
               onClick={handleNext}
               disabled={!hasMore}
             >
-              Next
+              {t('Next')}
             </Button>
           </Box>
         </Grid>

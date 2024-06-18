@@ -1,4 +1,6 @@
 import { ListItem, ListItemText } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../../i18n';
 
 interface UserListItemProps {
   user: {
@@ -11,6 +13,19 @@ interface UserListItemProps {
 }
 
 function UserListItem({ user }: UserListItemProps) {
+  const { t } = useTranslation();
+  const locale = i18n.language;
+  let formattedDateOfBirth: string = new Date(
+    user.dateOfBirth,
+  ).toLocaleDateString(locale === 'en' ? 'en-US' : 'pl-PL');
+
+  if (
+    formattedDateOfBirth === '1.01.1970' ||
+    formattedDateOfBirth === '1/1/1970'
+  ) {
+    formattedDateOfBirth = '';
+  }
+
   return (
     <ListItem>
       <ListItemText
@@ -19,7 +34,7 @@ function UserListItem({ user }: UserListItemProps) {
           <>
             <div>
               {' '}
-              <b>Date Of Birth: </b> {user.dateOfBirth}{' '}
+              <b> {t('Date Of Birth')}: </b> {formattedDateOfBirth}{' '}
             </div>
             <div>
               {' '}

@@ -6,6 +6,7 @@ import axios from 'axios';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { createGlobalStyle } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -16,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
 function HomePage() {
   const [bestsellers, setBestsellers] = useState([]);
   const location = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchBestsellers = async () => {
@@ -41,7 +43,7 @@ function HomePage() {
             sx={{ m: 1, bgcolor: '#3b3b3b' }}
             color="primary"
           >
-            Books
+            {t('Books')}
           </Button>
           <Button
             variant="contained"
@@ -50,7 +52,7 @@ function HomePage() {
             sx={{ m: 1, bgcolor: '#3b3b3b' }}
             color="primary"
           >
-            Loans
+            {t('Loans')}
           </Button>
           <Button
             variant="contained"
@@ -59,7 +61,7 @@ function HomePage() {
             sx={{ m: 1, bgcolor: '#3b3b3b' }}
             color="primary"
           >
-            Catalog
+            {t('Catalog')}
           </Button>
         </Box>
         <Outlet />
@@ -78,7 +80,7 @@ function HomePage() {
               variant="h4"
               sx={{ color: 'black', mb: 2, fontFamily: 'fantasy' }}
             >
-              New York Times Bestsellers
+              {t('New York Times Bestsellers')}
             </Typography>
             <Carousel
               autoPlay

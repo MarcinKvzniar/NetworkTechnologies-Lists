@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useApi } from '../../../api/ApiProvider';
 import { Box, Button, Container, Grid, List, Typography } from '@mui/material';
 import UserListItem from './UserListItem';
+import { useTranslation } from 'react-i18next';
 
 interface User {
   id: number;
@@ -19,6 +20,7 @@ function UserList({ users }: UserListProps) {
   const [userData, setUserData] = useState<User[]>([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const { t } = useTranslation();
   const apiClient = useApi();
 
   useEffect(() => {
@@ -54,7 +56,7 @@ function UserList({ users }: UserListProps) {
             gutterBottom
             className="header"
           >
-            Registered Users
+            {t('Registered Users')}
           </Typography>
           <Box display="flex" justifyContent="center" alignItems="center">
             <List className="UserList">
@@ -72,7 +74,7 @@ function UserList({ users }: UserListProps) {
                 style={{ marginRight: '10px' }}
                 disabled={page === 0}
               >
-                Previous
+                {t('Previous')}
               </Button>
               <Button
                 variant="contained"
@@ -80,7 +82,7 @@ function UserList({ users }: UserListProps) {
                 onClick={handleNext}
                 disabled={!hasMore}
               >
-                Next
+                {t('Next')}
               </Button>
             </Box>
           </Box>

@@ -20,10 +20,13 @@ public class PatchUserDto {
     private JsonNullable<String> email;
 
     public PatchUserDto(JsonNullable<String> name, JsonNullable<String> lastName, JsonNullable<LocalDate> dateOfBirth, JsonNullable<String> email) {
-        this.email = name;
+        this.name = name;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-        this.name = email;
+        this.email = email;
+    }
+
+    public PatchUserDto() {
     }
 
     public JsonNullable<String> getName() {

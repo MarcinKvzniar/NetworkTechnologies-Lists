@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 type FormValues = {
   dueDate: string;
@@ -13,6 +14,7 @@ type FormValues = {
 
 function CreateLoan() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const apiClient = useApi();
 
   const onSubmit = useCallback(
@@ -20,25 +22,28 @@ function CreateLoan() {
       apiClient.createLoan(values).then((response) => {
         if (response.success) {
           alert(
-            `Book with id ${values.bookId} has been successfully loaned to user with id ${values.userId}.`,
+            t('Book with id ') +
+              `${values.bookId}` +
+              t('has been successfully loaned to user with id ') +
+              `${values.userId}.`,
           );
           navigate('/librarian');
         } else {
-          alert('Invalid details. Please try again.');
+          alert(t('Invalid details. Please try again.'));
         }
       });
     },
-    [apiClient, navigate],
+    [apiClient, navigate, t],
   );
 
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        dueDate: yup.string().required('Due date cannot be empty'),
-        userId: yup.number().required('User id cannot be empty'),
-        bookId: yup.number().required('Book id cannot be empty'),
+        dueDate: yup.string().required(t('Due date cannot be empty')),
+        userId: yup.number().required(t('User id cannot be empty')),
+        bookId: yup.number().required(t('Book id cannot be empty')),
       }),
-    [],
+    [t],
   );
 
   return (
@@ -64,12 +69,12 @@ function CreateLoan() {
               gutterBottom
               className="header"
             >
-              Create New Loan
+              {t('Create New Loan')}
             </Typography>
 
             <TextField
               id="dueDate"
-              label="Due Date (yyyy-mm-dd)"
+              label={t('Due Date (yyyy-mm-dd)')}
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -79,7 +84,7 @@ function CreateLoan() {
             />
             <TextField
               id="userId"
-              label="User Id"
+              label={t('User ID')}
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -89,7 +94,7 @@ function CreateLoan() {
             />
             <TextField
               id="bookId"
-              label="Book Id"
+              label={t('Book ID')}
               variant="standard"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -103,8 +108,7 @@ function CreateLoan() {
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
               >
-                {' '}
-                Create a loan{' '}
+                {t('Create a loan')}
               </Button>
             </Box>
           </Box>
