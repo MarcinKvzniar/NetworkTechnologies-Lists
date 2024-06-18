@@ -95,5 +95,8 @@
   "Email cannot be empty": "Adres e-mail nie może być pusty",
   "Role": "Rola",
   "Register": "Zarejestruj",
-  "Registered Users": "Zarejestrowani użytkownicy"
+  "Registered Users": "Zarejestrowani użytkownicy",
+  "Failed to update user details: ": "Nie udało się zaktualizować danych użytkownika: ",
+  "Cancel": "Anuluj",
+  "Approve": "Zatwierdź"
 }

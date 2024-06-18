@@ -26,6 +26,7 @@ export default function LibrarianPanel() {
             component="h1"
             gutterBottom
             fontWeight={'bold'}
+            style={{ fontFamily: 'Times New Roman, serif' }}
           >
             {t('Librarian Panel')}
           </Typography>
@@ -46,21 +47,36 @@ export default function LibrarianPanel() {
                 marginBottom={5}
               >
                 <PersonIcon fontSize="large" />
-                <Typography variant="h6" marginLeft={1}>
+                <Typography
+                  variant="h6"
+                  marginLeft={1}
+                  style={{
+                    fontFamily: 'Times New Roman, serif',
+                    fontWeight: 'bold',
+                  }}
+                >
                   {t('User Operations')}
                 </Typography>
               </Box>
               <Button
                 variant="contained"
                 color="primary"
+                sx={{
+                  marginBottom: 5,
+                  backgroundColor: 'darkBlue',
+                  '&:hover': { backgroundColor: 'darkBlue' },
+                }}
                 onClick={() => navigate('/librarian/register')}
-                sx={{ marginBottom: 5 }}
               >
                 {t('Register New User')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
+                sx={{
+                  backgroundColor: 'darkBlue',
+                  '&:hover': { backgroundColor: 'darkBlue' },
+                }}
                 onClick={() => navigate('/librarian/users')}
               >
                 {t('List Of Users')}
@@ -82,21 +98,36 @@ export default function LibrarianPanel() {
                 marginBottom={5}
               >
                 <ChangeCircleIcon fontSize="large" />
-                <Typography variant="h6" marginLeft={1}>
+                <Typography
+                  variant="h6"
+                  marginLeft={1}
+                  style={{
+                    fontFamily: 'Times New Roman, serif',
+                    fontWeight: 'bold',
+                  }}
+                >
                   {t('Loan Operations')}
                 </Typography>
               </Box>
               <Button
                 variant="contained"
                 color="primary"
+                sx={{
+                  marginBottom: 5,
+                  backgroundColor: 'darkBlue',
+                  '&:hover': { backgroundColor: 'darkBlue' },
+                }}
                 onClick={() => navigate('/librarian/add-loan')}
-                sx={{ marginBottom: 5 }}
               >
                 {t('Add New Loan')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
+                sx={{
+                  backgroundColor: 'darkBlue',
+                  '&:hover': { backgroundColor: 'darkBlue' },
+                }}
                 onClick={() => navigate('/librarian/loans')}
               >
                 {t('List Of Loans')}
@@ -118,21 +149,36 @@ export default function LibrarianPanel() {
                 marginBottom={5}
               >
                 <BookIcon fontSize="large" />
-                <Typography variant="h6" marginLeft={1}>
+                <Typography
+                  variant="h6"
+                  marginLeft={1}
+                  style={{
+                    fontFamily: 'Times New Roman, serif',
+                    fontWeight: 'bold',
+                  }}
+                >
                   {t('Book Operations')}
                 </Typography>
               </Box>
               <Button
                 variant="contained"
                 color="primary"
+                sx={{
+                  marginBottom: 5,
+                  backgroundColor: 'darkBlue',
+                  '&:hover': { backgroundColor: 'darkBlue' },
+                }}
                 onClick={() => navigate('/librarian/add-book')}
-                sx={{ marginBottom: 5 }}
               >
                 {t('Add New Book')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
+                sx={{
+                  backgroundColor: 'darkBlue',
+                  '&:hover': { backgroundColor: 'darkBlue' },
+                }}
                 onClick={() => navigate('/librarian/delete-book')}
               >
                 {t('Delete Book')}

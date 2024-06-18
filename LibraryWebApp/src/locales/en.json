@@ -95,5 +95,8 @@
   "Email cannot be empty": "Email cannot be empty",
   "Role": "Role",
   "Register": "Register",
-  "Registered Users": "Registered Users"
+  "Registered Users": "Registered Users",
+  "Failed to update user details: ": "Failed to update user details: ",
+  "Cancel": "Cancel",
+  "Approve": "Approve"
 }

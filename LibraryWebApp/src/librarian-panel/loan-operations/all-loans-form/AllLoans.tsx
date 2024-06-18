@@ -5,6 +5,7 @@ import { useApi } from '../../../api/ApiProvider';
 import { Box, Button, Container, Grid, List, Typography } from '@mui/material';
 import LoanItem from './LoanItem';
 import { useTranslation } from 'react-i18next';
+import './AllLoans.css';
 
 interface Loan {
   id: number;
@@ -57,7 +58,7 @@ function AllLoans({ loans }: LoansProps) {
             align="center"
             color="Black"
             gutterBottom
-            className="header"
+            style={{ fontFamily: 'Times New Roman, serif', fontWeight: 'bold' }}
           >
             {t('All Loans')}
           </Typography>

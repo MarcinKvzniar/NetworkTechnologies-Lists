@@ -13,7 +13,7 @@ import CreateLoan from './librarian-panel/loan-operations/add-loan-form/AddLoanF
 import CreateBook from './librarian-panel/book-operations/add-book-form/AddBookForm';
 import UserList from './librarian-panel/user-operations/users-form/UserList';
 import DeleteBook from './librarian-panel/book-operations/delete-book-form/DeleteBookForm';
-import AllLoans from './librarian-panel/loan-operations/all-loans-form/AllLoansForm';
+import AllLoans from './librarian-panel/loan-operations/all-loans-form/AllLoans';
 import AccountDetails from './account-details-form/AccountDetails';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';

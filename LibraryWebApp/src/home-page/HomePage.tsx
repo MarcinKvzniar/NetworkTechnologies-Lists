@@ -7,6 +7,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { createGlobalStyle } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useApi } from '../api/ApiProvider';
+import './HomePage.css';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -79,6 +80,7 @@ function HomePage() {
             <Typography
               variant="h4"
               sx={{ color: 'black', mb: 2, fontFamily: 'fantasy' }}
+              style={{ fontFamily: 'fantasy' }}
             >
               {t('New York Times Bestsellers')}
             </Typography>

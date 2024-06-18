@@ -1,1 +1,3 @@
-<a href="https://wallpapers.com/wallpapers/light-orange-dpoj9g0gtr9axjx4.html">Wallpaper by tatyanaschukina</a> on Wallpapers.com
+background: <a href="https://wallpapers.com/wallpapers/light-orange-dpoj9g0gtr9axjx4.html">Wallpaper by tatyanaschukina</a> on Wallpapers.com
+en/us flag: https://stock.adobe.com/pl/images/uk-and-usa-flag/113258524?prev_url=detail
+pl flag: https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Flag_of_Poland.svg/1200px-Flag_of_Poland.svg.png

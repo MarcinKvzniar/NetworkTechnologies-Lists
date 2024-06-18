@@ -15,6 +15,7 @@ import i18n from '../i18n';
 import { useState } from 'react';
 import PolishFlag from '../utils/pl-flag.webp';
 import EnglishFlag from '../utils/en-us-flag.jpg';
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function MenuAppBar() {
   const navigate = useNavigate();
@@ -32,17 +33,15 @@ export default function MenuAppBar() {
   return (
     <AppBar position="static" color="primary" sx={{ bgcolor: 'darkblue' }}>
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        ></IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }}>
-            {t('Library Application')}
-          </Link>
+        <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <HomeIcon />
+        </Link>
+        <Typography
+          variant="button"
+          component="div"
+          sx={{ flexGrow: 1, ml: 5, textTransform: 'uppercase' }}
+        >
+          {t('Library Application')}
         </Typography>
         <Button
           color="inherit"

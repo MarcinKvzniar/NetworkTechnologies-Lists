@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import './DeleteBookForm.css';
 
 type FormValues = {
   bookId: number;
@@ -62,7 +63,10 @@ function DeleteBook() {
               align="center"
               color="Black"
               gutterBottom
-              className="header"
+              style={{
+                fontFamily: 'Times New Roman, serif',
+                fontWeight: 'bold',
+              }}
             >
               {t('Delete Book')}
             </Typography>

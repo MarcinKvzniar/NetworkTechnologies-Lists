@@ -78,7 +78,7 @@ function AccountDetails() {
         setPatchData(finalData);
       })
       .catch((error) => {
-        console.error('Failed to update user details:', error);
+        alert(t('Failed to update user details:') + error.message);
       });
   };
 
@@ -181,7 +181,14 @@ function AccountDetails() {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleApproveClick}>{t('Approve')}</Button>
+            <Button
+              onClick={() => {
+                handleApproveClick();
+                window.location.reload();
+              }}
+            >
+              {t('Approve')}
+            </Button>
             <Button onClick={handleClose}>{t('Cancel')}</Button>
           </DialogActions>
         </Dialog>

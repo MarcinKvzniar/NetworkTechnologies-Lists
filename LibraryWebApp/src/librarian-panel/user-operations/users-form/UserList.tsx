@@ -3,6 +3,7 @@ import { useApi } from '../../../api/ApiProvider';
 import { Box, Button, Container, Grid, List, Typography } from '@mui/material';
 import UserListItem from './UserListItem';
 import { useTranslation } from 'react-i18next';
+import './UserList.css';
 
 interface User {
   id: number;
@@ -54,7 +55,7 @@ function UserList({ users }: UserListProps) {
             align="center"
             color="Black"
             gutterBottom
-            className="header"
+            style={{ fontFamily: 'Times New Roman, serif', fontWeight: 'bold' }}
           >
             {t('Registered Users')}
           </Typography>

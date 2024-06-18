@@ -85,7 +85,10 @@ function CreateBook() {
               align="center"
               color="Black"
               gutterBottom
-              className="header"
+              style={{
+                fontFamily: 'Times New Roman, serif',
+                fontWeight: 'bold',
+              }}
             >
               {t('Add New Book')}
             </Typography>

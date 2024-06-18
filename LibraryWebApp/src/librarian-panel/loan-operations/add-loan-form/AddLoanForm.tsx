@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import './AddLoanForm.css';
 
 type FormValues = {
   dueDate: string;
@@ -67,7 +68,10 @@ function CreateLoan() {
               align="center"
               color="Black"
               gutterBottom
-              className="header"
+              style={{
+                fontFamily: 'Times New Roman, serif',
+                fontWeight: 'bold',
+              }}
             >
               {t('Create New Loan')}
             </Typography>
